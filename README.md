@@ -1,7 +1,7 @@
-# **STARTUP NAME**
+# **Snaqies**
 
 ## About the Project
-Ever want to remember what foods and restaurants you tried before? Try using **STARTUP NAME**. This app is designed to make logging your food adventures easy, aesthetic, and memorable. Don't forget where you had that BOMB ramen. Take a picture, write some comments, and tag a location so that you can remember how good that ramen was. Organize your food thoughts into one convenient app and become a foodie expert today!
+Ever want to remember what foods and restaurants you tried before? Try using Snaqies. This app is designed to make logging your food adventures easy, aesthetic, and memorable. Don't forget where you had that BOMB ramen. Take a picture, write some comments, and tag a location so that you can remember how good that ramen was. Organize your food thoughts into one convenient app and become a foodie expert today!
 
 ## Running the Expo App
 First, make sure to install `Expo Go` on your mobile device. Making changes in your IDE will make live updates to the project view in the app.
