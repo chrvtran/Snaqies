@@ -9,7 +9,7 @@ import SettingsScreen from './screens/Settings'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
- 
+
 function App() {
   return (
     <NavigationContainer>
