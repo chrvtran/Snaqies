@@ -1,9 +1,9 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import FlatButton from './button';
+import FlatButton from '../assets/button';
  
-export default function Post({ navigation }) {
+function Post({ navigation }) {
   return (
     <View style={styles.container}>
       <Text>This is the Post Screen!</Text>
@@ -12,6 +12,8 @@ export default function Post({ navigation }) {
     </View>
   );
 }
+
+export default Post;
 
 const styles = StyleSheet.create({
   container: {
