@@ -9,9 +9,6 @@ function Home({ navigation }) {
   return (
     <View style={styles.container}>
       <Text>This is the Home Screen!</Text>
-      <Text> </Text>
-      <FlatButton text='settings' onPress={() => navigation.navigate('Settings')}/>
-      <Text> </Text>
       <FlatButton text='snaq' onPress={() => navigation.navigate('Post')}/>
       <StatusBar style="auto" />
     </View>
