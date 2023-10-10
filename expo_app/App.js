@@ -24,10 +24,12 @@ function TabNavigator() {
 
 function MainStack() {
   return (
-    <View style={styles.container}>
-      <Text>Hello World!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Stack.Navigator
+    screenOptions={{headerShown: false}}
+    >
+      <Stack.Screen name="TabNav" component={TabNavigator} />
+      <Stack.Screen name="Post" component={PostScreen} />
+    </Stack.Navigator>
   );
 };
 
@@ -47,3 +49,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App;
