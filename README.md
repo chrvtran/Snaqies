@@ -1,4 +1,11 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+# Startup
+=======
+# **STARTUP NAME**
+=======
 # **Snaqies**
+>>>>>>> 08d185be347e4f5f0260d624d26e5579754010d1
 
 ## About the Project
 Ever want to remember what foods and restaurants you tried before? Try using Snaqies. This app is designed to make logging your food adventures easy, aesthetic, and memorable. Don't forget where you had that BOMB ramen. Take a picture, write some comments, and tag a location so that you can remember how good that ramen was. Organize your food thoughts into one convenient app and become a foodie expert today!
@@ -15,3 +22,7 @@ Ever want to remember what foods and restaurants you tried before? Try using Sna
     - See hotkeys in the terminal for more options like web preview
 4. Shake your phone or press the screen with three-fingers to bring up an additional overlay
 5. Press the keys `Ctrl + c` to stop the server
+<<<<<<< HEAD
+>>>>>>> origin/dev
+=======
+>>>>>>> 08d185be347e4f5f0260d624d26e5579754010d1
