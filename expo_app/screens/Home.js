@@ -3,8 +3,6 @@ import { StatusBar } from 'expo-status-bar';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import FlatButton from '../assets/button';
  
-
-
 function Home({ navigation }) {
   return (
     <ScrollView>
