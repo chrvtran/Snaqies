@@ -2,10 +2,11 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-
+import CameraScreen from './screens/CameraOpen'
 import HomeScreen from './screens/Home'
 import PostScreen from './screens/Post'
 import SettingsScreen from './screens/Settings'
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -16,7 +17,7 @@ function TabNavigator() {
       initialRouteName="Home"
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Camera" component={HomeScreen /*gotta replace this with camera*/} />
+      <Tab.Screen name="CameraOpen" component={CameraScreen /*gotta replace this with camera*/} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
@@ -24,10 +25,12 @@ function TabNavigator() {
 
 function MainStack() {
   return (
-    <View style={styles.container}>
-      <Text>Hello World!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Stack.Navigator
+    screenOptions={{headerShown: false}}
+    >
+      <Stack.Screen name="TabNav" component={TabNavigator} />
+      <Stack.Screen name="Post" component={PostScreen} />
+    </Stack.Navigator>
   );
 };
 
@@ -39,11 +42,4 @@ function App(){
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;

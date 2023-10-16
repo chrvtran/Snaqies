@@ -1,3 +1,4 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, Button, Image } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
@@ -5,7 +6,7 @@ import { Camera } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
 
-export default function Camera() {
+function CameraOpen({navigation}) {
 
   let cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState();
@@ -75,6 +76,8 @@ export default function Camera() {
   );
 }
 
+export default CameraOpen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -83,8 +86,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonContainer: {
-    backgroundColor: "#fff",
-    alignSelf: 'flex-end'
+    // flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    height: 40,
+    bottom: 10,
+    position: 'absolute',
   },
   preview: {
     alignSelf: 'stretch',
