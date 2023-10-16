@@ -2,11 +2,10 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import CameraScreen from './screens/CameraOpen'
 import HomeScreen from './screens/Home'
 import PostScreen from './screens/Post'
+import CameraOpen from './screens/CameraOpen'
 import SettingsScreen from './screens/Settings'
-
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -17,7 +16,7 @@ function TabNavigator() {
       initialRouteName="Home"
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="CameraOpen" component={CameraScreen /*gotta replace this with camera*/} />
+      <Tab.Screen name="Camera" component={CameraOpen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
