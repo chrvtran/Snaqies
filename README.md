@@ -6,7 +6,7 @@ Ever want to remember what foods and restaurants you tried before? Try using Sna
 ## Running the Expo App
 ### Prerequisites
 - Install `Expo Go` on your mobile device. Making changes in your IDE will make live updates to the project view in the app.
-- Install the necessary dependencies under `expo_app\package.json`.
+- Install the necessary *dependencies* under `expo_app\package.json` with `npm install` *`dependency`*
 
 ### Running via Terminal
 1. `cd` to your local repo and then into `expo_app`
@@ -15,3 +15,9 @@ Ever want to remember what foods and restaurants you tried before? Try using Sna
     - See hotkeys in the terminal for more options like web preview
 4. Shake your phone or press the screen with three-fingers to bring up an additional overlay
 5. Press the keys `Ctrl + c` to stop the server
+
+## Notes: App vs Web
+- React Native app intentionally automatically resizes a sourced image if there is no style dimension provided, EXCEPT for browsers which resize to 0x0
+
+## Bugs
+-
