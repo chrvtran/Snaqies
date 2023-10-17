@@ -7,10 +7,8 @@ import HomeScreen from './screens/Home'
 import PostScreen from './screens/Post'
 import CameraOpen from './screens/CameraOpen'
 import SettingsScreen from './screens/Settings'
-
 import ProfileScreen from './screens/Profile'
 import Bookmarks from './screens/Bookmarks';
-
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -61,7 +59,7 @@ function TabNavigator() {
       /> 
       <Tab.Screen 
         name="Camera" 
-        component={HomeScreen /*gotta replace this with camera*/} 
+        component={CameraOpen} 
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
@@ -116,9 +114,6 @@ function TabNavigator() {
           )
         }}
       />
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Camera" component={CameraOpen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
 }
