@@ -10,7 +10,7 @@ Ever want to remember what foods and restaurants you tried before? Try using Sna
 
 ### Running via Terminal
 1. `cd` to your local repo and then into `expo_app`
-2. Run `npx expo start`
+2. Run `npx expo start deez nuts`
 3. Open your mobile camera and scan the QR that pops up in terminal.
     - See hotkeys in the terminal for more options like web preview
 4. Shake your phone or press the screen with three-fingers to bring up an additional overlay
