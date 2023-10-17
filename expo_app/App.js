@@ -39,13 +39,13 @@ function TabNavigator() {
         }} 
       />
       <Tab.Screen 
-        name="Bookmarks" 
-        component={Bookmarks} 
+        name="Settings" 
+        component={SettingsScreen} 
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
               <Image 
-                source={require('./assets/icons/bookmark.png')}
+                source={require('./assets/icons/settings.png')}
                 resizeMode='contain'
                 style={{
                   width: 25,
@@ -56,7 +56,7 @@ function TabNavigator() {
             </View>
           )
         }}
-      />
+      /> 
       <Tab.Screen 
         name="Camera" 
         component={HomeScreen /*gotta replace this with camera*/} 
@@ -77,13 +77,13 @@ function TabNavigator() {
         }}
       />
       <Tab.Screen 
-        name="Settings" 
-        component={SettingsScreen} 
+        name="Bookmarks" 
+        component={Bookmarks} 
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
               <Image 
-                source={require('./assets/icons/settings.png')}
+                source={require('./assets/icons/bookmark.png')}
                 resizeMode='contain'
                 style={{
                   width: 25,
