@@ -8,7 +8,7 @@ import FlatButton from '../assets/button';
 function Home({ navigation }) {
   return (
     <View>
-      <Text>Deez nuts!</Text>
+      <Text>This is the Home Screen!</Text>
       <ScrollView>
         <View style={styles.container}>
           <FlatButton text='snaq' onPress={() => navigation.navigate('Post')}/>

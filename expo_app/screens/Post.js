@@ -6,6 +6,9 @@ import FlatButton from '../assets/button';
 function Post({ navigation }) {
   return (
     <View style={styles.container}>
+      <Text>This is the Post Screen!</Text>
+      <FlatButton text='Back to Home' onPress={() => navigation.navigate('Home')}/>
+      <StatusBar style="auto" />
     </View>
   );
 }
