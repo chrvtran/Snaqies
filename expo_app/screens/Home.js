@@ -2,10 +2,9 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import FlatButton from '../assets/button';
+
 import Snaq from '../assets/snaq'
  
-
-
 function Home({ navigation }) {
   return (
     <View>
@@ -26,8 +25,7 @@ function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: 'column',
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
