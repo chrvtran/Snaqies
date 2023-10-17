@@ -5,18 +5,16 @@ import Snaq from '../assets/snaq'
  
 function Home({ navigation }) {
   return (
-    <View>
-      <Text>This is the Home Screen!</Text>
-      <ScrollView>
-        <View style={styles.container}>
-          <Snaq onPress={() => navigation.navigate('Post')}/>
-          <Snaq onPress={() => navigation.navigate('Post')}/>
-          <Snaq onPress={() => navigation.navigate('Post')}/>
-          <Snaq onPress={() => navigation.navigate('Post')}/>
-          <StatusBar style="auto" />
-        </View>
-      </ScrollView>
-    </View> 
+     <ScrollView>
+       <Text>This is the Home Screen!</Text>
+       <View style={styles.container}>
+         <Snaq onPress={() => navigation.navigate('Post')}/>
+         <Snaq onPress={() => navigation.navigate('Post')}/>
+         <Snaq onPress={() => navigation.navigate('Post')}/>
+         <Snaq onPress={() => navigation.navigate('Post')}/>
+         <StatusBar style="auto" />
+       </View>
+     </ScrollView>
   );
 }
 
