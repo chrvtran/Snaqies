@@ -11,6 +11,8 @@ function FlatButton({ text, onPress }) {
     );
 }
 
+export default FlatButton;
+
 const styles = StyleSheet.create({
     button: {
         borderRadius: 8,
@@ -27,5 +29,3 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     }
 });
-
-export default FlatButton;

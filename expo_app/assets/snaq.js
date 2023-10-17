@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Image, Text, View } from 'react-native';
-import Post from '../screens/Post';
 
 function snaq(props) {
     const image = props.image;
@@ -16,6 +15,8 @@ function snaq(props) {
         </TouchableOpacity>
     );
 }
+
+export default snaq;
 
 snaq.defaultProps = {
     image: null,
@@ -38,5 +39,3 @@ const styles = StyleSheet.create({
         height: 100
     }
 });
-
-export default snaq;
