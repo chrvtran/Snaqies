@@ -1,17 +1,16 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import HomeScreen from './screens/Home'
 import PostScreen from './screens/Post'
 import CameraOpen from './screens/CameraOpen'
-import SettingsScreen from './screens/Settings'
+import LocationScreen from './screens/Location'
 import ProfileScreen from './screens/Profile'
 import Bookmarks from './screens/Bookmarks';
-
 import HomeIcon from './assets/icons/home.svg';
-import SettingsIcon from './assets/icons/settings.svg';
+import LocationIcon from './assets/icons/location.svg';
 import CameraIcon from './assets/icons/camera.svg';
 import BookmarkIcon from './assets/icons/bookmark.svg';
 import ProfileIcon from './assets/icons/profile.svg';
@@ -31,13 +30,9 @@ function TabNavigator() {
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
-              <Image 
-                source={require('./assets/icons/home.png')}
-                resizeMode='contain'
+              <HomeIcon 
                 style={{
-                  width: 25,
-                  height: 25,
-                  tintColor: focused ? '#e32f45' : '#748c94'
+                  fill: focused ? '#e32f45' : '#748c94'
                 }}
               />
             </View>
@@ -45,18 +40,14 @@ function TabNavigator() {
         }} 
       />
       <Tab.Screen 
-        name="Settings" 
-        component={SettingsScreen} 
+        name="Location" 
+        component={LocationScreen} 
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
-              <Image 
-                source={require('./assets/icons/settings.png')}
-                resizeMode='contain'
+              <LocationIcon
                 style={{
-                  width: 25,
-                  height: 25,
-                  tintColor: focused ? '#e32f45' : '#748c94'
+                  fill: focused ? '#e32f45' : '#748c94'
                 }}
               />
             </View>
@@ -69,13 +60,9 @@ function TabNavigator() {
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
-              <Image 
-                source={require('./assets/icons/camera.png')}
-                resizeMode='contain'
+              <CameraIcon
                 style={{
-                  width: 25,
-                  height: 25,
-                  tintColor: focused ? '#e32f45' : '#748c94'
+                  fill: focused ? '#e32f45' : '#748c94'
                 }}
               />
             </View>
@@ -88,13 +75,9 @@ function TabNavigator() {
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
-              <Image 
-                source={require('./assets/icons/bookmark.png')}
-                resizeMode='contain'
+              <BookmarkIcon
                 style={{
-                  width: 25,
-                  height: 25,
-                  tintColor: focused ? '#e32f45' : '#748c94'
+                  fill: focused ? '#e32f45' : '#748c94'
                 }}
               />
             </View>
@@ -107,13 +90,9 @@ function TabNavigator() {
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
-              <Image 
-                source={require('./assets/icons/profile.png')}
-                resizeMode='contain'
+              <ProfileIcon 
                 style={{
-                  width: 25,
-                  height: 25,
-                  tintColor: focused ? '#e32f45' : '#748c94'
+                  fill: focused ? '#e32f45' : '#748c94'
                 }}
               />
             </View>
