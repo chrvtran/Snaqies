@@ -10,6 +10,12 @@ import SettingsScreen from './screens/Settings'
 import ProfileScreen from './screens/Profile'
 import Bookmarks from './screens/Bookmarks';
 
+import HomeIcon from './assets/icons/home.svg';
+import SettingsIcon from './assets/icons/settings.svg';
+import CameraIcon from './assets/icons/camera.svg';
+import BookmarkIcon from './assets/icons/bookmark.svg';
+import ProfileIcon from './assets/icons/profile.svg';
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
  
@@ -62,7 +68,7 @@ function TabNavigator() {
         component={CameraOpen} 
         options={{
           tabBarIcon: ({focused}) => (
-            <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+            <View style={{alignItems: 'center', justifyContent: 'center'}}>
               <Image 
                 source={require('./assets/icons/camera.png')}
                 resizeMode='contain'
