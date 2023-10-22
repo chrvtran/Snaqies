@@ -2,12 +2,13 @@ import React from 'react';
 import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import HomeScreen from './screens/Home'
-import PostScreen from './screens/Post'
-import CameraOpen from './screens/CameraOpen'
-import LocationScreen from './screens/Location'
-import ProfileScreen from './screens/Profile'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import HomeScreen from './screens/Home';
+import PostScreen from './screens/Post';
+import CameraOpen from './screens/CameraOpen';
+import LocationScreen from './screens/Location';
+import ProfileScreen from './screens/Profile';
+import RatingsScreen from './screens/Ratings';
 import Bookmarks from './screens/Bookmarks';
 import HomeIcon from './assets/icons/home.svg';
 import LocationIcon from './assets/icons/location.svg';
@@ -110,6 +111,7 @@ function MainStack() {
     >
       <Stack.Screen name="TabNav" component={TabNavigator} />
       <Stack.Screen name="Post" component={PostScreen} />
+      <Stack.Screen name="Ratings" component={RatingsScreen} />
     </Stack.Navigator>
   );
 }
