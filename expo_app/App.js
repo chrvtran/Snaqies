@@ -8,6 +8,7 @@ import PostScreen from './screens/Post';
 import CameraOpen from './screens/CameraOpen';
 import LocationScreen from './screens/Location';
 import RatingsScreen from './screens/Ratings';
+import PriceScreen from './screens/Price';
 import ProfileScreen from './screens/Profile';
 import Bookmarks from './screens/Bookmarks';
 import HomeIcon from './assets/icons/home.svg';

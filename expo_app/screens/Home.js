@@ -10,15 +10,13 @@ function Home({ navigation }) {
   return (
      <ScrollView>
        <Text>This is the Home Screen!</Text>
-       <FlatButton text='Ratings Screen' onPress={() => navigation.navigate('Ratings')}/>
-       <FlatButton text='Price Screen' onPress={() => navigation.navigate('Price')}/>
        <View style={styles.container}>
-          <Snaq onPress={() => navigation.navigate('Post')}/>
-          <Snaq onPress={() => navigation.navigate('Post')}/>
           <Snaq onPress={() => navigation.navigate('Post')}/>
           <Snaq onPress={() => navigation.navigate('Post')}/>
           <StatusBar style="auto" />
        </View>
+       <FlatButton text='Ratings Screen' onPress={() => navigation.navigate('Ratings')}/>
+       <FlatButton text='Price Screen' onPress={() => navigation.navigate('Price')}/>
      </ScrollView>
   );
 }
