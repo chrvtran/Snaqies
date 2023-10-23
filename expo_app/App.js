@@ -23,7 +23,7 @@ function TabNavigator() {
   return(
     <Tab.Navigator 
       initialRouteName="Snaqies"
-      screenOptions={{tabBarShowLabel: false}}
+      screenOptions={{headerShown: false, tabBarShowLabel: false}}
     >
       <Tab.Screen 
         name="Snaqies" 
