@@ -1,6 +1,7 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, Button, Image, Pressable, TextInput } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Button, Image, Pressable, TextInput} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Camera } from 'expo-camera';
@@ -11,15 +12,39 @@ function CameraOpen({navigation}) {
 
   const { control, handleSubmit } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // Here you can perform further actions with the form data, like sending it to a server
+  const storeData = async () => {
+    const postObj = {
+      photo: photo.base64,
+      caption: caption,
+    }
+    try {
+      const jsonValue = JSON.stringify(postObj)
+      await AsyncStorage.setItem('@post', jsonValue);
+    } catch (e) {
+      // saving error
+    }
   };
 
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@post');
+      postObj = JSON.parse(value);
+      setPost(postObj);
+      if (value !== null) {
+        // value previously stored
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
+
+
   let cameraRef = useRef();
+  const [post, setPost] = useState();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
+  const [caption, setCaption] = useState("");
 
 
   useEffect(() => {
@@ -49,6 +74,7 @@ function CameraOpen({navigation}) {
     setPhoto(newPhoto);
   };
 
+
   if (photo) {
     let sharePic = () => {
       shareAsync(photo.uri).then(() => {
@@ -61,19 +87,22 @@ function CameraOpen({navigation}) {
         setPhoto(undefined);
       })
     };
- 
+    
     return (
       <SafeAreaView style={styles.container}>
         {/* top part */}
         <SafeAreaView style={styles.headerContainer}>
-          <Pressable style={styles.topButtons} title="Back">
+          <Pressable style={styles.topButtons} title="Back" onPress={() => getData()}>
             <Text>Back</Text>
           </Pressable>
-          <SafeAreaView style={styles.topButtons}>
+          <SafeAreaView style={styles.topButtons} >
             <Text>Snaqies</Text>
           </SafeAreaView>
-          <Pressable style={styles.topButtons}>
+          <Pressable style={styles.topButtons} onPress={() => storeData() && console.log("hello")}>
             <Text>Post</Text>
+          </Pressable>
+          <Pressable style={styles.topButtons} onPress={() => console.log(post.caption)}>
+            <Text>test</Text>
           </Pressable>
         </SafeAreaView>
 
@@ -91,6 +120,7 @@ function CameraOpen({navigation}) {
                 style={styles.textInput}
                 placeholder="Enter your data"
                 multiline={true}
+                onChangeText={(val) => setCaption(val)}
                 // Add other TextInput props as needed
               />
             )}
@@ -110,9 +140,9 @@ function CameraOpen({navigation}) {
         </SafeAreaView>
         {/* <Image style={styles.preview} source={{ uri: photo.uri }} /> */}
 
-        {/* <Button title="Share" onPress={sharePic} />
+        <Button title="Share" onPress={sharePic} />
         {hasMediaLibraryPermission ? <Button title="Save" onPress={savePic} /> : undefined}
-        <Button title="Discard" onPress={() => setPhoto(undefined)} /> */}
+        <Button title="Discard" onPress={() => setPhoto(undefined)} />
       </SafeAreaView>
     );
   }
