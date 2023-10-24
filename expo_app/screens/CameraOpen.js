@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, Button, Image, Pressable, TextInput} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Button, Image, Pressable, TextInput, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
@@ -89,7 +89,7 @@ function CameraOpen({navigation}) {
     };
     
     return (
-      <SafeAreaView style={styles.container}>
+      <ScrollView keyboardShouldPersistTaps='handled' contentContainerStyle={styles.container}>
         {/* top part */}
         <SafeAreaView style={styles.headerContainer}>
           <Pressable style={styles.topButtons} title="Back" onPress={() => getData()}>
@@ -143,7 +143,7 @@ function CameraOpen({navigation}) {
         <Button title="Share" onPress={sharePic} />
         {hasMediaLibraryPermission ? <Button title="Save" onPress={savePic} /> : undefined}
         <Button title="Discard" onPress={() => setPhoto(undefined)} />
-      </SafeAreaView>
+      </ScrollView>
     );
   }
 
