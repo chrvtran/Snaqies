@@ -7,11 +7,13 @@ function Post({ navigation }) {
   return (
     <View style={styles.container}>
       <Text>This is the Post Screen!</Text>
-      <FlatButton text='Back to Home' onPress={() => navigation.navigate('Home')}/>
+      <FlatButton text='Back to Home' onPress={() => navigation.navigate('Snaqies')}/>
       <StatusBar style="auto" />
     </View>
   );
 }
+
+export default Post;
 
 const styles = StyleSheet.create({
   container: {
@@ -19,7 +21,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }
 });
-
-export default Post;

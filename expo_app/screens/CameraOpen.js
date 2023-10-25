@@ -14,7 +14,7 @@ function CameraOpen({navigation}) {
 
   const storeData = async () => {
     const postObj = {
-      photo: photo.base64,
+      photo: photo.uri,
       caption: caption,
     }
     try {
@@ -88,6 +88,7 @@ function CameraOpen({navigation}) {
       })
     };
     
+
     return (
       <ScrollView keyboardShouldPersistTaps='handled' contentContainerStyle={styles.container}>
         {/* top part */}
