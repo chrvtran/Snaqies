@@ -10,6 +10,7 @@ import LocationScreen from './screens/Location';
 import RatingsScreen from './screens/Ratings';
 import PriceScreen from './screens/Price';
 import ProfileScreen from './screens/Profile';
+import TestingScreen from './screens/Testing';
 import Bookmarks from './screens/Bookmarks';
 import HomeIcon from './assets/icons/home.svg';
 import LocationIcon from './assets/icons/location.svg';
@@ -19,7 +20,7 @@ import ProfileIcon from './assets/icons/profile.svg';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
- 
+
 function TabNavigator() {
   return(
     <Tab.Navigator 
@@ -101,6 +102,21 @@ function TabNavigator() {
           )
         }}
       />
+      <Tab.Screen 
+        name="Testing" 
+        component={TestingScreen} 
+        options={{
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center', justifyContent: 'center'}}>
+              <ProfileIcon 
+                style={{
+                  fill: focused ? '#e32f45' : '#748c94'
+                }}
+              />
+            </View>
+          )
+        }}
+      />
     </Tab.Navigator>
   );
 }
@@ -118,10 +134,10 @@ function MainStack() {
   );
 }
 
-function App(){
-  return(
+function App() {
+  return (
     <NavigationContainer>
-      <MainStack/>
+      <MainStack />
     </NavigationContainer>
   );
 }
