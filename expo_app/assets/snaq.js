@@ -30,13 +30,13 @@ snaq.defaultProps = {
 const styles = StyleSheet.create({
     container: {
         borderRadius: 8,
-        paddingVertical: 120,
-        paddingHorizontal: 120,
+        paddingVertical: 50,
+        paddingHorizontal: 50,
         margin: 5,
         backgroundColor: '#33D7FF'
     },
     image: {
-        width: 100,
-        height: 100
+        width: 200,
+        height: 200
     }
 });

@@ -38,7 +38,7 @@ function Testing({ navigation }) {
         <View style={styles.container}>
             {post && post.caption !== undefined && (
                 <Snaq image={post.photo} caption={post.caption}></Snaq>
-            )}
+            )} 
             <Text>This is the Bookmarks Screen!</Text>
             <StatusBar style="auto" />
         </View>

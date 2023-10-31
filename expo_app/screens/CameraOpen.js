@@ -1,12 +1,13 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, Button, Image, Pressable, TextInput, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Button, Image, Pressable, TextInput, ScrollView, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Camera } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
+import * as ImagePicker from 'expo-image-picker';
 
 function CameraOpen({navigation}) {
 
@@ -62,6 +63,22 @@ function CameraOpen({navigation}) {
     return <Text>Permission not granted. Please change in settings.</Text>
   }
 
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setPhoto(result.assets[0]);
+    }
+  };
+
   let takePic = async () => {
     let options = {
       quality: 1,
@@ -93,18 +110,18 @@ function CameraOpen({navigation}) {
       <ScrollView keyboardShouldPersistTaps='handled' contentContainerStyle={styles.container}>
         {/* top part */}
         <SafeAreaView style={styles.headerContainer}>
-          <Pressable style={styles.topButtons} title="Back" onPress={() => getData()}>
+          <TouchableOpacity style={styles.topButtons} title="Back" onPress={() => getData()}>
             <Text>Back</Text>
-          </Pressable>
+          </TouchableOpacity>
           <SafeAreaView style={styles.topButtons} >
             <Text>Snaqies</Text>
           </SafeAreaView>
-          <Pressable style={styles.topButtons} onPress={() => storeData() && console.log("hello")}>
+          <TouchableOpacity style={styles.topButtons} onPress={() => storeData() && console.log("hello")}>
             <Text>Post</Text>
-          </Pressable>
-          <Pressable style={styles.topButtons} onPress={() => console.log(post.caption)}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.topButtons} onPress={() => console.log(post.caption)}>
             <Text>test</Text>
-          </Pressable>
+          </TouchableOpacity>
         </SafeAreaView>
 
           {/* camera part */}
@@ -152,7 +169,12 @@ function CameraOpen({navigation}) {
   return (
     <Camera style={styles.container} ref={cameraRef}>
       <View style={styles.buttonContainer}>
-        <Button title="Take Pic" onPress={takePic}/>
+        <TouchableOpacity style={styles.picButtons} onPress={takePic}>
+          <Text>Take Pic</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.picButtons} title="Pick an image from camera roll" onPress={pickImage}>
+            <Text>Upload Pic</Text>
+        </TouchableOpacity>
       </View>
       <StatusBar style="auto" />
     </Camera>
@@ -170,12 +192,24 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     // flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'flex-end',
+    margin: 10,
+    alignItems: 'center',
     justifyContent: 'center',
-    height: 40,
+    height: 60,
     bottom: 10,
     position: 'absolute',
+  },
+  picButtons: {
+    margin: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    borderRadius: 20,
+    width: 100,
+    height: 30,
+    backgroundColor: 'white',
+
+
   },
   topButtons: {
     justifyContent: 'center',
