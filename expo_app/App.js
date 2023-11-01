@@ -9,14 +9,16 @@ import CameraOpen from './screens/CameraOpen';
 import LocationScreen from './screens/Location';
 import RatingsScreen from './screens/Ratings';
 import PriceScreen from './screens/Price';
-import ProfileScreen from './screens/Profile';
-import TestingScreen from './screens/Testing';
-import Bookmarks from './screens/Bookmarks';
+// import ProfileScreen from './screens/Profile';
+// import TestingScreen from './screens/Testing';
+import SavedScreen from './screens/Saved';
+import ReviewScreen from './screens/Review';
 import HomeIcon from './assets/icons/home.svg';
 import LocationIcon from './assets/icons/location.svg';
 import CameraIcon from './assets/icons/camera.svg';
-import BookmarkIcon from './assets/icons/bookmark.svg';
-import ProfileIcon from './assets/icons/profile.svg';
+import SavedIcon from './assets/icons/saved.svg';
+// import ProfileIcon from './assets/icons/profile.svg';
+import ReviewIcon from './assets/icons/review.svg';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -73,12 +75,12 @@ function TabNavigator() {
         }}
       />
       <Tab.Screen 
-        name="Bookmarks" 
-        component={Bookmarks} 
+        name="Saved" 
+        component={SavedScreen} 
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
-              <BookmarkIcon
+              <SavedIcon
                 style={{
                   fill: focused ? '#e32f45' : '#748c94'
                 }}
@@ -88,12 +90,12 @@ function TabNavigator() {
         }}
       />
       <Tab.Screen 
-        name="Profile" 
-        component={ProfileScreen} 
+        name="Review"
+        component={ReviewScreen} 
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
-              <ProfileIcon 
+              <ReviewIcon
                 style={{
                   fill: focused ? '#e32f45' : '#748c94'
                 }}
@@ -102,7 +104,7 @@ function TabNavigator() {
           )
         }}
       />
-      <Tab.Screen 
+      {/* <Tab.Screen 
         name="Testing" 
         component={TestingScreen} 
         options={{
@@ -116,7 +118,7 @@ function TabNavigator() {
             </View>
           )
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }
