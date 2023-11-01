@@ -9,7 +9,10 @@ function Location({ navigation }) {
     <View style={styles.container}>
       <Text>This is the Location Screen!</Text>
       <FlatButton text='Back to Home' onPress={() => navigation.navigate('Snaqies')}/>
-      <MapView style={styles.map}/>
+      <MapView 
+        style={styles.map}
+        provider='google'
+      />
     </View>
   );
 }
