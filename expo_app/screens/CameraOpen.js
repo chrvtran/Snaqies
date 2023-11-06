@@ -8,27 +8,31 @@ import { Camera } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
+import uuid from 'react-native-uuid';
 
 function CameraOpen({navigation}) {
 
   const { control, handleSubmit } = useForm();
 
   const storeData = async () => {
+    const newuuid = uuid.v1()
     const postObj = {
+      id: newuuid,
       photo: photo.uri,
       caption: caption,
     }
     try {
       const jsonValue = JSON.stringify(postObj)
-      await AsyncStorage.setItem('@post', jsonValue);
+      await AsyncStorage.setItem(newuuid, jsonValue);
+      getData(newuuid)
     } catch (e) {
       // saving error
     }
   };
 
-  const getData = async () => {
+  const getData = async (key) => {
     try {
-      const value = await AsyncStorage.getItem('@post');
+      const value = await AsyncStorage.getItem(key);
       postObj = JSON.parse(value);
       setPost(postObj);
       if (value !== null) {
@@ -110,17 +114,17 @@ function CameraOpen({navigation}) {
       <ScrollView keyboardShouldPersistTaps='handled' contentContainerStyle={styles.container}>
         {/* top part */}
         <SafeAreaView style={styles.headerContainer}>
-          <TouchableOpacity style={styles.topButtons} title="Back" onPress={() => getData()}>
+          <TouchableOpacity style={styles.topButtons} title="Back" onPress={async () => console.log(await AsyncStorage.getAllKeys())}>
             <Text>Back</Text>
           </TouchableOpacity>
-          <SafeAreaView style={styles.topButtons} >
-            <Text>Snaqies</Text>
-          </SafeAreaView>
-          <TouchableOpacity style={styles.topButtons} onPress={() => storeData() && console.log("hello")}>
-            <Text>Post</Text>
+          <TouchableOpacity style={styles.topButtons} onPress={() => console.log(post.id)}>
+            <Text>uuid test</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.topButtons} onPress={() => storeData() && console.log("creating snaq with new uuid")}>
+            <Text>store data</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.topButtons} onPress={() => console.log(post.caption)}>
-            <Text>test</Text>
+            <Text>test caption</Text>
           </TouchableOpacity>
         </SafeAreaView>
 

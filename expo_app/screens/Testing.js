@@ -15,7 +15,7 @@ function Testing({ navigation }) {
 
     const getData = async () => {
         try {
-            const value = await AsyncStorage.getItem("@post");
+            const value = await AsyncStorage.getItem("73e93a89-7cdf-11ee-94cc-b90600f5af7a");
 
             postObj = JSON.parse(value);
             setPost(postObj);
@@ -40,6 +40,7 @@ function Testing({ navigation }) {
                 <Snaq image={post.photo} caption={post.caption}></Snaq>
             )} 
             <Text>This is the Bookmarks Screen!</Text>
+            <FlatButton text='Test get all async kets' onPress={() => console.log(AsyncStorage.getAllKeys())}/>
             <StatusBar style="auto" />
         </View>
     );
