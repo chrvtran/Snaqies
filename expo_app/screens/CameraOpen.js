@@ -41,10 +41,12 @@ function CameraOpen({navigation}) {
 
 
   let cameraRef = useRef();
+  let photoList = useRef([]);
   const [post, setPost] = useState();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
+  const [photoSet, setPhotoSet] = useState([]);
   const [caption, setCaption] = useState("");
 
 
@@ -84,86 +86,94 @@ function CameraOpen({navigation}) {
       quality: 1,
       base64: true,
       exif: false,
-      imageType: "jpg"
+      imageType: "jpg",
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
+    photoList.current.push(newPhoto)
+    const newPhotoList = [...photoList.current];
+    setPhotoSet(newPhotoList)
   };
 
+  let resetPhotoList = () => {
+    photoList.current = [];
+    setPhotoSet([]);
+  }
 
-  if (photo) {
-    let sharePic = () => {
-      shareAsync(photo.uri).then(() => {
-        setPhoto(undefined);
-      })
-    };
 
-    let savePic = () => {
-      MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        setPhoto(undefined);
-      })
-    };
+  // if (photo) {
+  //   let sharePic = () => {
+  //     shareAsync(photo.uri).then(() => {
+  //       setPhoto(undefined);
+  //     })
+  //   };
+
+  //   let savePic = () => {
+  //     MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
+  //       setPhoto(undefined);
+  //     })
+  //   };
     
 
-    return (
-      <ScrollView keyboardShouldPersistTaps='handled' contentContainerStyle={styles.container}>
-        {/* top part */}
-        <SafeAreaView style={styles.headerContainer}>
-          <TouchableOpacity style={styles.topButtons} title="Back" onPress={() => getData()}>
-            <Text>Back</Text>
-          </TouchableOpacity>
-          <SafeAreaView style={styles.topButtons} >
-            <Text>Snaqies</Text>
-          </SafeAreaView>
-          <TouchableOpacity style={styles.topButtons} onPress={() => storeData() && console.log("hello")}>
-            <Text>Post</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.topButtons} onPress={() => console.log(post.caption)}>
-            <Text>test</Text>
-          </TouchableOpacity>
-        </SafeAreaView>
+  //   return (
+  //     <ScrollView keyboardShouldPersistTaps='handled' contentContainerStyle={styles.container}>
+  //       {/* top part */}
+  //       <SafeAreaView style={styles.headerContainer}>
+  //         <TouchableOpacity style={styles.topButtons} title="Back" onPress={() => getData()}>
+  //           <Text>Back</Text>
+  //         </TouchableOpacity>
+  //         <SafeAreaView style={styles.topButtons} >
+  //           <Text>Snaqies</Text>
+  //         </SafeAreaView>
+  //         <TouchableOpacity style={styles.topButtons} onPress={() => storeData() && console.log("hello")}>
+  //           <Text>Post</Text>
+  //         </TouchableOpacity>
+  //         <TouchableOpacity style={styles.topButtons} onPress={() => console.log(post.caption)}>
+  //           <Text>test</Text>
+  //         </TouchableOpacity>
+  //       </SafeAreaView>
 
-          {/* camera part */}
-        <SafeAreaView style={styles.imageContainer}>
-          <SafeAreaView style={styles.imageInnerCont}>
-            <Image style={styles.image} source={{ uri: photo.uri }} />
-          </SafeAreaView>
-          <Controller
-            control={control}
-            name="fieldName"
-            render={({ field }) => (
-              <TextInput
-                {...field}
-                style={styles.textInput}
-                placeholder="Enter your data"
-                multiline={true}
-                onChangeText={(val) => setCaption(val)}
-                // Add other TextInput props as needed
-              />
-            )}
-          />
-        </SafeAreaView>
+  //         {/* camera part */}
+  //       <SafeAreaView style={styles.imageContainer}>
+  //         <SafeAreaView style={styles.imageInnerCont}>
+  //           <Image style={styles.image} source={{ uri: photo.uri }} />
+  //         </SafeAreaView>
+  //         <Controller
+  //           control={control}
+  //           name="fieldName"
+  //           render={({ field }) => (
+  //             <TextInput
+  //               {...field}
+  //               style={styles.textInput}
+  //               placeholder="Enter your data"
+  //               multiline={true}
+  //               onChangeText={(val) => setCaption(val)}
+  //               // Add other TextInput props as needed
+  //             />
+  //           )}
+  //         />
+  //       </SafeAreaView>
 
-        <SafeAreaView style={styles.bottomContainer}>
-              <SafeAreaView style={styles.rateCont}>
-                <Text>Rate</Text>
-              </SafeAreaView>
-              <SafeAreaView style={styles.priceCont}>
-                <Text>Price</Text>
-              </SafeAreaView>
-              <SafeAreaView style={styles.locationCont}>
-                <Text>Location</Text>
-              </SafeAreaView>
-        </SafeAreaView>
-        {/* <Image style={styles.preview} source={{ uri: photo.uri }} /> */}
+  //       <SafeAreaView style={styles.bottomContainer}>
+  //             <SafeAreaView style={styles.rateCont}>
+  //               <Text>Rate</Text>
+  //             </SafeAreaView>
+  //             <SafeAreaView style={styles.priceCont}>
+  //               <Text>Price</Text>
+  //             </SafeAreaView>
+  //             <SafeAreaView style={styles.locationCont}>
+  //               <Text>Location</Text>
+  //             </SafeAreaView>
+  //       </SafeAreaView>
+  //       {/* <Image style={styles.preview} source={{ uri: photo.uri }} /> */}
 
-        <Button title="Share" onPress={sharePic} />
-        {hasMediaLibraryPermission ? <Button title="Save" onPress={savePic} /> : undefined}
-        <Button title="Discard" onPress={() => setPhoto(undefined)} />
-      </ScrollView>
-    );
-  }
+  //       <Button title="Share" onPress={sharePic} />
+  //       {hasMediaLibraryPermission ? <Button title="Save" onPress={savePic} /> : undefined}
+  //       <Button title="Discard" onPress={() => setPhoto(undefined)} />
+  //     </ScrollView>
+  //   );
+  // }
 
 
   return (
@@ -175,6 +185,15 @@ function CameraOpen({navigation}) {
         <TouchableOpacity style={styles.picButtons} title="Pick an image from camera roll" onPress={pickImage}>
             <Text>Upload Pic</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.picButtons} onPress={resetPhotoList}>
+            <Text>Reset Pics</Text>
+        </TouchableOpacity>
+        <SafeAreaView style={styles.photoList}> 
+          {photoSet && photoSet.map((photo, index) =>
+            <Image key={index} style={styles.imageRoll} source={{uri: photo.uri}}></Image>
+            )}
+          </SafeAreaView>
+          {/* {photoList && photoList.map((photo, index) => <Image key={index} source={{uri: photo.uri}}/>)} */}
       </View>
       <StatusBar style="auto" />
     </Camera>
@@ -197,6 +216,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 60,
     bottom: 10,
+    width: '100%',
     position: 'absolute',
   },
   picButtons: {
@@ -209,7 +229,12 @@ const styles = StyleSheet.create({
     height: 30,
     backgroundColor: 'white',
 
-
+  },
+  photoList: {
+    flexDirection: 'row',
+    height: 150,
+    backgroundColor: 'white',
+    width: '100%',
   },
   topButtons: {
     justifyContent: 'center',
@@ -245,6 +270,11 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     borderRadius: 25,
+  }, 
+  imageRoll: {
+    height: 90,
+    width: 50,
+    borderRadius: 5,
   }, 
   textInput: {
     flex: 2,
