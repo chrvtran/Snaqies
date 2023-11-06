@@ -19,6 +19,16 @@ import CameraIcon from './assets/icons/camera.svg';
 import SavedIcon from './assets/icons/saved.svg';
 // import ProfileIcon from './assets/icons/profile.svg';
 import ReviewIcon from './assets/icons/review.svg';
+import Header from './assets/header.js';
+
+// const screens = {
+//   HomeScreen: {
+//     screen: HomeScreen,
+//     navigationOptions: {
+//       headerTitle: () => <Header />
+//     }
+//   }
+// }
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -126,12 +136,16 @@ function TabNavigator() {
 function MainStack() {
   return (
     <Stack.Navigator 
-      screenOptions={{headerShown: false}}
+      screenOptions={{
+        headerTitle: () => <Header/>, 
+        headerTitleAlign: 'center'
+      }}
     >
       <Stack.Screen name="TabNav" component={TabNavigator} />
+      <Stack.Screen name="Home" component={HomeScreen}/>
       <Stack.Screen name="Post" component={PostScreen} />
       <Stack.Screen name="Ratings" component={RatingsScreen} />
-      <Stack.Screen name="Price" component={PriceScreen}/>
+      <Stack.Screen name="Price" component={PriceScreen} />
     </Stack.Navigator>
   );
 }
