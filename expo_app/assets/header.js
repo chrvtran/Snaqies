@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import SearchIcon from './icons/search.svg'
 
 function Header() {
@@ -9,7 +9,9 @@ function Header() {
                 <Text style={styles.headerText}>Snaqies</Text>
             </View>
             <View style={styles.imageIconContainer}>
-                <SearchIcon style={styles.icon}/>
+                <TouchableOpacity>
+                    <SearchIcon style={styles.icon}/>
+                </TouchableOpacity>
                 <Image 
                     source={require('./images/Snaqies_logo.png')}
                     // style={{width: 40, hieght: 40}}
@@ -29,6 +31,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between', 
+        // borderWidth: '3px red solid'
     },
     headerText: {
         fontWeight: 'bold',
