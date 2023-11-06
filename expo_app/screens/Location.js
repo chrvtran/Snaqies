@@ -1,5 +1,4 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import MapView from 'react-native-maps';
 import FlatButton from '../assets/button';
@@ -26,12 +25,6 @@ function Location({ navigation }) {
       } else {
         console.log("Permission not granted");
       }
-
-      // const loc = await GeoLocation.getCurrentPositionAsync() 
-
-      // console.log(loc)
-
-      // setLocation(loc)
 
     })();
   }, []);
