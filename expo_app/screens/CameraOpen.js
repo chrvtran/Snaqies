@@ -109,6 +109,9 @@ function CameraOpen({navigation}) {
     return (
       <ScrollView keyboardShouldPersistTaps='handled' contentContainerStyle={styles.container}>
         {/* top part */}
+        <SafeAreaView>
+          <Text style={styles.headertext}>New Post</Text>
+        </SafeAreaView>
         <SafeAreaView style={styles.headerContainer}>
           <TouchableOpacity style={styles.topButtons} title="Back" onPress={() => getData()}>
             <Text>Back</Text>
@@ -184,6 +187,10 @@ function CameraOpen({navigation}) {
 export default CameraOpen;
 
 const styles = StyleSheet.create({
+  headertext: {
+    fontWeight: 'bold',
+    fontSize: 17
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',

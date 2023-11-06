@@ -25,12 +25,13 @@ function TabNavigator() {
   return(
     <Tab.Navigator 
       initialRouteName="Snaqies"
-      screenOptions={{headerShown: false, tabBarShowLabel: false}}
+      screenOptions={{headerShown: false, tabBarShowLabel: false, tabBarStyle:{}}}
     >
       <Tab.Screen 
         name="Snaqies" 
         component={HomeScreen} 
         options={{
+          headerShown: true,
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
               <HomeIcon 
@@ -127,9 +128,9 @@ function MainStack() {
       screenOptions={{headerShown: false}}
     >
       <Stack.Screen name="TabNav" component={TabNavigator} />
-      <Stack.Screen name="Post" component={PostScreen} />
-      <Stack.Screen name="Ratings" component={RatingsScreen} />
-      <Stack.Screen name="Price" component={PriceScreen}/>
+      <Stack.Screen name="Post" component={PostScreen} options={{title: "Snaqies", headerShown: true}}/>
+      <Stack.Screen name="Ratings" component={RatingsScreen} options={{title: "Review", headerShown: true}} />
+      <Stack.Screen name="Price" component={PriceScreen} options={{title: "Review", headerShown: true}} />
     </Stack.Navigator>
   );
 }

@@ -8,12 +8,12 @@ function snaq(props) {
     const price = props.price;
     const location = props.location;
     return  (
-        <TouchableOpacity onPress={props.onPress}>
-            <View style={styles.container}>
+        <View style={styles.container}>
+            <TouchableOpacity onPress={props.onPress} style={styles.button}>
                 <Image source={{uri: image}} style={styles.image}/>
                 <Text>{caption}</Text>
-            </View>
-        </TouchableOpacity>
+            </TouchableOpacity>
+        </View>
     );
 }
 
@@ -29,14 +29,19 @@ snaq.defaultProps = {
 
 const styles = StyleSheet.create({
     container: {
-        borderRadius: 8,
-        paddingVertical: 50,
-        paddingHorizontal: 50,
-        margin: 5,
-        backgroundColor: '#33D7FF'
+        borderRadius: 10,
+        paddingHorizontal: 0,
+        paddingVertical: 0,
+        margin: 6,
+        backgroundColor: '#33D7FF',
+        width: '45%',
+        height: 300
+    },
+    button: {
     },
     image: {
-        width: 200,
-        height: 200
+        borderRadius: 10,
+        width: '100%',
+        height: 300,
     }
 });
