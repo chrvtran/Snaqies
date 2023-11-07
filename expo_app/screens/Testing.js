@@ -15,7 +15,7 @@ function Testing({ navigation }) {
 
     const getData = async () => {
         try {
-            const value = await AsyncStorage.getItem("73e93a89-7cdf-11ee-94cc-b90600f5af7a");
+            const value = await AsyncStorage.getItem("@post");
 
             postObj = JSON.parse(value);
             setPost(postObj);
