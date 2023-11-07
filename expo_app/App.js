@@ -133,9 +133,9 @@ function MainStack() {
       }}
     >
       <Stack.Screen name="TabNav" component={TabNavigator} />
-      <Stack.Screen name="Post" component={PostScreen} options={{title: "Snaqies", headerShown: true}} />
-      <Stack.Screen name="Ratings" component={RatingsScreen} options={{title: "Snaqies", headerShown: true}} />
-      <Stack.Screen name="Price" component={PriceScreen} options={{title: "Snaqies", headerShown: true}} />
+      <Stack.Screen name="Post" component={PostScreen} />
+      <Stack.Screen name="Ratings" component={RatingsScreen} />
+      <Stack.Screen name="Price" component={PriceScreen} />
     </Stack.Navigator>
   );
 }
