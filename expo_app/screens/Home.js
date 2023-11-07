@@ -9,7 +9,6 @@ import PriceScreen from './Price';
 function Home({ navigation }) {
   return (
      <ScrollView>
-       <Text>This is the Home Screen!</Text>
        <View style={styles.container}>
           <Snaq onPress={() => navigation.navigate('Post')}/>
           <Snaq onPress={() => navigation.navigate('Post')}/>
