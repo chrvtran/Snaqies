@@ -110,7 +110,7 @@ function TabNavigator() {
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
-              <ProfileIcon 
+              <ReviewIcon 
                 style={{
                   fill: focused ? '#e32f45' : '#748c94'
                 }}
