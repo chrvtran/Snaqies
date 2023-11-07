@@ -78,6 +78,10 @@ function CameraOpen({navigation}) {
 
     if (!result.canceled) {
       setPhoto(result.assets[0]);
+      photoList.current.push(result.assets[0])
+      const newPhotoList = [...photoList.current];
+      setPhotoSet(newPhotoList)
+
     }
   };
 
@@ -188,13 +192,15 @@ function CameraOpen({navigation}) {
         <TouchableOpacity style={styles.picButtons} onPress={resetPhotoList}>
             <Text>Reset Pics</Text>
         </TouchableOpacity>
-        <SafeAreaView style={styles.photoList}> 
-          {photoSet && photoSet.map((photo, index) =>
-            <Image key={index} style={styles.imageRoll} source={{uri: photo.uri}}></Image>
-            )}
-          </SafeAreaView>
           {/* {photoList && photoList.map((photo, index) => <Image key={index} source={{uri: photo.uri}}/>)} */}
       </View>
+      <SafeAreaView style={styles.photoList}> 
+          <ScrollView horizontal={true}>
+            {photoSet && photoSet.map((photo, index) =>
+              <Image key={index} style={styles.imageRoll} source={{uri: photo.uri}}></Image>
+              )}
+            </ScrollView>
+          </SafeAreaView>
       <StatusBar style="auto" />
     </Camera>
   );
@@ -215,7 +221,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 60,
-    bottom: 10,
+    bottom: 100,
     width: '100%',
     position: 'absolute',
   },
@@ -231,8 +237,10 @@ const styles = StyleSheet.create({
 
   },
   photoList: {
+    position: 'absolute',
+    bottom: 0,
     flexDirection: 'row',
-    height: 150,
+    height: 80,
     backgroundColor: 'white',
     width: '100%',
   },
@@ -272,9 +280,10 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   }, 
   imageRoll: {
-    height: 90,
+    height: 80,
     width: 50,
     borderRadius: 5,
+    marginLeft: 5,
   }, 
   textInput: {
     flex: 2,
