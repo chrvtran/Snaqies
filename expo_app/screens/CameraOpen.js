@@ -41,10 +41,12 @@ function CameraOpen({navigation}) {
 
 
   let cameraRef = useRef();
+  let photoList = useRef([]);
   const [post, setPost] = useState();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
+  const [photoSet, setPhotoSet] = useState([]);
   const [caption, setCaption] = useState("");
 
 
@@ -76,6 +78,10 @@ function CameraOpen({navigation}) {
 
     if (!result.canceled) {
       setPhoto(result.assets[0]);
+      photoList.current.push(result.assets[0])
+      const newPhotoList = [...photoList.current];
+      setPhotoSet(newPhotoList)
+
     }
   };
 
@@ -84,87 +90,20 @@ function CameraOpen({navigation}) {
       quality: 1,
       base64: true,
       exif: false,
-      imageType: "jpg"
+      imageType: "jpg",
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
+    photoList.current.push(newPhoto)
+    const newPhotoList = [...photoList.current];
+    setPhotoSet(newPhotoList)
   };
 
-
-  if (photo) {
-    let sharePic = () => {
-      shareAsync(photo.uri).then(() => {
-        setPhoto(undefined);
-      })
-    };
-
-    let savePic = () => {
-      MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        setPhoto(undefined);
-      })
-    };
-    
-
-    return (
-      <ScrollView keyboardShouldPersistTaps='handled' contentContainerStyle={styles.container}>
-        {/* top part */}
-        <SafeAreaView style={styles.headerContainer}>
-          <TouchableOpacity style={styles.topButtons} title="Back" onPress={() => getData()}>
-            <Text>Back</Text>
-          </TouchableOpacity>
-          <SafeAreaView style={styles.topButtons} >
-            <Text>Snaqies</Text>
-          </SafeAreaView>
-          <TouchableOpacity style={styles.topButtons} onPress={() => storeData() && console.log("hello")}>
-            <Text>Post</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.topButtons} onPress={() => console.log(post.caption)}>
-            <Text>test</Text>
-          </TouchableOpacity>
-        </SafeAreaView>
-
-          {/* camera part */}
-        <SafeAreaView style={styles.imageContainer}>
-          <SafeAreaView style={styles.imageInnerCont}>
-            <Image style={styles.image} source={{ uri: photo.uri }} />
-          </SafeAreaView>
-          <Controller
-            control={control}
-            name="fieldName"
-            render={({ field }) => (
-              <TextInput
-                {...field}
-                style={styles.textInput}
-                placeholder="Enter your data"
-                multiline={true}
-                onChangeText={(val) => setCaption(val)}
-                // Add other TextInput props as needed
-              />
-            )}
-          />
-        </SafeAreaView>
-
-        <SafeAreaView style={styles.bottomContainer}>
-              <SafeAreaView style={styles.rateCont}>
-                <Text>Rate</Text>
-              </SafeAreaView>
-              <SafeAreaView style={styles.priceCont}>
-                <Text>Price</Text>
-              </SafeAreaView>
-              <SafeAreaView style={styles.locationCont}>
-                <Text>Location</Text>
-              </SafeAreaView>
-        </SafeAreaView>
-        {/* <Image style={styles.preview} source={{ uri: photo.uri }} /> */}
-
-        <Button title="Share" onPress={sharePic} />
-        {hasMediaLibraryPermission ? <Button title="Save" onPress={savePic} /> : undefined}
-        <Button title="Discard" onPress={() => setPhoto(undefined)} />
-      </ScrollView>
-    );
+  let resetPhotoList = () => {
+    photoList.current = [];
+    setPhotoSet([]);
   }
-
 
   return (
     <Camera style={styles.container} ref={cameraRef}>
@@ -175,7 +114,18 @@ function CameraOpen({navigation}) {
         <TouchableOpacity style={styles.picButtons} title="Pick an image from camera roll" onPress={pickImage}>
             <Text>Upload Pic</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.picButtons} onPress={resetPhotoList}>
+            <Text>Reset Pics</Text>
+        </TouchableOpacity>
+          {/* {photoList && photoList.map((photo, index) => <Image key={index} source={{uri: photo.uri}}/>)} */}
       </View>
+      <SafeAreaView style={styles.photoList}> 
+          <ScrollView horizontal={true}>
+            {photoSet && photoSet.map((photo, index) =>
+              <Image key={index} style={styles.imageRoll} source={{uri: photo.uri}}></Image>
+              )}
+            </ScrollView>
+          </SafeAreaView>
       <StatusBar style="auto" />
     </Camera>
   );
@@ -196,7 +146,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 60,
-    bottom: 10,
+    bottom: 100,
+    width: '100%',
     position: 'absolute',
   },
   picButtons: {
@@ -209,7 +160,14 @@ const styles = StyleSheet.create({
     height: 30,
     backgroundColor: 'white',
 
-
+  },
+  photoList: {
+    position: 'absolute',
+    bottom: 0,
+    flexDirection: 'row',
+    height: 80,
+    backgroundColor: 'white',
+    width: '100%',
   },
   topButtons: {
     justifyContent: 'center',
@@ -245,6 +203,12 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     borderRadius: 25,
+  }, 
+  imageRoll: {
+    height: 80,
+    width: 50,
+    borderRadius: 5,
+    marginLeft: 5,
   }, 
   textInput: {
     flex: 2,
