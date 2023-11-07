@@ -8,27 +8,31 @@ import { Camera } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
+import uuid from 'react-native-uuid';
 
 function CameraOpen({navigation}) {
 
   const { control, handleSubmit } = useForm();
 
   const storeData = async () => {
+    const newuuid = uuid.v1()
     const postObj = {
+      id: newuuid,
       photo: photo.uri,
       caption: caption,
     }
     try {
       const jsonValue = JSON.stringify(postObj)
-      await AsyncStorage.setItem('@post', jsonValue);
+      await AsyncStorage.setItem(newuuid, jsonValue);
+      getData(newuuid)
     } catch (e) {
       // saving error
     }
   };
 
-  const getData = async () => {
+  const getData = async (key) => {
     try {
-      const value = await AsyncStorage.getItem('@post');
+      const value = await AsyncStorage.getItem(key);
       postObj = JSON.parse(value);
       setPost(postObj);
       if (value !== null) {

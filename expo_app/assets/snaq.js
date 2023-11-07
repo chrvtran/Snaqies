@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity, Image, Text, View } from 'react-native';
 
 function snaq(props) {
+    const uuid = props.id;
     const image = props.image;
     const caption = props.caption;
     const rating = props.rating;

@@ -40,6 +40,7 @@ function Testing({ navigation }) {
                 <Snaq image={post.photo} caption={post.caption}></Snaq>
             )} 
             <Text>This is the Bookmarks Screen!</Text>
+            <FlatButton text='Test get all async kets' onPress={() => console.log(AsyncStorage.getAllKeys())}/>
             <StatusBar style="auto" />
         </View>
     );
