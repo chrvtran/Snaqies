@@ -8,8 +8,10 @@ import PriceScreen from './Price';
  
 function Home({ navigation }) {
   return (
-     <ScrollView>
-       <View style={styles.container}>
+     <ScrollView style={styles.container}>
+       <Text style={styles.headertext}>↓ Recent</Text>
+       <View style={styles.snaqcontainer}>
+          <Snaq onPress={() => navigation.navigate('Post')}/>
           <Snaq onPress={() => navigation.navigate('Post')}/>
           <Snaq onPress={() => navigation.navigate('Post')}/>
           <StatusBar style="auto" />
@@ -24,10 +26,21 @@ export default Home;
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#fff'
+  },
+  snaqcontainer: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#fff',
-    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
     justifyContent: 'center',
+    backgroundColor: '#fff'
+  },
+  headertext: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginLeft: 20,
+    marginTop: 15,
+    marginBottom: 5
   }
 });

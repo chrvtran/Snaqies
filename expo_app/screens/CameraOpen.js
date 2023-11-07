@@ -134,6 +134,10 @@ function CameraOpen({navigation}) {
 export default CameraOpen;
 
 const styles = StyleSheet.create({
+  headertext: {
+    fontWeight: 'bold',
+    fontSize: 17
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
