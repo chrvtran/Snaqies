@@ -32,7 +32,6 @@ function TabNavigator() {
         name="Snaqies" 
         component={HomeScreen} 
         options={{
-          headerShown: true,
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
               <HomeIcon 
