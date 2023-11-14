@@ -14,7 +14,6 @@ function Header() {
                 </TouchableOpacity>
                 <Image 
                     source={require('./images/Snaqies_logo.png')}
-                    // style={{width: 40, hieght: 40}}
                     style={styles.image}
                 />
             </View>
@@ -26,17 +25,16 @@ export default Header;
 
 const styles = StyleSheet.create({
     header: {
-        width: '100%',
+        width: '98%',
         height: '100%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between', 
-        // borderWidth: '3px red solid'
     },
     headerText: {
         fontWeight: 'bold',
         fontSize: 25,
-        color: '#333',
+        color: '#737373',
         letterSpacing: 1,
     },
     imageIconContainer: {
