@@ -13,6 +13,19 @@ function Testing({ navigation }) {
 
     const [post, setPost] = useState();
 
+   const getAllKeys = async () => {
+        let keys = []
+        try {
+          keys = await AsyncStorage.getAllKeys()
+        } catch(e) {
+          // read key error
+        }
+      
+        console.log(keys)
+        // example console.log result:
+        // ['@MyApp_user', '@MyApp_key']
+      }
+
     const getData = async () => {
         try {
             const value = await AsyncStorage.getItem("@post");
@@ -40,7 +53,7 @@ function Testing({ navigation }) {
                 <Snaq image={post.photo} caption={post.caption}></Snaq>
             )} 
             <Text>This is the Bookmarks Screen!</Text>
-            <FlatButton text='Test get all async kets' onPress={() => console.log(AsyncStorage.getAllKeys())}/>
+            <FlatButton text='Test get all async keys' onPress={getAllKeys}/>
             <StatusBar style="auto" />
         </View>
     );
