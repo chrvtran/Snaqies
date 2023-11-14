@@ -7,6 +7,7 @@ import HomeScreen from './screens/Home';
 import PostScreen from './screens/Post';
 import CameraOpen from './screens/CameraOpen';
 import LocationScreen from './screens/Location';
+import MapScreen from './screens/Map.js';
 import RatingsScreen from './screens/Ratings';
 import PriceScreen from './screens/Price';
 import TestingScreen from './screens/Testing';
@@ -45,7 +46,7 @@ function TabNavigator() {
       />
       <Tab.Screen 
         name="Location" 
-        component={LocationScreen} 
+        component={MapScreen} 
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
