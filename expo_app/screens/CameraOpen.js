@@ -17,7 +17,7 @@ function CameraOpen({navigation}) {
   const storeData = async () => {
     const newuuid = uuid.v1()
     const postObj = {
-      id: newuuid,
+      uuid: newuuid,
       photo: photo.uri,
       caption: caption,
     }
