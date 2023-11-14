@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { Marker, Callout } from 'react-native-maps';
 import FlatButton from '../assets/button';
 import * as GeoLocation from 'expo-location';
 import { useEffect, useState } from 'react';
@@ -16,12 +16,9 @@ function Location({ navigation }) {
 
       if (status === "granted") {
         console.log("Permission successful!");
-
-        const loc = await GeoLocation.getCurrentPositionAsync() 
-
-        console.log(loc)
-  
-        setLocation(loc)
+        const loc = await GeoLocation.getCurrentPositionAsync(); 
+        console.log(loc);
+        setLocation(loc);
       } else {
         console.log("Permission not granted");
       }
@@ -29,15 +26,43 @@ function Location({ navigation }) {
     })();
   }, []);
 
+  const lat = location.coords.latitude;
+  const long = location.coords.longitude;
+
   return (
     <View style={styles.container}>
       <Text>This is the Location Screen!</Text>
       <FlatButton text='Back to Home' onPress={() => navigation.navigate('Snaqies')}/>
-      <MapView 
-        style={styles.map}
-        // provider='google'
-      />
-      <Text>{JSON.stringify(location)}</Text>
+      { JSON.stringify(location) !== '{}' ?
+        <MapView 
+          style={styles.map}
+          provider='google'
+          region={{
+            latitude: lat,
+            longitude: long,
+            latitudeDelta: 0.004757,
+            longitudeDelta: 0.006866,
+          }}
+        >
+          <Marker 
+            coordinate={{
+              latitude: lat,
+              longitude: long
+            }}
+          > 
+            <Callout>
+              <Text>I'm here</Text>
+            </Callout>
+          </Marker>
+        </MapView> :
+        <View>
+          <MapView 
+            style={styles.map}
+            provider='google'
+          />
+          <Text>Location Permission not Granted</Text>
+        </View>
+      }
     </View>
   );
 }

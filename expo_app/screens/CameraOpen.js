@@ -17,7 +17,7 @@ function CameraOpen({navigation}) {
   const storeData = async () => {
     const newuuid = uuid.v1()
     const postObj = {
-      id: newuuid,
+      uuid: newuuid,
       photo: photo.uri,
       caption: caption,
     }
@@ -73,18 +73,19 @@ function CameraOpen({navigation}) {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
+      allowsMultipleSelection: true,
       aspect: [1, 1],
       quality: 1,
     });
 
     console.log(result);
-
-    if (!result.canceled) {
-      setPhoto(result.assets[0]);
-      photoList.current.push(result.assets[0])
+    let i = 0;
+    while (!result.canceled && i < result.assets.length) {
+      setPhoto(result.assets[i]);
+      photoList.current.push(result.assets[i])
       const newPhotoList = [...photoList.current];
       setPhotoSet(newPhotoList)
+      i++;
 
     }
   };
