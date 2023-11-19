@@ -27,7 +27,7 @@ function TabNavigator() {
   return(
     <Tab.Navigator 
       initialRouteName="Snaqies"
-      screenOptions={{headerShown: false, tabBarShowLabel: false, tabBarStyle:{}}}
+      screenOptions={{headerTitle: () => <Header/>, headerShown: true, tabBarShowLabel: false, tabBarStyle:{}}}
     >
       <Tab.Screen 
         name="Snaqies" 
@@ -42,6 +42,7 @@ function TabNavigator() {
               />
             </View>
           )
+
         }} 
       />
       <Tab.Screen 
@@ -56,7 +57,8 @@ function TabNavigator() {
                 }}
               />
             </View>
-          )
+          ),
+          headerShown: false
         }}
       /> 
       <Tab.Screen 
@@ -71,7 +73,8 @@ function TabNavigator() {
                 }}
               />
             </View>
-          )
+          ),
+          headerShown: false
         }}
       />
       <Tab.Screen 
@@ -86,7 +89,8 @@ function TabNavigator() {
                 }}
               />
             </View>
-          )
+          ),
+          headerShown: false
         }}
       />
       <Tab.Screen 
@@ -101,7 +105,8 @@ function TabNavigator() {
                 }}
               />
             </View>
-          )
+          ),
+          headerShown: false
         }}
       />
       <Tab.Screen 
@@ -116,7 +121,8 @@ function TabNavigator() {
                 }}
               />
             </View>
-          )
+          ),
+          headerShown: false
         }}
       />
     </Tab.Navigator>
@@ -127,15 +133,13 @@ function MainStack() {
   return (
     <Stack.Navigator 
       screenOptions={{
-        headerTitle: () => <Header/>, 
-        headerTitleAlign: 'center',
-        headerBackVisible: false,
+        headerShown: false
       }}
     >
       <Stack.Screen name="TabNav" component={TabNavigator} />
-      <Stack.Screen name="Post" component={PostScreen} />
-      <Stack.Screen name="Ratings" component={RatingsScreen} options={{headerShown: false}}/>
-      <Stack.Screen name="Price" component={PriceScreen} options={{headerShown: false}} />
+      <Stack.Screen name="Post" component={PostScreen} options={{headerShown: true, headerBackVisible: false, headerTitle: () => <Header/>}}/>
+      <Stack.Screen name="Ratings" component={RatingsScreen} />
+      <Stack.Screen name="Price" component={PriceScreen}  />
     </Stack.Navigator>
   );
 }
