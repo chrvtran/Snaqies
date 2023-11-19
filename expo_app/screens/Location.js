@@ -9,6 +9,10 @@ function Location({ navigation }) {
 
   const [location, setLocation] = useState({});
 
+  let lat = 0;
+  let long = 0;
+  let flag = true
+
   useEffect(() => {
     (async() => {
 
@@ -21,13 +25,18 @@ function Location({ navigation }) {
         setLocation(loc);
       } else {
         console.log("Permission not granted");
+        flag = false;
       }
 
     })();
   }, []);
 
-  const lat = location.coords.latitude;
-  const long = location.coords.longitude;
+  // if (flag) {
+  //   // lat = location.coords.latitude;
+  //   // long = location.coords.longitude;
+  // }
+  lat = location.coords.latitude;
+  long = location.coords.longitude;
 
   return (
     <View style={styles.container}>
