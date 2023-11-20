@@ -46,7 +46,7 @@ function TabNavigator() {
       />
       <Tab.Screen 
         name="Location" 
-        component={MapScreen} 
+        component={LocationScreen} 
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
