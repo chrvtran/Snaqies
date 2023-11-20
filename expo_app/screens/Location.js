@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
-import FlatButton from '../assets/button';
 import * as GeoLocation from 'expo-location';
 import { useEffect, useState } from 'react';
+import { GooglePlacesAutoComplete, GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
  
 function Location({ navigation }) {
 
@@ -11,7 +11,6 @@ function Location({ navigation }) {
 
   let lat = 0;
   let long = 0;
-  let flag = true
 
   useEffect(() => {
     (async() => {
@@ -25,23 +24,53 @@ function Location({ navigation }) {
         setLocation(loc);
       } else {
         console.log("Permission not granted");
-        flag = false;
       }
 
     })();
   }, []);
+  
+  if (JSON.stringify(location) !== '{}') {
+    lat = location.coords.latitude;
+    long = location.coords.longitude;
+  }
 
-  // if (flag) {
-  //   // lat = location.coords.latitude;
-  //   // long = location.coords.longitude;
-  // }
-  lat = location.coords.latitude;
-  long = location.coords.longitude;
+  const [ region, setRegion ] = React.useState({
+    latitude: lat,
+    longitude: long,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  })
 
   return (
-    <View style={styles.container}>
-      <Text>This is the Location Screen!</Text>
-      <FlatButton text='Back to Home' onPress={() => navigation.navigate('Snaqies')}/>
+    <View style={{flex: 1}}>
+      <GooglePlacesAutocomplete
+        placeholder="Search"
+        fetchDetails={true}
+        GooglePlacesSearchQuery={{
+          rankby: "distance",
+        }}
+        onPress={(data, details = null) => {
+          console.log(data, details)
+          setRegion({
+            latitude: details.geometry.location.lat,
+            longitude: details.geometry.location.lng,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          })
+        }}
+        query={{
+          key: "AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U",
+          language: "en",
+          components: "country:us",
+          types: "establishment",
+          radius: 30000,
+          location: `${lat}, ${long}`
+        }}
+        styles={{
+          container: { flex: 0, position: "absolute", width: "100%", zIndex: 1 },
+          listView: { backgroundConolor: "white" }
+        }}
+      />
       { JSON.stringify(location) !== '{}' ?
         <MapView 
           style={styles.map}
@@ -53,6 +82,7 @@ function Location({ navigation }) {
             longitudeDelta: 0.006866,
           }}
         >
+          <Marker coordinate={{latitude: region.latitude, longitude: region.longitude}} />
           <Marker 
             coordinate={{
               latitude: lat,
@@ -87,6 +117,6 @@ const styles = StyleSheet.create({
   },
   map: {
     width: '100%',
-    height: '70%'
-  }
+    height: '100%'
+  },
 });
