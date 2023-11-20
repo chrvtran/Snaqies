@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity, Image, Text, View } from 'react-native';
 import review from './review';
 
 function snaq(props) {
-    const uuid = props.uuid;
+    const key = props.uuid;
     const photos = props.photos; // list of images
     const foodtags = props.foodtags; // list of food names
     const restaurantname = props.restaurantname;
@@ -22,7 +22,6 @@ function snaq(props) {
 export default snaq;
 
 snaq.defaultProps = {
-    uuid: null,
     photos: [],
     foodtags: [],
     restaurantname: '',

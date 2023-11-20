@@ -43,7 +43,7 @@ function Home({ navigation }) {
             <Text style={styles.headertext}>↓ Recent</Text>
                 <View style={styles.snaqcontainer}>
                     {posts && posts.map((post) =>
-                    <Snaq uuid={post[0]} photos={post[1].photos} onPress={() => navigation.navigate('Post')} />
+                    <Snaq key={post[0]} photos={post[1].photos} onPress={() => navigation.navigate('Post')} />
                     )}
                     <StatusBar style="auto" />
                 </View>
