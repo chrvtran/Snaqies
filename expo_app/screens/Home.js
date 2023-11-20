@@ -9,23 +9,26 @@ import { AnimatedHeader } from '../assets/AnimateHeader';
  
 function Home({ navigation }) {
 
-  // const scrollY = new Animated.Value(0);
-  // const translateY = scrollY.interpolate({
-  //   inputRange: [0, 64],
-  //   outputRange: [0, -64]
-  // });
+  const scrollY = new Animated.Value(0);
+  const translateY = scrollY.interpolate({
+    inputRange: [0, 64],
+    outputRange: [0, -64]
+  });
 
   return (
-    // <View style={{flex: 1}}>
-    //   {AnimatedHeader(translateY)}
+    <View style={{flex: 1}}>
+      {AnimatedHeader(translateY)}
       <ScrollView 
         style={styles.container}
-        // onScroll={(e)=>{
-        //   scrollY.setValue(e.nativeEvent.contentOffset.y)
-        // }}
+        onScroll={(e)=>{
+          scrollY.setValue(e.nativeEvent.contentOffset.y)
+        }}
       >
         <Text style={styles.headertext}>↓ Recent</Text>
         <View style={styles.snaqcontainer}>
+            <Snaq onPress={() => navigation.navigate('Post')}/>
+            <Snaq onPress={() => navigation.navigate('Post')}/>
+            <Snaq onPress={() => navigation.navigate('Post')}/>
             <Snaq onPress={() => navigation.navigate('Post')}/>
             <Snaq onPress={() => navigation.navigate('Post')}/>
             <Snaq onPress={() => navigation.navigate('Post')}/>
@@ -34,7 +37,7 @@ function Home({ navigation }) {
         <FlatButton text='Ratings Screen' onPress={() => navigation.navigate('Ratings')}/>
         <FlatButton text='Price Screen' onPress={() => navigation.navigate('Price')}/>
       </ScrollView>
-    // </View>
+    </View>
   );
 }
 
@@ -42,7 +45,8 @@ export default Home;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    marginTop: 50
   },
   snaqcontainer: {
     flex: 1,

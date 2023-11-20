@@ -7,12 +7,12 @@ export const AnimatedHeader = (translateY) => {
         style={{
             height: 64,
             transform: [{translateY: translateY}],
-            // position: 'absolute',
-            // top: 0,
-            // right: 0,
-            // left: 0,
-            // elevation: 4,
-            // zIndex: 1,
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            left: 0,
+            elevation: 4,
+            zIndex: 1,
         }}>
             <Header/>
         </Animated.View>

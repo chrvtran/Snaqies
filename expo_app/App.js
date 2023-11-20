@@ -29,7 +29,8 @@ function TabNavigator() {
       initialRouteName="Snaqies"
       screenOptions={{
         headerTitle: () => <Header/>,
-        headerShown: true, 
+        // headerShown: true, 
+        headerShown: false,
         tabBarShowLabel: false, 
         tabBarStyle:{}
       }}
