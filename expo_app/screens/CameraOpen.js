@@ -18,13 +18,13 @@ function CameraOpen({navigation}) {
     const newuuid = uuid.v1()
     const postObj = {
       uuid: newuuid,
-      photo: photo.uri,
-      caption: caption,
+      photos: photoSet.map((photo) => {return photo.uri})
     }
     try {
       const jsonValue = JSON.stringify(postObj)
       await AsyncStorage.setItem(newuuid, jsonValue);
       getData(newuuid)
+      console.log(`Stored at ${uuid}, ${photoSet.length} photo(s)`)
     } catch (e) {
       // saving error
     }
@@ -46,12 +46,11 @@ function CameraOpen({navigation}) {
 
   let cameraRef = useRef();
   let photoList = useRef([]);
+  const [photoSet, setPhotoSet] = useState([]);
   const [post, setPost] = useState();
+  const [photos, setPhoto] = useState();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
-  const [photo, setPhoto] = useState();
-  const [photoSet, setPhotoSet] = useState([]);
-  const [caption, setCaption] = useState("");
 
 
   useEffect(() => {
@@ -122,7 +121,6 @@ function CameraOpen({navigation}) {
         <TouchableOpacity style={styles.picButtons} onPress={resetPhotoList}>
             <Text>Reset Pics</Text>
         </TouchableOpacity>
-          {/* {photoList && photoList.map((photo, index) => <Image key={index} source={{uri: photo.uri}}/>)} */}
       </View>
       <SafeAreaView style={styles.photoList}> 
           <ScrollView horizontal={true}>

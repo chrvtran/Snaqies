@@ -49,11 +49,11 @@ function Testing({ navigation }) {
 
     return (
         <View style={styles.container}>
-            {post && post.caption !== undefined && (
-                <Snaq photos={post.photo} restaurantname={post.caption}></Snaq>
+            {post !== undefined && (
+                <Snaq photos={post.photos}></Snaq>
             )} 
-            <Text>This is the Bookmarks Screen!</Text>
-            <FlatButton text='Test get all async keys' onPress={getAllKeys}/>
+            <Text>Testing Page</Text>
+            <FlatButton text='Async getAllKeys' onPress={getAllKeys} />
             <StatusBar style="auto" />
         </View>
     );
