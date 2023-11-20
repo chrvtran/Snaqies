@@ -27,7 +27,12 @@ function TabNavigator() {
   return(
     <Tab.Navigator 
       initialRouteName="Snaqies"
-      screenOptions={{headerTitle: () => <Header/>, headerShown: true, tabBarShowLabel: false, tabBarStyle:{}}}
+      screenOptions={{
+        headerTitle: () => <Header/>,
+        headerShown: true, 
+        tabBarShowLabel: false, 
+        tabBarStyle:{}
+      }}
     >
       <Tab.Screen 
         name="Snaqies" 
