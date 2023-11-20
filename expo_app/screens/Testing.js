@@ -13,31 +13,36 @@ function Testing({ navigation }) {
 
     const [post, setPost] = useState();
 
-   const getAllKeys = async () => {
+    const getAllKeys = async () => {
         let keys = []
         try {
-          keys = await AsyncStorage.getAllKeys()
-        } catch(e) {
-          // read key error
+            keys = await AsyncStorage.getAllKeys()
+        } catch (e) {
+            // read key error
         }
-      
+
         console.log(keys)
         // example console.log result:
         // ['@MyApp_user', '@MyApp_key']
-      }
+    }
 
     const getData = async () => {
         try {
-            const value = await AsyncStorage.getItem("@post");
+            const value = await AsyncStorage.getItem("b07d5bf4-82ae-11ee-9ba8-ef578d824ade");
 
-            postObj = JSON.parse(value);
-            setPost(postObj);
             if (value !== null) {
-                // value previously stored
+                // We retrieved data
+                postObj = JSON.parse(value);
+                setPost(postObj);
+            }
+            else {
+                throw "ERROR: Cannot retrieve AsyncStorage data in Testing.js";
             }
         } catch (e) {
-            console.error("error");
             // error reading value
+            console.error(e);
+            // This file location just works to give no image in the snaq
+            setPost({ "photos": ["expo_app\assets\icons\search.svg"] });
         }
     };
 
@@ -51,9 +56,11 @@ function Testing({ navigation }) {
         <View style={styles.container}>
             {post !== undefined && (
                 <Snaq photos={post.photos}></Snaq>
-            )} 
+            )}
             <Text>Testing Page</Text>
             <FlatButton text='Async getAllKeys' onPress={getAllKeys} />
+            <FlatButton text='Ratings Screen' onPress={() => navigation.navigate('Ratings')} />
+            <FlatButton text='Price Screen' onPress={() => navigation.navigate('Price')} />
             <StatusBar style="auto" />
         </View>
     );
