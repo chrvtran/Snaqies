@@ -41,15 +41,12 @@ function Home({ navigation }) {
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.headertext}>↓ Recent</Text>
-            <View style={styles.snaqcontainer}>
-                <Snaq onPress={() => navigation.navigate('Post')} />
-                <Snaq onPress={() => navigation.navigate('Post')} />
-                <Snaq onPress={() => navigation.navigate('Post')} />
-                {/* {posts && photoSet.map((photo, index) =>
-                <Image key={index} style={styles.imageRoll} source={{uri: photo.uri}}></Image>
-                )} */}
-                <StatusBar style="auto" />
-            </View>
+                <View style={styles.snaqcontainer}>
+                    {posts && posts.map((post) =>
+                    <Snaq uuid={post[0]} photos={post[1].photos} onPress={() => navigation.navigate('Post')} />
+                    )}
+                    <StatusBar style="auto" />
+                </View>
             <StatusBar style="auto" />
         </ScrollView>
     );

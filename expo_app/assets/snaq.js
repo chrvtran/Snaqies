@@ -14,7 +14,6 @@ function snaq(props) {
         <View style={styles.container}>
             <TouchableOpacity onPress={props.onPress} style={styles.button}>
                 <Image source={{uri: photos[0]}} style={styles.photo}/>
-                <Text>{restaurantname}</Text>
             </TouchableOpacity>
         </View>
     );
