@@ -20,4 +20,7 @@ Ever want to remember what foods and restaurants you tried before? Try using Sna
 - React Native app intentionally automatically resizes a sourced image if there is no style dimension provided, EXCEPT for browsers which resize to 0x0
 
 ## Bugs
--
+- WARN  Key "cancelled" in the image picker result is deprecated and will be removed in SDK 48, use "canceled" instead
+    - We are not using "cancelled" in CameraOpen.js
+- WARN  Possible Unhandled Promise Rejection (id: 0): Error: Another photo capture is already being processed. Await the first call.
+    - Some input time or optimizing issue not important for right now
