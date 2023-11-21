@@ -45,7 +45,6 @@ function Home({ navigation }) {
                     {posts && posts.map((post) =>
                     <Snaq key={post[0]} photos={post[1].photos} onPress={() => navigation.navigate('Post')} />
                     )}
-                    <StatusBar style="auto" />
                 </View>
             <StatusBar style="auto" />
         </ScrollView>
