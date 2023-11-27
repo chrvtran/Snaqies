@@ -1,7 +1,7 @@
 # Snaqies
 
 ## About the Project
-Ever want to remember what foods and restaurants you tried before? Try using Snaqies! This app is designed to make logging your food adventures easy, aesthetic, and memorable. Don't forget where you had the best ramen of your life. Take a picture, write some comments, and tag a location so that you can remember your experiences and share them with your friends. Organize your food thoughts into one convenient app!
+Ever wanted to remember what foods and restaurants you tried before? Try using Snaqies! This app is designed to make logging your food adventures easy, aesthetic, and memorable. Don't forget where you had the best ramen of your life. Take a picture, write a review, and tag a location so that you can remember your experiences and share them with your friends. Organize your food thoughts into one convenient app!
 
 ## Running the Expo App
 ### Prerequisites
