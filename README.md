@@ -5,7 +5,7 @@ Ever wanted to remember what foods and restaurants you tried before? Try using S
 
 ## Running the Expo App
 ### Prerequisites
-- Install `Expo Go` on your mobile device. Making changes in your IDE will make live updates to the project view in the app.
+- Install `Expo Go` on your mobile device. Making changes in your IDE will make live updates to Expo Go.
 - Alternatively, you can install `Expo Go` on a desktop emulator.
 - Install the necessary *dependencies* under `expo_app\package.json` with `npm install` *`dependency`*
 
