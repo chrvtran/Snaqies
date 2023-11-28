@@ -7,7 +7,7 @@ Ever wanted to remember what foods and restaurants you tried before? Try using S
 ### Prerequisites
 - Install `Expo Go` on your mobile device. Making changes in your IDE will make live updates to Expo Go
 - Alternatively, you can install `Expo Go` on a desktop emulator
-- Install the necessary *dependencies* under `expo_app\package.json` with `npm install` `*dependency*`
+- Install the necessary *dependencies* under `expo_app\package.json` with `npm install` *`dependency`*
 
 ### Running via Terminal
 1. `cd` to your local repo and then into `expo_app`
