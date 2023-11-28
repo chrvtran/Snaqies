@@ -123,12 +123,12 @@ function CameraOpen({navigation}) {
         </TouchableOpacity>
       </View>
       <SafeAreaView style={styles.photoList}> 
-          <ScrollView horizontal={true}>
-            {photoSet && photoSet.map((photo, index) =>
-              <Image key={index} style={styles.imageRoll} source={{uri: photo.uri}}></Image>
-              )}
-            </ScrollView>
-          </SafeAreaView>
+        <ScrollView horizontal={true}>
+          {photoSet && photoSet.map((photo, index) =>
+            <Image key={index} style={styles.imageRoll} source={{uri: photo.uri}}></Image>
+          )}
+        </ScrollView>
+      </SafeAreaView>
       <StatusBar style="auto" />
     </Camera>
   );
