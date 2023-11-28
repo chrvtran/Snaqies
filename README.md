@@ -17,9 +17,6 @@ Ever wanted to remember what foods and restaurants you tried before? Try using S
 4. Shake your phone or press the screen with three-fingers to bring up an additional overlay
 5. Press the keys `Ctrl + c` to stop the server
 
-## Notes: App vs Web
-- React Native app intentionally automatically resizes a sourced image if there is no style dimension provided, EXCEPT for browsers which resize to 0x0
-
 ## Bugs
 - WARN  Key "cancelled" in the image picker result is deprecated and will be removed in SDK 48, use "canceled" instead
     - We are not using "cancelled" in CameraOpen.js
