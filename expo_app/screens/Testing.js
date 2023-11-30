@@ -7,6 +7,8 @@ import FlatButton from "../assets/button";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Snaq from "../assets/snaq";
 
+import styles from './screenStyles';
+
 function Testing({ navigation }) {
 
     const isFocused = useIsFocused();
@@ -53,7 +55,7 @@ function Testing({ navigation }) {
     }, [isFocused]);
 
     return (
-        <View style={styles.container}>
+        <View style={styles.testingContainer}>
             {post !== undefined && (
                 <Snaq photos={post.photos}></Snaq>
             )}
@@ -67,12 +69,3 @@ function Testing({ navigation }) {
 }
 
 export default Testing;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});
