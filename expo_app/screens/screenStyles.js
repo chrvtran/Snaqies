@@ -76,8 +76,7 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     height: '200',
-    backgroundColor: 'green',
-    
+    backgroundColor: 'green'
   },
   COPicButtons: {
     margin: 5,
@@ -140,7 +139,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   locationMap: {
     width: '100%',
@@ -150,20 +149,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   priceContainer: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   pricePickerText: {
     fontWeight: 'bold',
     fontSize: 32,
+  },
+  profileContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
-
-
 });
 
 export default styles;
