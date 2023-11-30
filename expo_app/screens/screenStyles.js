@@ -151,7 +151,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  priceContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pricePickerText: {
+    fontWeight: 'bold',
+    fontSize: 32,
   }
+
 
 });
 

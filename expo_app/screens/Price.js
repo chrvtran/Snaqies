@@ -4,14 +4,16 @@ import { StyleSheet, Text, View } from 'react-native';
 import FlatButton from '../assets/button';
 import {Picker} from "@react-native-picker/picker";
 
+import styles from './screenStyles';
+
 function Price({ navigation }) {
     const [Enable, setEnable] = useState("prices");
     return (
-        <View style={styles.container}>
+        <View style={styles.priceContainer}>
             <Text>This is the Price Screen!</Text>
             <FlatButton text='Back to Home' onPress={() => navigation.navigate('Snaqies')}/>
             <View>        
-                <Text style={styles.pickerText}>Select the Price</Text>
+                <Text style={styles.pricePickerText}>Select the Price</Text>
                 <Picker
                     selectedValue={Enable}
                     style={{ height: 50, width: 250 }}
@@ -35,16 +37,3 @@ function Price({ navigation }) {
 }
 
 export default Price;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  pickerText: {
-    fontWeight: 'bold',
-    fontSize: 32,
-  }
-});
