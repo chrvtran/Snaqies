@@ -1,6 +1,7 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, Button, Image, Pressable, TextInput, ScrollView, TouchableOpacity} from 'react-native';
+import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
@@ -9,6 +10,8 @@ import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
+import NextArrow from 'expo_app/assets/icons/next-arrow.svg'
+import Slider from 'expo_app/assets/slider.js'
 
 function CameraOpen({navigation}) {
 
@@ -43,6 +46,7 @@ function CameraOpen({navigation}) {
     }
   };
 
+  const isFocused = useIsFocused();
 
   let cameraRef = useRef();
   let photoList = useRef([]);
@@ -51,6 +55,8 @@ function CameraOpen({navigation}) {
   const [photos, setPhoto] = useState();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
+  const [pickedImages, setPickedImages] = useState(false);
+  
 
 
   useEffect(() => {
@@ -59,8 +65,11 @@ function CameraOpen({navigation}) {
       const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
       setHasCameraPermission(cameraPermission.status === "granted");
       setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
+      if (isFocused) {
+        setPickedImages(false);
+    }
     })();
-  }, []);
+  }, [isFocused]);
 
   if (hasCameraPermission === undefined) {
     return <Text>Requesting Permissions...</Text>
@@ -107,31 +116,69 @@ function CameraOpen({navigation}) {
   let resetPhotoList = () => {
     photoList.current = [];
     setPhotoSet([]);
+    setPickedImages(false);
   }
 
-  return (
-    <Camera style={styles.container} ref={cameraRef}>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.picButtons} onPress={takePic}>
-          <Text>Take Pic</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.picButtons} title="Pick an image from camera roll" onPress={pickImage}>
-            <Text>Upload Pic</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.picButtons} onPress={resetPhotoList}>
-            <Text>Reset Pics</Text>
-        </TouchableOpacity>
-      </View>
-      <SafeAreaView style={styles.photoList}> 
-          <ScrollView horizontal={true}>
-            {photoSet && photoSet.map((photo, index) =>
-              <Image key={index} style={styles.imageRoll} source={{uri: photo.uri}}></Image>
-              )}
-            </ScrollView>
+  return  (
+    <>
+      {!pickedImages &&
+        <Camera style={styles.container} ref={cameraRef}>
+          <View style={styles.nextButton}>
+            <TouchableOpacity onPress={() => setPickedImages(true)}>
+              <NextArrow style={styles.icon}/>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.picButtons} onPress={takePic}>
+              <Text>Take Pic</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.picButtons} title="Pick an image from camera roll" onPress={pickImage}>
+                <Text>Upload Pic</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.picButtons} onPress={resetPhotoList}>
+                <Text>Reset Pics</Text>
+            </TouchableOpacity>
+          </View>
+          <SafeAreaView style={styles.photoList}> 
+            <ScrollView horizontal={true}>
+              {photoSet && photoSet.map((photo, index) =>
+                <Image key={index} style={styles.imageRoll} source={{uri: photo.uri}}></Image>
+                )}
+              </ScrollView>
           </SafeAreaView>
-      <StatusBar style="auto" />
-    </Camera>
+        <StatusBar style="auto" />
+      </Camera>
+    }
+    {pickedImages &&
+      <SafeAreaView style={styles.container}>
+        <Slider photos={photoSet}/>
+        <View style={styles.nextButton}>
+          <TouchableOpacity onPress={() => setPickedImages(true)}>
+            <NextArrow style={styles.icon}/>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.picButtons} title="Pick an image from camera roll" onPress={pickImage}>
+              <Text>Upload Pic</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.picButtons} onPress={resetPhotoList}>
+              <Text>Reset Pics</Text>
+          </TouchableOpacity>
+        </View>
+        <SafeAreaView style={styles.photoList}> 
+            <ScrollView horizontal={true}>
+              {photoSet && photoSet.map((photo, index) =>
+                <Image key={index} style={styles.imageRoll} source={{uri: photo.uri}}></Image>
+                )}
+              </ScrollView>
+            </SafeAreaView>
+        <StatusBar style="auto" />
+    </SafeAreaView>
+    }
+    </>
   );
+
+  
 }
 
 export default CameraOpen;
@@ -156,6 +203,14 @@ const styles = StyleSheet.create({
     bottom: 100,
     width: '100%',
     position: 'absolute',
+  },
+  nextButton: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    height: '200',
+    backgroundColor: 'green',
+
   },
   picButtons: {
     margin: 5,
@@ -211,6 +266,10 @@ const styles = StyleSheet.create({
     width: 100,
     borderRadius: 25,
   }, 
+  fullImageRoll: {
+    height: 200,
+    width: 100,
+  },
   imageRoll: {
     height: 80,
     width: 50,
@@ -237,5 +296,10 @@ const styles = StyleSheet.create({
   locationCont: {
     flex: 1,
     backgroundColor: 'blue'
+  },
+  icon: {
+    width: '100%',
+    height: '100%',
+    fill: '#748c94'
   }
 });
