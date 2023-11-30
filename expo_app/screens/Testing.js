@@ -1,6 +1,6 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Pressable, Image } from "react-native";
+import { Text, View, Pressable, Image } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import FlatButton from "../assets/button";

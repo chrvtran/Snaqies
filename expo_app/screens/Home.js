@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import Snaq from '../assets/snaq';
 import FlatButton from '../assets/button';
 import { useIsFocused } from "@react-navigation/native";
