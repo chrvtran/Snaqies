@@ -166,6 +166,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  ratingsContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  ratingsText: {
+      fontWeight: 'bold',
+      fontSize: 32
   }
 });
 
