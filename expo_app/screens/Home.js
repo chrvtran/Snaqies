@@ -7,6 +7,8 @@ import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import styles from './screenStyles';
+
 function Home({ navigation }) {
 
     const isFocused = useIsFocused();
@@ -39,9 +41,9 @@ function Home({ navigation }) {
     }, [isFocused]);
 
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.headertext}>↓ Recent</Text>
-                <View style={styles.snaqcontainer}>
+        <ScrollView style={styles.homeContainer}>
+            <Text style={styles.homeHeaderText}>↓ Recent</Text>
+                <View style={styles.homeSnaqContainer}>
                     {posts && posts.map((post) =>
                     <Snaq key={post[0]} photos={post[1].photos} onPress={() => navigation.navigate('Post')} />
                     )}
@@ -53,23 +55,3 @@ function Home({ navigation }) {
 
 export default Home;
 
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#fff'
-    },
-    snaqcontainer: {
-        flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        backgroundColor: '#fff'
-    },
-    headertext: {
-        fontWeight: 'bold',
-        fontSize: 20,
-        marginLeft: 20,
-        marginTop: 15,
-        marginBottom: 5
-    }
-});

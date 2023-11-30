@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import SearchIcon from './icons/search.svg'
+import SearchIcon from './icons/search.svg';
+
+import styles from './styles';
 
 function Header() {
     return (
@@ -10,11 +12,11 @@ function Header() {
             </View>
             <View style={styles.imageIconContainer}>
                 <TouchableOpacity>
-                    <SearchIcon style={styles.icon}/>
+                    <SearchIcon style={styles.headerIcon}/>
                 </TouchableOpacity>
                 <Image 
                     source={require('./images/Snaqies_logo.png')}
-                    style={styles.image}
+                    style={styles.headerImage}
                 />
             </View>
         </View>
@@ -23,34 +25,4 @@ function Header() {
 
 export default Header;
 
-const styles = StyleSheet.create({
-    header: {
-        width: '98%',
-        height: '100%',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between', 
-    },
-    headerText: {
-        fontWeight: 'bold',
-        fontSize: 25,
-        color: '#737373',
-        letterSpacing: 1,
-    },
-    imageIconContainer: {
-        width: '50%',
-        height: '50%',
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-    },
-    image: {
-        width: 50,
-        height: 50,
-        resizeMode: 'contain'
-    }, 
-    icon: {
-        width: '100%',
-        height: '100%'
-    }
-});
+

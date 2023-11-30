@@ -13,6 +13,8 @@ import uuid from 'react-native-uuid';
 import NextArrow from 'expo_app/assets/icons/next-arrow.svg'
 import Slider from 'expo_app/assets/slider.js'
 
+import styles from './screenStyles.js';
+
 function CameraOpen({navigation}) {
 
   const { control, handleSubmit } = useForm();
@@ -122,27 +124,27 @@ function CameraOpen({navigation}) {
   return  (
     <>
       {!pickedImages &&
-        <Camera style={styles.container} ref={cameraRef}>
-          <View style={styles.nextButton}>
+        <Camera style={styles.COContainer} ref={cameraRef}>
+          <View style={styles.CONextButton}>
             <TouchableOpacity onPress={() => setPickedImages(true)}>
-              <NextArrow style={styles.icon}/>
+              <NextArrow style={styles.COIcon}/>
             </TouchableOpacity>
           </View>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.picButtons} onPress={takePic}>
+          <View style={styles.COButtonContainer}>
+            <TouchableOpacity style={styles.COPicButtons} onPress={takePic}>
               <Text>Take Pic</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.picButtons} title="Pick an image from camera roll" onPress={pickImage}>
+            <TouchableOpacity style={styles.COPicButtons} title="Pick an image from camera roll" onPress={pickImage}>
                 <Text>Upload Pic</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.picButtons} onPress={resetPhotoList}>
+            <TouchableOpacity style={styles.COPicButtons} onPress={resetPhotoList}>
                 <Text>Reset Pics</Text>
             </TouchableOpacity>
           </View>
-          <SafeAreaView style={styles.photoList}> 
+          <SafeAreaView style={styles.COPhotoList}> 
             <ScrollView horizontal={true}>
               {photoSet && photoSet.map((photo, index) =>
-                <Image key={index} style={styles.imageRoll} source={{uri: photo.uri}}></Image>
+                <Image key={index} style={styles.COImageRoll} source={{uri: photo.uri}}></Image>
                 )}
               </ScrollView>
           </SafeAreaView>
@@ -150,25 +152,25 @@ function CameraOpen({navigation}) {
       </Camera>
     }
     {pickedImages &&
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.COContainer}>
         <Slider photos={photoSet}/>
-        <View style={styles.nextButton}>
+        <View style={styles.CONextButton}>
           <TouchableOpacity onPress={() => setPickedImages(true)}>
-            <NextArrow style={styles.icon}/>
+            <NextArrow style={styles.COIcon}/>
           </TouchableOpacity>
         </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.picButtons} title="Pick an image from camera roll" onPress={pickImage}>
+        <View style={styles.COButtonContainer}>
+          <TouchableOpacity style={styles.COPicButtons} title="Pick an image from camera roll" onPress={pickImage}>
               <Text>Upload Pic</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.picButtons} onPress={resetPhotoList}>
+          <TouchableOpacity style={styles.COPicButtons} onPress={resetPhotoList}>
               <Text>Reset Pics</Text>
           </TouchableOpacity>
         </View>
-        <SafeAreaView style={styles.photoList}> 
+        <SafeAreaView style={styles.COPhotoList}> 
             <ScrollView horizontal={true}>
               {photoSet && photoSet.map((photo, index) =>
-                <Image key={index} style={styles.imageRoll} source={{uri: photo.uri}}></Image>
+                <Image key={index} style={styles.COImageRoll} source={{uri: photo.uri}}></Image>
                 )}
               </ScrollView>
             </SafeAreaView>
@@ -182,124 +184,3 @@ function CameraOpen({navigation}) {
 }
 
 export default CameraOpen;
-
-const styles = StyleSheet.create({
-  headertext: {
-    fontWeight: 'bold',
-    fontSize: 17
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonContainer: {
-    // flex: 1,
-    margin: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 60,
-    bottom: 100,
-    width: '100%',
-    position: 'absolute',
-  },
-  nextButton: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    height: '200',
-    backgroundColor: 'green',
-
-  },
-  picButtons: {
-    margin: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    borderRadius: 20,
-    width: 100,
-    height: 30,
-    backgroundColor: 'white',
-
-  },
-  photoList: {
-    position: 'absolute',
-    bottom: 0,
-    flexDirection: 'row',
-    height: 80,
-    backgroundColor: 'white',
-    width: '100%',
-  },
-  topButtons: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    // backgroundColor: '#008000',
-    width: 60,
-    // height: 40,
-  },
-  headerContainer: {
-    flex: 1,
-    width: '100%',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    // height: 40,
-    // width: 100,
-    
-  },
-  imageContainer: {
-    flex: 3,
-    backgroundColor: 'yellow',
-    alignSelf: 'stretch',
-    height: '30%',
-    flexDirection: 'row',
-  },
-  imageInnerCont: {
-    backgroundColor: 'red',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  image: {
-    height: 100,
-    width: 100,
-    borderRadius: 25,
-  }, 
-  fullImageRoll: {
-    height: 200,
-    width: 100,
-  },
-  imageRoll: {
-    height: 80,
-    width: 50,
-    borderRadius: 5,
-    marginLeft: 5,
-  }, 
-  textInput: {
-    flex: 2,
-    borderWidth: 1,
-    // alignContent: 'stretch',
-  },
-  bottomContainer: {
-    width: '100%',
-    flex: 7,
-  },
-  rateCont: {
-    flex: 1,
-    backgroundColor: 'red'
-  }, 
-  priceCont: {
-    flex: 1,
-    backgroundColor: 'green'
-  },
-  locationCont: {
-    flex: 1,
-    backgroundColor: 'blue'
-  },
-  icon: {
-    width: '100%',
-    height: '100%',
-    fill: '#748c94'
-  }
-});

@@ -4,6 +4,8 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 import * as GeoLocation from 'expo-location';
 import { useEffect, useState } from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+
+import styles from './screenStyles';
  
 function Location({ navigation }) {
 
@@ -73,7 +75,7 @@ function Location({ navigation }) {
       />
       { JSON.stringify(location) !== '{}' ?
         <MapView 
-          style={styles.map}
+          style={styles.locationMap}
           provider='google'
           region={{
             latitude: lat,
@@ -96,7 +98,7 @@ function Location({ navigation }) {
         </MapView> :
         <View>
           <MapView 
-            style={styles.map}
+            style={styles.locationMap}
             provider='google'
           />
           <Text>Location Permission not Granted</Text>
@@ -108,15 +110,3 @@ function Location({ navigation }) {
 
 export default Location;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  map: {
-    width: '100%',
-    height: '100%'
-  },
-});
