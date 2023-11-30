@@ -26,39 +26,28 @@ function Testing({ navigation }) {
         // ['@MyApp_user', '@MyApp_key']
     }
 
-    const getData = async () => {
+    const clearAsync = async () => {
+        let keys = []
         try {
-            const value = await AsyncStorage.getItem("b07d5bf4-82ae-11ee-9ba8-ef578d824ade");
-
-            if (value !== null) {
-                // We retrieved data
-                postObj = JSON.parse(value);
-                setPost(postObj);
-            }
-            else {
-                throw "ERROR: Cannot retrieve AsyncStorage data in Testing.js";
-            }
+            keys = await AsyncStorage.getAllKeys()
+            await AsyncStorage.multiRemove(keys);
         } catch (e) {
-            // error reading value
-            console.error(e);
-            // This file location just works to give no image in the snaq
-            setPost({ "photos": ["expo_app\assets\icons\search.svg"] });
+            // read key error
         }
-    };
+        console.log("cleared")
+    }
 
     useEffect(() => {
         if (isFocused) {
-            getData();
+            
         }
     }, [isFocused]);
 
     return (
         <View style={styles.container}>
-            {post !== undefined && (
-                <Snaq photos={post.photos}></Snaq>
-            )}
             <Text>Testing Page</Text>
             <FlatButton text='Async getAllKeys' onPress={getAllKeys} />
+            <FlatButton text='Clear Async Storage' onPress={clearAsync} />
             <FlatButton text='Ratings Screen' onPress={() => navigation.navigate('Ratings')} />
             <FlatButton text='Price Screen' onPress={() => navigation.navigate('Price')} />
             <StatusBar style="auto" />
