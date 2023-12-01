@@ -165,6 +165,9 @@ function CameraOpen({navigation}) {
           <TouchableOpacity style={styles.cameraPicButtons} onPress={resetPhotoList}>
               <Text>Reset Pics</Text>
           </TouchableOpacity>
+          <TouchableOpacity style={styles.picButtons} onPress={storeData}>
+              <Text>Create Snaq</Text>
+          </TouchableOpacity>
         </View>
         <SafeAreaView style={styles.cameraPhotoList}> 
             <ScrollView horizontal={true}>
