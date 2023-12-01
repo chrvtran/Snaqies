@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  
+
   cameraBottomContainer: {
     width: '100%',
     flex: 7
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     height: 60,
     bottom: 100,
     width: '100%',
-    position: 'absolute',
+    position: 'absolute'
   },
   cameraFullImageRoll: {
     height: 200,
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     justifyContent: 'space-between',
-    flexDirection: 'row',
+    flexDirection: 'row'
     // height: 40,
     // width: 100,
   },
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'yellow',
     alignSelf: 'stretch',
     height: '30%',
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   cameraImage: {
     height: 100,
