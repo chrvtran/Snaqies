@@ -2,11 +2,11 @@ import { StyleSheet } from "react-native";
 
 
 const styles = StyleSheet.create({
-  COBottomContainer: {
+  cameraBottomContainer: {
     width: '100%',
     flex: 7
   },
-  COButtonContainer: {
+  cameraButtonContainer: {
     // flex: 1,
     margin: 10,
     alignItems: 'center',
@@ -16,17 +16,17 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'absolute',
   },
-  COContainer: {
+  cameraContainer: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  COFullImageRoll: {
+  cameraFullImageRoll: {
     height: 200,
     width: 100
   },
-  COHeaderContainer: {
+  cameraHeaderContainer: {
     flex: 1,
     width: '100%',
     justifyContent: 'space-between',
@@ -34,51 +34,51 @@ const styles = StyleSheet.create({
     // height: 40,
     // width: 100,
   },
-  COHeaderText: {
+  cameraHeaderText: {
     fontWeight: 'bold',
     fontSize: 17
   },
-  COIcon: {
+  cameraIcon: {
     width: '100%',
     height: '100%',
     fill: '#748c94'
   },
-  COImageContainer: {
+  cameraImageContainer: {
     flex: 3,
     backgroundColor: 'yellow',
     alignSelf: 'stretch',
     height: '30%',
     flexDirection: 'row',
   },
-  COImage: {
+  cameraImage: {
     height: 100,
     width: 100,
     borderRadius: 25
   }, 
-  COImageInnerCont: {
+  cameraImageInnerCont: {
     backgroundColor: 'red',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
-  COImageRoll: {
+  cameraImageRoll: {
     height: 80,
     width: 50,
     borderRadius: 5,
     marginLeft: 5
   }, 
-  COLocationCont: {
+  cameraLocationCont: {
     flex: 1,
     backgroundColor: 'blue'
   },
-  CONextButton: {
+  cameraNextButton: {
     position: 'absolute',
     top: 0,
     right: 0,
     height: '200',
     backgroundColor: 'green'
   },
-  COPicButtons: {
+  cameraPicButtons: {
     margin: 5,
     justifyContent: 'center',
     alignItems: 'center',
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     height: 30,
     backgroundColor: 'white'
   },
-  COPhotoList: {
+  cameraPhotoList: {
     position: 'absolute',
     bottom: 0,
     flexDirection: 'row',
@@ -96,20 +96,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     width: '100%'
   },
-  COPriceCont: {
+  cameraPriceCont: {
     flex: 1,
     backgroundColor: 'green'
   },
-  CORateCont: {
+  cameraRateCont: {
     flex: 1,
     backgroundColor: 'red'
   }, 
-  COTextInput: {
+  cameraTextInput: {
     flex: 2,
     borderWidth: 1
     // alignContent: 'stretch',
   },
-  COTopButtons: {
+  cameraTopButtons: {
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
@@ -117,8 +117,8 @@ const styles = StyleSheet.create({
     width: 60
     // height: 40,
   },
-    homeContainer: {
-      backgroundColor: '#fff'
+  homeContainer: {
+    backgroundColor: '#fff'
   },
   homeSnaqContainer: {
       flex: 1,

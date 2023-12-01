@@ -123,27 +123,27 @@ function CameraOpen({navigation}) {
   return  (
     <>
       {!pickedImages &&
-        <Camera style={styles.COContainer} ref={cameraRef}>
-          <View style={styles.CONextButton}>
+        <Camera style={styles.cameraContainer} ref={cameraRef}>
+          <View style={styles.cameraNextButton}>
             <TouchableOpacity onPress={() => setPickedImages(true)}>
-              <NextArrow style={styles.COIcon}/>
+              <NextArrow style={styles.cameraIcon}/>
             </TouchableOpacity>
           </View>
-          <View style={styles.COButtonContainer}>
-            <TouchableOpacity style={styles.COPicButtons} onPress={takePic}>
+          <View style={styles.cameraButtonContainer}>
+            <TouchableOpacity style={styles.cameraPicButtons} onPress={takePic}>
               <Text>Take Pic</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.COPicButtons} title="Pick an image from camera roll" onPress={pickImage}>
+            <TouchableOpacity style={styles.cameraPicButtons} title="Pick an image from camera roll" onPress={pickImage}>
                 <Text>Upload Pic</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.COPicButtons} onPress={resetPhotoList}>
+            <TouchableOpacity style={styles.cameraPicButtons} onPress={resetPhotoList}>
                 <Text>Reset Pics</Text>
             </TouchableOpacity>
           </View>
-          <SafeAreaView style={styles.COPhotoList}> 
+          <SafeAreaView style={styles.cameraPhotoList}> 
             <ScrollView horizontal={true}>
               {photoSet && photoSet.map((photo, index) =>
-                <Image key={index} style={styles.COImageRoll} source={{uri: photo.uri}}></Image>
+                <Image key={index} style={styles.cameraImageRoll} source={{uri: photo.uri}}></Image>
                 )}
               </ScrollView>
           </SafeAreaView>
@@ -151,25 +151,25 @@ function CameraOpen({navigation}) {
       </Camera>
     }
     {pickedImages &&
-      <SafeAreaView style={styles.COContainer}>
+      <SafeAreaView style={styles.cameraContainer}>
         <Slider photos={photoSet}/>
-        <View style={styles.CONextButton}>
+        <View style={styles.cameraNextButton}>
           <TouchableOpacity onPress={() => setPickedImages(true)}>
-            <NextArrow style={styles.COIcon}/>
+            <NextArrow style={styles.cameraIcon}/>
           </TouchableOpacity>
         </View>
-        <View style={styles.COButtonContainer}>
-          <TouchableOpacity style={styles.COPicButtons} title="Pick an image from camera roll" onPress={pickImage}>
+        <View style={styles.cameraButtonContainer}>
+          <TouchableOpacity style={styles.cameraPicButtons} title="Pick an image from camera roll" onPress={pickImage}>
               <Text>Upload Pic</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.COPicButtons} onPress={resetPhotoList}>
+          <TouchableOpacity style={styles.cameraPicButtons} onPress={resetPhotoList}>
               <Text>Reset Pics</Text>
           </TouchableOpacity>
         </View>
-        <SafeAreaView style={styles.COPhotoList}> 
+        <SafeAreaView style={styles.cameraPhotoList}> 
             <ScrollView horizontal={true}>
               {photoSet && photoSet.map((photo, index) =>
-                <Image key={index} style={styles.COImageRoll} source={{uri: photo.uri}}></Image>
+                <Image key={index} style={styles.cameraImageRoll} source={{uri: photo.uri}}></Image>
                 )}
               </ScrollView>
             </SafeAreaView>
