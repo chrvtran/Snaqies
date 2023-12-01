@@ -7,7 +7,7 @@ import styles from './screenStyles';
 
 function Ratings({ navigation }) {
     return (
-        <View style={styles.ratingsContainer}>
+        <View style={styles.centerContainer}>
             <Text style={styles.ratingsText}>Rate Your Snaq</Text>
             <Rating fractions={1} startingValue={0} style={{ paddingVertical: 20 }}
                 onFinishRating={rating => console.log(`Finished Rating: ${rating}`)} />

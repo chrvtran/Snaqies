@@ -6,7 +6,7 @@ import styles from './screenStyles';
  
 function Saved({ navigation }) {
   return (
-    <View style={styles.savedContainer}>
+    <View style={styles.centerContainer}>
       <Text>This is the Saved Screen!</Text>
       <FlatButton text='Back to Home' onPress={() => navigation.navigate('Snaqies')}/>
       <StatusBar style="auto" />

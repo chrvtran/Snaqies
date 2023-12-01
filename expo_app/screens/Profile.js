@@ -6,7 +6,7 @@ import styles from './screenStyles';
 
 function Profile({ navigation }) {
   return (
-    <View style={styles.profileContainer}>
+    <View style={styles.centerContainer}>
       <Text>This is the Profile Screen!</Text>
       <FlatButton text='Back to Home' onPress={() => navigation.navigate('Snaqies')}/>
       <StatusBar style="auto" />

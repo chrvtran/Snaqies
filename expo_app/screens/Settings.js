@@ -6,7 +6,7 @@ import styles from './screenStyles';
  
 function Setting({ navigation }) {
   return (
-    <View style={styles.settingsContainer}>
+    <View style={styles.centerContainer}>
       <Text>This is the Settings Screen!</Text>
       <FlatButton text='Back to Home' onPress={() => navigation.navigate('Snaqies')}/>
       <StatusBar style="auto" />

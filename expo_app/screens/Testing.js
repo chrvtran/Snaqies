@@ -54,7 +54,7 @@ function Testing({ navigation }) {
     }, [isFocused]);
 
     return (
-        <View style={styles.testingContainer}>
+        <View style={styles.centerContainer}>
             {post !== undefined && (
                 <Snaq photos={post.photos}></Snaq>
             )}

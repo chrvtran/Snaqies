@@ -8,7 +8,7 @@ import styles from './screenStyles';
 function Price({ navigation }) {
     const [Enable, setEnable] = useState("prices");
     return (
-        <View style={styles.priceContainer}>
+        <View style={styles.centerContainer}>
             <Text>This is the Price Screen!</Text>
             <FlatButton text='Back to Home' onPress={() => navigation.navigate('Snaqies')}/>
             <View>        

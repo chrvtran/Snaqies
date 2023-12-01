@@ -6,7 +6,7 @@ import styles from './screenStyles';
  
 function Post({ navigation }) {
   return (
-    <View style={styles.postContainer}>
+    <View style={styles.centerContainer}>
       <Text>This is the Post Screen!</Text>
       <FlatButton text='Back to Home' onPress={() => navigation.navigate('Snaqies')}/>
       <StatusBar style="auto" />

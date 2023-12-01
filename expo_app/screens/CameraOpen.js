@@ -123,7 +123,7 @@ function CameraOpen({navigation}) {
   return  (
     <>
       {!pickedImages &&
-        <Camera style={styles.cameraContainer} ref={cameraRef}>
+        <Camera style={styles.centerContainer} ref={cameraRef}>
           <View style={styles.cameraNextButton}>
             <TouchableOpacity onPress={() => setPickedImages(true)}>
               <NextArrow style={styles.cameraIcon}/>
@@ -151,7 +151,7 @@ function CameraOpen({navigation}) {
       </Camera>
     }
     {pickedImages &&
-      <SafeAreaView style={styles.cameraContainer}>
+      <SafeAreaView style={styles.centerContainer}>
         <Slider photos={photoSet}/>
         <View style={styles.cameraNextButton}>
           <TouchableOpacity onPress={() => setPickedImages(true)}>

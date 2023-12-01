@@ -2,6 +2,13 @@ import { StyleSheet } from "react-native";
 
 
 const styles = StyleSheet.create({
+  centerContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  
   cameraBottomContainer: {
     width: '100%',
     flex: 7
@@ -15,12 +22,6 @@ const styles = StyleSheet.create({
     bottom: 100,
     width: '100%',
     position: 'absolute',
-  },
-  cameraContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   cameraFullImageRoll: {
     height: 200,
@@ -121,85 +122,31 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   homeSnaqContainer: {
-      flex: 1,
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      alignItems: 'flex-start',
-      justifyContent: 'center',
-      backgroundColor: '#fff'
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    backgroundColor: '#fff'
   },
   homeHeaderText: {
-      fontWeight: 'bold',
-      fontSize: 20,
-      marginLeft: 20,
-      marginTop: 15,
-      marginBottom: 5
-  },
-  locationContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginLeft: 20,
+    marginTop: 15,
+    marginBottom: 5
   },
   locationMap: {
     width: '100%',
     height: '100%'
   },
-  postContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  priceContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
   pricePickerText: {
     fontWeight: 'bold',
-    fontSize: 32,
-  },
-  profileContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  ratingsContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
+    fontSize: 32
   },
   ratingsText: {
-      fontWeight: 'bold',
-      fontSize: 32
-  },
-  reviewContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  savedContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  settingsContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  testingContainer: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    fontWeight: 'bold',
+    fontSize: 32
   }
 });
 
