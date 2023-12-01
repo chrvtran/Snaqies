@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Image, Text, View } from 'react-native';
+import { TouchableOpacity, Image, Text, View } from 'react-native';
 import review from './review';
-
 import styles from './styles';
 
 function snaq(props) {

@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
-
+import {TouchableOpacity, Text, View } from 'react-native';
 import styles from './styles';
 
 function FlatButton({ text, onPress }) {

@@ -44,6 +44,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         alignItems: 'center',
     },
+    reviewContainer: {
+        backgroundColor: '#33D7FF'
+    },
     sliderContainer: {
         flex: 1,
         alignItems: 'center',

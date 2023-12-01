@@ -1,7 +1,6 @@
 import React from 'react';
-import {Image, FlatList, StyleSheet, TouchableOpacity, Text, View, Dimensions} from 'react-native';
-
-import styles from './styles'
+import {Image, FlatList, TouchableOpacity, Text, View, Dimensions} from 'react-native';
+import styles from './styles';
 
 
 

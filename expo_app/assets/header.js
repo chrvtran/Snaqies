@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import {Text, View, Image, TouchableOpacity } from 'react-native';
 import SearchIcon from './icons/search.svg';
-
 import styles from './styles';
 
 function Header() {

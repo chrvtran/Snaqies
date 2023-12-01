@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Image, Text, View } from 'react-native';
-
+import styles from './styles';
 function review(props) {
     const uuid = props.uuid;
     const foodtags = props.foodtags; // list of food names from snaq component to be referenced in the feedback later
@@ -9,7 +9,7 @@ function review(props) {
     const price = props.price;
     const receipt = props.receipt; // photo of receipt
     return  (
-        <View style={styles.container}>
+        <View style={styles.reviewContainer}>
             <Text>{feedback}</Text>
         </View>
     );
@@ -26,8 +26,4 @@ review.defaultProps = {
     receipt: null
 }
 
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#33D7FF'
-    },
-});
+
