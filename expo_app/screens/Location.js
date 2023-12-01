@@ -4,7 +4,6 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 import * as GeoLocation from 'expo-location';
 import { useEffect, useState } from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-
 import styles from './screenStyles';
  
 function Location({ navigation }) {

@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import FlatButton from "../assets/button";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Snaq from "../assets/snaq";
-
 import styles from './screenStyles';
 
 function Testing({ navigation }) {

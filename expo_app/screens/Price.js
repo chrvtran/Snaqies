@@ -3,7 +3,6 @@ import { StatusBar } from 'expo-status-bar';
 import { Text, View } from 'react-native';
 import FlatButton from '../assets/button';
 import {Picker} from "@react-native-picker/picker";
-
 import styles from './screenStyles';
 
 function Price({ navigation }) {

@@ -20,13 +20,13 @@ const styles = StyleSheet.create({
         height: '100%',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between', 
+        justifyContent: 'space-between' 
     },
     headerText: {
         fontWeight: 'bold',
         fontSize: 25,
         color: '#737373',
-        letterSpacing: 1,
+        letterSpacing: 1
     },
     headerImage: {
         width: 50,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         height: '50%',
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     reviewContainer: {
         backgroundColor: '#33D7FF'
@@ -50,21 +50,21 @@ const styles = StyleSheet.create({
     sliderContainer: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: 'yellow',
+        backgroundColor: 'yellow'
     },
     sliderImage: {
         flex: 0.7,
-        width: '100%',
+        width: '100%'
     },
     
     slideItemsContainer: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: 'yellow',
+        backgroundColor: 'yellow'
     },
     slideItemsImage: {
         flex: 0.7,
-        width: '100%',
+        width: '100%'
     },
     snaqContainer: {
         borderRadius: 10,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     snaqPhoto: {
         borderRadius: 10,
         width: '100%',
-        height: 300,
+        height: 300
     }
 });
 

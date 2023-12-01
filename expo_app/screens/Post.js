@@ -2,7 +2,6 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View } from 'react-native';
 import FlatButton from '../assets/button';
-
 import styles from './screenStyles';
  
 function Post({ navigation }) {

@@ -6,7 +6,6 @@ import FlatButton from '../assets/button';
 import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import styles from './screenStyles';
 
 function Home({ navigation }) {

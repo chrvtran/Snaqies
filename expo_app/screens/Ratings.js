@@ -3,7 +3,6 @@ import { StatusBar } from 'expo-status-bar';
 import { Text, View } from 'react-native';
 import { Rating } from 'react-native-ratings';
 import FlatButton from '../assets/button';
-
 import styles from './screenStyles';
 
 function Ratings({ navigation }) {
