@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, Text, View } from 'react-native';
-import styles from '../screens/styleSheet';
+import styles from './styleSheet';
 function review(props) {
     const uuid = props.uuid;
     const foodtags = props.foodtags; // list of food names from snaq component to be referenced in the feedback later

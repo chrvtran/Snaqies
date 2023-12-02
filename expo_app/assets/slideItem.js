@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image, FlatList, TouchableOpacity, Text, View, Dimensions} from 'react-native';
-import styles from '../screens/styleSheet';
+import styles from './styleSheet';
 
 function SlideItem({item}) {
     return (
