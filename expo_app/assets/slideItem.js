@@ -2,8 +2,6 @@ import React from 'react';
 import {Image, FlatList, TouchableOpacity, Text, View, Dimensions} from 'react-native';
 import styles from '../screens/styleSheet';
 
-
-
 function SlideItem({item}) {
     return (
         <View style={styles.slideItemsContainer}>
