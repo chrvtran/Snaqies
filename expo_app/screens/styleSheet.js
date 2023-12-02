@@ -9,6 +9,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
 
+  button: {
+    borderRadius: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 10,
+    margin: 5,
+    backgroundColor: '#33D7FF'
+  },
+  buttonText: {
+      color: 'white',
+      fontWeight: 'bold',
+      textTransform: 'uppercase',
+      fontSize: 16,
+      textAlign: 'center'
+  },
   cameraBottomContainer: {
     width: '100%',
     flex: 7
