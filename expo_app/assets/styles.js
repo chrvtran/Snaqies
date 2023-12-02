@@ -15,28 +15,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center'
     },
-    header: {
-        width: '98%',
-        height: '100%',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between' 
-    },
-    headerText: {
-        fontWeight: 'bold',
-        fontSize: 25,
-        color: '#737373',
-        letterSpacing: 1
-    },
-    headerImage: {
-        width: 50,
-        height: 50,
-        resizeMode: 'contain'
-    }, 
-    headerIcon: {
-        width: '100%',
-        height: '100%'
-    },
     imageIconContainer: {
         width: '50%',
         height: '50%',
