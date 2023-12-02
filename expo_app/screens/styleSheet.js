@@ -17,11 +17,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#33D7FF'
   },
   buttonText: {
-      color: 'white',
-      fontWeight: 'bold',
-      textTransform: 'uppercase',
-      fontSize: 16,
-      textAlign: 'center'
+    color: 'white',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    fontSize: 16,
+    textAlign: 'center'
   },
   cameraBottomContainer: {
     width: '100%',
@@ -140,10 +140,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between' 
   },
   headerText: {
-      fontWeight: 'bold',
-      fontSize: 25,
-      color: '#737373',
-      letterSpacing: 1
+    fontWeight: 'bold',
+    fontSize: 25,
+    color: '#737373',
+    letterSpacing: 1
   },
   headerImage: {
     width: 50,
@@ -151,8 +151,8 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   }, 
   headerIcon: {
-      width: '100%',
-      height: '100%'
+    width: '100%',
+    height: '100%'
   },
   homeContainer: {
     backgroundColor: '#fff'
@@ -172,6 +172,13 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 5
   },
+  imageIconContainer: {
+    width: '50%',
+    height: '50%',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
+  },
   locationMap: {
     width: '100%',
     height: '100%'
@@ -183,6 +190,43 @@ const styles = StyleSheet.create({
   ratingsText: {
     fontWeight: 'bold',
     fontSize: 32
+  },
+  reviewContainer: {
+    backgroundColor: '#33D7FF'
+  },
+  sliderContainer: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: 'yellow'
+  },
+  sliderImage: {
+    flex: 0.7,
+    width: '100%'
+  },
+  slideItemsContainer: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: 'yellow'
+  },
+  slideItemsImage: {
+    flex: 0.7,
+    width: '100%'
+  },
+  snaqContainer: {
+    borderRadius: 10,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    margin: 6,
+    backgroundColor: '#33D7FF',
+    width: '45%',
+    height: 300
+  },
+  snaqButton: {
+  },
+  snaqPhoto: {
+    borderRadius: 10,
+    width: '100%',
+    height: 300
   }
 });
 

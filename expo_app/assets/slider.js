@@ -19,6 +19,3 @@ function Slider(props) {
 }
 
 export default Slider;
-
-const styles = StyleSheet.create({
-});

@@ -12,7 +12,7 @@ import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 import NextArrow from 'expo_app/assets/icons/next-arrow.svg'
 import Slider from 'expo_app/assets/slider.js'
-import styles from './screenStyles.js';
+import styles from './styleSheet';
 
 function CameraOpen({navigation}) {
 

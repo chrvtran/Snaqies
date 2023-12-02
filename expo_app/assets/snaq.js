@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Image, Text, View } from 'react-native';
 import review from './review';
-import styles from './styles';
+import styles from '../screens/styleSheet';
 
 function snaq(props) {
     const key = props.uuid;
