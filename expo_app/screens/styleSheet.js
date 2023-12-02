@@ -118,6 +118,19 @@ const styles = StyleSheet.create({
     width: 60
     // height: 40,
   },
+  header: {
+    width: '98%',
+    height: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between' 
+  },
+  headerText: {
+      fontWeight: 'bold',
+      fontSize: 25,
+      color: '#737373',
+      letterSpacing: 1
+  },
   homeContainer: {
     backgroundColor: '#fff'
   },
