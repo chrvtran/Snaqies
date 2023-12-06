@@ -18,35 +18,6 @@ function CameraOpen({navigation}) {
 
   const { control, handleSubmit } = useForm();
 
-  const storeData = async () => {
-    const newuuid = uuid.v1()
-    const postObj = {
-      uuid: newuuid,
-      photos: photoSet.map((photo) => {return photo.uri})
-    }
-    try {
-      const jsonValue = JSON.stringify(postObj)
-      await AsyncStorage.setItem(newuuid, jsonValue);
-      getData(newuuid)
-      console.log(`Stored at ${uuid}, ${photoSet.length} photo(s)`)
-    } catch (e) {
-      // saving error
-    }
-  };
-
-  const getData = async (key) => {
-    try {
-      const value = await AsyncStorage.getItem(key);
-      postObj = JSON.parse(value);
-      setPost(postObj);
-      if (value !== null) {
-        // value previously stored
-      }
-    } catch (e) {
-      // error reading value
-    }
-  };
-
   const isFocused = useIsFocused();
 
   let cameraRef = useRef();
@@ -114,11 +85,44 @@ function CameraOpen({navigation}) {
     setPhotoSet(newPhotoList)
   };
 
+  let savePic = async (pic) => {
+    await MediaLibrary.saveToLibraryAsync(pic.uri)
+  }
+
   let resetPhotoList = () => {
     photoList.current = [];
     setPhotoSet([]);
     setPickedImages(false);
   }
+
+  const storeData = async () => {
+    const newuuid = uuid.v1()
+    const postObj = {
+      uuid: newuuid,
+      photos: photoSet.map((photo) => {return photo.uri})
+    }
+    try {
+      const jsonValue = JSON.stringify(postObj)
+      await AsyncStorage.setItem(newuuid, jsonValue);
+      getData(newuuid)
+      console.log(`Stored at ${uuid}, ${photoSet.length} photo(s)`)
+    } catch (e) {
+      // saving error
+    }
+  };
+
+  const getData = async (key) => {
+    try {
+      const value = await AsyncStorage.getItem(key);
+      postObj = JSON.parse(value);
+      setPost(postObj);
+      if (value !== null) {
+        // value previously stored
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
 
   return  (
     <>
@@ -159,19 +163,19 @@ function CameraOpen({navigation}) {
               </TouchableOpacity>
         </View>
         <View style={styles.nextButton}>
-          <TouchableOpacity onPress={() => setPickedImages(true)}>
+          <TouchableOpacity onPress={storeData}>
             <NextArrow style={{fill: "black"}}/>
           </TouchableOpacity>
         </View>
         <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.picButtons}>
+            <Text>Save to Roll</Text>
+          </TouchableOpacity>
           <TouchableOpacity style={styles.picButtons} title="Select photos to upload into your Snaq" onPress={pickImage}>
               <Text>Upload Pic</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.picButtons}>
-            <Text>Delete Pic</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.picButtons} onPress={storeData}>
-              <Text>Create Snaq</Text>
+              <Text>Delete Pic</Text>
           </TouchableOpacity>
         </View>
         <SafeAreaView style={styles.photoList}> 

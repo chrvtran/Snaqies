@@ -3,6 +3,10 @@ import {Image, FlatList, StyleSheet, TouchableOpacity, Text, View, Dimensions} f
 
 const {width, height} = Dimensions.get('screen');
 
+const getData = () => {
+    return this.state;
+}
+
 function SlideItem({item}) {
     return (
         <View style={styles.container}>
