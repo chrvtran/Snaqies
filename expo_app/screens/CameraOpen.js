@@ -11,7 +11,7 @@ import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 import NextArrow from 'expo_app/assets/icons/arrow-foward.svg'
-import CloseX from "expo_app/assets/icons/close.svg"
+import BackArrow from "expo_app/assets/icons/arrow-backward.svg"
 import Slider from 'expo_app/assets/slider.js'
 
 function CameraOpen({navigation}) {
@@ -48,7 +48,7 @@ function CameraOpen({navigation}) {
     return <Text>Permission not granted. Please change in settings.</Text>
   }
 
-  const uploadImage = async () => {
+  const uploadPhoto = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -70,7 +70,7 @@ function CameraOpen({navigation}) {
     }
   };
 
-  let takePic = async () => {
+  let takePhoto = async () => {
     let options = {
       quality: 1,
       base64: true,
@@ -85,12 +85,16 @@ function CameraOpen({navigation}) {
     setPhotoSet(newPhotoList)
   };
 
-  let savePic = async () => {
+  let savePhoto = async () => {
     // TODO once you can get the index here from slider.js
     // you can index PhotoList/PhotoSet (IDK) and do .uri
     console.log(sliderRef.current.getIndex())
     // await MediaLibrary.saveToLibraryAsync(pic.uri)
-    // alert("Saved image to camera roll")
+    // alert("Saved photo to camera roll")
+  }
+
+  let deletePhoto = () => {
+    // alert("Deleted photo")
   }
 
   let resetPhotoList = () => {
@@ -140,10 +144,10 @@ function CameraOpen({navigation}) {
             </TouchableOpacity>
           </View>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.picButtons} onPress={takePic}>
+            <TouchableOpacity style={styles.picButtons} onPress={takePhoto}>
               <Text>Take Pic</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.picButtons} title="Pick an image from camera roll" onPress={uploadImage}>
+            <TouchableOpacity style={styles.picButtons} title="Pick an image from camera roll" onPress={uploadPhoto}>
                 <Text>Upload Pic</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.picButtons} onPress={resetPhotoList}>
@@ -164,23 +168,23 @@ function CameraOpen({navigation}) {
       <SafeAreaView style={styles.container}>
         {slider}
         <View style={styles.backButton}>
-            <TouchableOpacity onPress={resetPhotoList}>
-                <CloseX/>
+            <TouchableOpacity onPress={() => setPickedImages(false)}>
+                <BackArrow/>
               </TouchableOpacity>
         </View>
         <View style={styles.nextButton}>
           <TouchableOpacity onPress={storeData}>
-            <NextArrow style={{fill: "black"}}/>
+            <NextArrow/>
           </TouchableOpacity>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.picButtons} onPress={savePic}>
+          <TouchableOpacity style={styles.picButtons} onPress={savePhoto}>
             <Text>Save to Roll</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.picButtons} title="Select photos to upload into your Snaq" onPress={uploadImage}>
+          <TouchableOpacity style={styles.picButtons} title="Select photos to upload into your Snaq" onPress={uploadPhoto}>
               <Text>Upload Pic</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.picButtons}>
+          <TouchableOpacity style={styles.picButtons} onPress={deletePhoto}>
               <Text>Delete Pic</Text>
           </TouchableOpacity>
         </View>
@@ -225,9 +229,9 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 0,
-    left: 0,
-    height: 40,
+    top: 5,
+    left: 5,
+    height: 30,
     width: 40
   },
   nextButton: {
