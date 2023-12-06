@@ -22,14 +22,13 @@ function CameraOpen({navigation}) {
 
   let cameraRef = useRef();
   let photoList = useRef([]);
+  let sliderRef = useRef();
   const [photoSet, setPhotoSet] = useState([]);
   const [post, setPost] = useState();
   const [photos, setPhoto] = useState();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [pickedImages, setPickedImages] = useState(false);
-  
-
 
   useEffect(() => {
     (async () => {
@@ -49,7 +48,7 @@ function CameraOpen({navigation}) {
     return <Text>Permission not granted. Please change in settings.</Text>
   }
 
-  const pickImage = async () => {
+  const uploadImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -57,6 +56,7 @@ function CameraOpen({navigation}) {
       aspect: [1, 1],
       quality: 1,
     });
+    delete result.cancelled;
 
     console.log(result);
     let i = 0;
@@ -85,8 +85,11 @@ function CameraOpen({navigation}) {
     setPhotoSet(newPhotoList)
   };
 
-  let savePic = async (pic) => {
-    await MediaLibrary.saveToLibraryAsync(pic.uri)
+  let savePic = async () => {
+    // TODO once you can get the index here from slider.js
+    // you can index PhotoList/PhotoSet (IDK) and do .uri
+    console.log(sliderRef.current.getIndex())
+    // await MediaLibrary.saveToLibraryAsync(pic.uri)
   }
 
   let resetPhotoList = () => {
@@ -124,6 +127,8 @@ function CameraOpen({navigation}) {
     }
   };
 
+  var slider = <Slider ref={sliderRef} photos={photoSet} />
+
   return  (
     <>
       {!pickedImages &&
@@ -137,7 +142,7 @@ function CameraOpen({navigation}) {
             <TouchableOpacity style={styles.picButtons} onPress={takePic}>
               <Text>Take Pic</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.picButtons} title="Pick an image from camera roll" onPress={pickImage}>
+            <TouchableOpacity style={styles.picButtons} title="Pick an image from camera roll" onPress={uploadImage}>
                 <Text>Upload Pic</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.picButtons} onPress={resetPhotoList}>
@@ -156,7 +161,7 @@ function CameraOpen({navigation}) {
     }
     {pickedImages &&
       <SafeAreaView style={styles.container}>
-        <Slider photos={photoSet}/>
+        {slider}
         <View style={styles.backButton}>
             <TouchableOpacity onPress={resetPhotoList}>
                 <CloseX/>
@@ -168,10 +173,10 @@ function CameraOpen({navigation}) {
           </TouchableOpacity>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.picButtons}>
+          <TouchableOpacity style={styles.picButtons} onPress={savePic}>
             <Text>Save to Roll</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.picButtons} title="Select photos to upload into your Snaq" onPress={pickImage}>
+          <TouchableOpacity style={styles.picButtons} title="Select photos to upload into your Snaq" onPress={uploadImage}>
               <Text>Upload Pic</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.picButtons}>

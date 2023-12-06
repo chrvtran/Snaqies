@@ -1,9 +1,35 @@
 import React from 'react';
 import {FlatList, StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import SlideItem from './slideItem.js';
+import { useEffect, useState, useImperativeHandle, forwardRef } from 'react';
 
-function Slider(props) {
+function Slider(props, ref) {
+
     const photos = props.photos;
+    
+    const [index, setIndex] = useState();
+
+    useImperativeHandle(ref, () => ({
+        // each key is connected to `ref` as a method name
+        // they can execute code directly, or call a local method
+        getIndex: () => { index },
+        // can list more methods
+    }))
+
+    const _onViewableItemsChanged = React.useCallback(({ viewableItems, changed }) => {
+        setIndex(viewableItems[0].key)
+      }, []);
+    
+    // Considered viewable if it 90% visible
+      const _viewabilityConfig = {
+        itemVisiblePercentThreshold: 90
+      }
+
+    // These are local methods, they are not seen by `ref`
+    const getIndex = () => {
+        return index;
+    }
+
     return (
         <View>
             <FlatList 
@@ -13,12 +39,14 @@ function Slider(props) {
             pagingEnabled
             snapToAlignment='center'
             showsHorizontalScrollIndicator={false}
+            onViewableItemsChanged={_onViewableItemsChanged}
+        v   iewabilityConfig={_viewabilityConfig}
             />
         </View>
     );
 }
 
-export default Slider;
+export default forwardRef(Slider);
 
 const styles = StyleSheet.create({
 });
