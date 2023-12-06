@@ -90,6 +90,7 @@ function CameraOpen({navigation}) {
     // you can index PhotoList/PhotoSet (IDK) and do .uri
     console.log(sliderRef.current.getIndex())
     // await MediaLibrary.saveToLibraryAsync(pic.uri)
+    // alert("Saved image to camera roll")
   }
 
   let resetPhotoList = () => {
