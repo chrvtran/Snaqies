@@ -7,7 +7,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function Home({ navigation }) {
+function Home({navigation }) {
 
     const isFocused = useIsFocused();
 
@@ -43,7 +43,10 @@ function Home({ navigation }) {
             <Text style={styles.headertext}>↓ Recent</Text>
                 <View style={styles.snaqcontainer}>
                     {posts && posts.map((post) =>
-                    <Snaq key={post[0]} photos={post[1].photos} onPress={() => navigation.navigate('Post')} />
+                    <Snaq key={post[0]} photos={post[1].photos} onPress={() => navigation.navigate('Post', {
+                        key: post[0],
+                        photos: post[1].photos,
+                    })} />
                     )}
                 </View>
             <StatusBar style="auto" />
