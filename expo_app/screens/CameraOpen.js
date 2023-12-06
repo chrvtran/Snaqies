@@ -10,7 +10,8 @@ import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
-import NextArrow from 'expo_app/assets/icons/next-arrow.svg'
+import NextArrow from 'expo_app/assets/icons/arrow-foward.svg'
+import CloseX from "expo_app/assets/icons/close.svg"
 import Slider from 'expo_app/assets/slider.js'
 
 function CameraOpen({navigation}) {
@@ -125,7 +126,7 @@ function CameraOpen({navigation}) {
         <Camera style={styles.container} ref={cameraRef}>
           <View style={styles.nextButton}>
             <TouchableOpacity onPress={() => setPickedImages(true)}>
-              <NextArrow style={styles.icon}/>
+              <NextArrow style={{fill: "white"}}/>
             </TouchableOpacity>
           </View>
           <View style={styles.buttonContainer}>
@@ -152,17 +153,22 @@ function CameraOpen({navigation}) {
     {pickedImages &&
       <SafeAreaView style={styles.container}>
         <Slider photos={photoSet}/>
+        <View style={styles.backButton}>
+            <TouchableOpacity onPress={resetPhotoList}>
+                <CloseX/>
+              </TouchableOpacity>
+        </View>
         <View style={styles.nextButton}>
           <TouchableOpacity onPress={() => setPickedImages(true)}>
-            <NextArrow style={styles.icon}/>
+            <NextArrow style={{fill: "black"}}/>
           </TouchableOpacity>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.picButtons} title="Pick an image from camera roll" onPress={pickImage}>
+          <TouchableOpacity style={styles.picButtons} title="Select photos to upload into your Snaq" onPress={pickImage}>
               <Text>Upload Pic</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.picButtons} onPress={resetPhotoList}>
-              <Text>Reset Pics</Text>
+          <TouchableOpacity style={styles.picButtons}>
+            <Text>Delete Pic</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.picButtons} onPress={storeData}>
               <Text>Create Snaq</Text>
@@ -207,13 +213,19 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'absolute',
   },
-  nextButton: {
+  backButton: {
     position: 'absolute',
     top: 0,
+    left: 0,
+    height: 40,
+    width: 40
+  },
+  nextButton: {
+    position: 'absolute',
+    top: 5,
     right: 0,
-    height: '200',
-    backgroundColor: 'green',
-
+    height: 30,
+    width: 40,
   },
   picButtons: {
     margin: 5,
@@ -300,9 +312,4 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'blue'
   },
-  icon: {
-    width: '100%',
-    height: '100%',
-    fill: '#748c94'
-  }
 });
