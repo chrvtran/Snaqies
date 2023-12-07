@@ -87,7 +87,7 @@ function CameraOpen({navigation}) {
 
   let savePhoto = async () => {
     // TODO need to get index from slider.js
-    console.log(sliderRef.current.getIndex())
+    sliderRef.current.getIndex();
     // await MediaLibrary.saveToLibraryAsync(pic.uri)
     alert("Successfully saved to camera roll.")
   }
@@ -137,8 +137,6 @@ function CameraOpen({navigation}) {
     }
   };
 
-  var slider = <Slider ref={sliderRef} photos={photoSet} />
-
   return  (
     <>
       {!pickedImages &&
@@ -171,7 +169,7 @@ function CameraOpen({navigation}) {
     }
     {pickedImages &&
       <SafeAreaView style={styles.container}>
-        {slider}
+        <Slider ref={sliderRef} photos={photoSet} />
         <View style={styles.backButton}>
             <TouchableOpacity onPress={() => setPickedImages(false)}>
                 <BackArrow/>
