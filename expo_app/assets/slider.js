@@ -40,7 +40,7 @@ function Slider(props, ref) {
             snapToAlignment='center'
             showsHorizontalScrollIndicator={false}
             onViewableItemsChanged={_onViewableItemsChanged}
-        v   iewabilityConfig={_viewabilityConfig}
+            viewabilityConfig={_viewabilityConfig}
             />
         </View>
     );
