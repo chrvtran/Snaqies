@@ -12,12 +12,17 @@ function Slider(props, ref) {
     useImperativeHandle(ref, () => ({
         // each key is connected to `ref` as a method name
         // they can execute code directly, or call a local method
-        getIndex: () => { index },
+        getIndex: () => { console.log(index) },
         // can list more methods
     }))
 
     const _onViewableItemsChanged = React.useCallback(({ viewableItems, changed }) => {
-        setIndex(viewableItems[0].key)
+        // setIndex(viewableItems[0].key)
+        if (viewableItems[0]) {
+            // console.log(viewableItems[0])
+            setIndex(viewableItems[0].key)
+        }
+        // console.log(viewableItems[0])
       }, []);
     
     // Considered viewable if it 90% visible
