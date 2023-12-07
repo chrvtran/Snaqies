@@ -86,14 +86,18 @@ function CameraOpen({navigation}) {
   };
 
   let savePhoto = async () => {
-    // TODO once you can get the index here from slider.js
-    // you can index PhotoList/PhotoSet (IDK) and do .uri
+    // TODO need to get index from slider.js
     console.log(sliderRef.current.getIndex())
     // await MediaLibrary.saveToLibraryAsync(pic.uri)
     // alert("Saved photo to camera roll")
   }
 
   let deletePhoto = () => {
+    // TODO need to get index from slider.js
+    let index = 0
+    photoList.current.splice(index, 1)
+    const newPhotoList = [...photoList.current];
+    setPhotoSet(newPhotoList)
     // alert("Deleted photo")
   }
 
