@@ -89,7 +89,7 @@ function CameraOpen({navigation}) {
     // TODO need to get index from slider.js
     console.log(sliderRef.current.getIndex())
     // await MediaLibrary.saveToLibraryAsync(pic.uri)
-    // alert("Saved photo to camera roll")
+    alert("Successfully saved to camera roll.")
   }
 
   let deletePhoto = () => {
@@ -98,13 +98,14 @@ function CameraOpen({navigation}) {
     photoList.current.splice(index, 1)
     const newPhotoList = [...photoList.current];
     setPhotoSet(newPhotoList)
-    // alert("Deleted photo")
+    alert("Successfully deleted photo.")
   }
 
   let resetPhotoList = () => {
     photoList.current = [];
     setPhotoSet([]);
     setPickedImages(false);
+    alert("Sucessfully cleared photos.")
   }
 
   const storeData = async () => {
@@ -142,11 +143,11 @@ function CameraOpen({navigation}) {
     <>
       {!pickedImages &&
         <Camera style={styles.container} ref={cameraRef}>
-          <View style={styles.nextButton}>
+          {(photoSet.length > 0) && <View style={styles.nextButton}>
             <TouchableOpacity onPress={() => setPickedImages(true)}>
               <NextArrow style={{fill: "white"}}/>
             </TouchableOpacity>
-          </View>
+          </View>}
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.picButtons} onPress={takePhoto}>
               <Text>Take Pic</Text>
