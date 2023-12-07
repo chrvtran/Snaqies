@@ -12,7 +12,7 @@ function Slider(props, ref) {
     useImperativeHandle(ref, () => ({
         // each key is connected to `ref` as a method name
         // they can execute code directly, or call a local method
-        getIndex: () => { console.log(index) },
+        getIndex: () => { return index },
         // can list more methods
     }))
 
