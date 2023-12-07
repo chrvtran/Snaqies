@@ -87,7 +87,7 @@ function CameraOpen({navigation}) {
 
   let savePhoto = async () => {
     // TODO need to get index from slider.js
-    sliderRef.current.getIndex();
+    console.log(sliderRef.current.getIndex());
     // await MediaLibrary.saveToLibraryAsync(pic.uri)
     alert("Successfully saved to camera roll.")
   }
