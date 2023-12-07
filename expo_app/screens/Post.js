@@ -16,7 +16,7 @@ function Post({ route, navigation }) {
   // const address = props.address; // address
   // const reviews = [];
 
-  const {photos } = route.params
+  const {photos} = route.params
 
   return (
     <SafeAreaView style={styles.container}>
@@ -27,7 +27,19 @@ function Post({ route, navigation }) {
               <BackArrow style={styles.icon}/>
             </TouchableOpacity>
         </View>
-        <FlatButton text='test' onPress={() => console.log(photos)}/>
+        <SafeAreaView style={styles.bottomContainer}>
+          <SafeAreaView style={styles.infoContainer}>
+
+          </SafeAreaView>
+          <SafeAreaView style={styles.buttonsContainer}>
+            <TouchableOpacity>
+              <Text>Map</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text>Review</Text>
+            </TouchableOpacity>
+          </SafeAreaView>
+        </SafeAreaView>
         <StatusBar style="auto" />
       </ScrollView>
     </SafeAreaView>
@@ -58,6 +70,22 @@ const styles = StyleSheet.create({
   photo: {
     width: '100%',
     height: Dimensions.get('window').height * .65
+  },
+  bottomContainer: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    height: Dimensions.get('window').height * .25,
+    width: '100%',
+  },
+  infoContainer: {
+    flex: 2,
+    backgroundColor: 'yellow',
+  },
+  buttonsContainer: {
+    flex: 1,
+    backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 
 });
