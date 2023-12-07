@@ -87,14 +87,13 @@ function CameraOpen({navigation}) {
 
   let savePhoto = async () => {
     // TODO need to get index from slider.js
-    console.log(sliderRef.current.getIndex());
-    // await MediaLibrary.saveToLibraryAsync(pic.uri)
+    var index = Number(sliderRef.current.getIndex())
+    await MediaLibrary.saveToLibraryAsync(photoSet[index].uri)
     alert("Successfully saved to camera roll.")
   }
 
   let deletePhoto = () => {
-    // TODO need to get index from slider.js
-    let index = 0
+    var index = Number(sliderRef.current.getIndex())
     photoList.current.splice(index, 1)
     const newPhotoList = [...photoList.current];
     setPhotoSet(newPhotoList)
@@ -119,6 +118,7 @@ function CameraOpen({navigation}) {
       await AsyncStorage.setItem(newuuid, jsonValue);
       getData(newuuid)
       console.log(`Stored at ${uuid}, ${photoSet.length} photo(s)`)
+      resetPhotoList()
     } catch (e) {
       // saving error
     }

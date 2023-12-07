@@ -30,11 +30,6 @@ function Slider(props, ref) {
         itemVisiblePercentThreshold: 90
       }
 
-    // These are local methods, they are not seen by `ref`
-    const getIndex = () => {
-        return index;
-    }
-
     return (
         <View>
             <FlatList 
