@@ -41,6 +41,8 @@ function Location({ navigation }) {
     longitudeDelta: 0.0421,
   })
 
+  const [ flag, setFlag ] = useState(false)
+
   return (
     <View style={{flex: 1}}>
       <GooglePlacesAutocomplete
@@ -51,11 +53,12 @@ function Location({ navigation }) {
         }}
         onPress={(data, details = null) => {
           console.log(data, details)
+          setFlag(true)
           setRegion({
             latitude: details.geometry.location.lat,
             longitude: details.geometry.location.lng,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitudeDelta: 0.004757,
+            longitudeDelta: 0.006866,
           })
         }}
         query={{
@@ -75,7 +78,7 @@ function Location({ navigation }) {
         <MapView 
           style={styles.map}
           provider='google'
-          region={{
+          region= { flag ? region : {
             latitude: lat,
             longitude: long,
             latitudeDelta: 0.004757,
