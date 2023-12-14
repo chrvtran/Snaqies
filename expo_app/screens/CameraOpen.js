@@ -23,6 +23,7 @@ function CameraOpen({navigation}) {
       uuid: newuuid,
       photos: photoSet.map((photo) => {return photo.uri})
     }
+    console.log(postObj.photos);
     try {
       const jsonValue = JSON.stringify(postObj)
       await AsyncStorage.setItem(newuuid, jsonValue);

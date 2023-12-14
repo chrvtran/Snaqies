@@ -15,7 +15,7 @@ function Home({navigation }) {
 
     const getData = async () => {
         try {
-            const keys = await AsyncStorage.getAllKeys()
+            const keys = await AsyncStorage.getAllKeys();
             const values = await AsyncStorage.multiGet(keys);
 
             if (values !== null) {
@@ -35,6 +35,7 @@ function Home({navigation }) {
     useEffect(() => {
         if (isFocused) {
             getData();
+            console.log(posts)
         }
     }, [isFocused]);
 
