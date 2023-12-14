@@ -128,7 +128,7 @@ function MainStack() {
       screenOptions={{
         headerTitle: () => <Header/>, 
         headerTitleAlign: 'center',
-        headerBackVisible: false
+        headerBackVisible: false,
       }}
     >
       <Stack.Screen name="TabNav" component={TabNavigator} />

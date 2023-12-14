@@ -17,7 +17,6 @@ import Slider from 'expo_app/assets/slider.js'
 function CameraOpen({navigation}) {
 
   const { control, handleSubmit } = useForm();
-
   const isFocused = useIsFocused();
 
   let cameraRef = useRef();
