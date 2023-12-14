@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { useHeaderHeight } from '@react-navigation/elements'
 import SearchIcon from './icons/search.svg'
 
 function Header() {
@@ -31,6 +32,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between', 
         backgroundColor: 'white',
+
     },
     headerText: {
         fontWeight: 'bold',
