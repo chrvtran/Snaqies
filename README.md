@@ -18,7 +18,5 @@ Ever wanted to remember what foods and restaurants you tried before? Try using S
 5. Press the keys `Ctrl + c` to stop the server
 
 ## Bugs
-- WARN  Key "cancelled" in the image picker result is deprecated and will be removed in SDK 48, use "canceled" instead
-    - We are not using "cancelled" in CameraOpen.js
 - WARN  Possible Unhandled Promise Rejection (id: 0): Error: Another photo capture is already being processed. Await the first call.
     - Some input time or optimizing issue not important for right now
