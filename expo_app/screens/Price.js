@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import FlatButton from '../assets/button';
 import {Picker} from "@react-native-picker/picker";
@@ -28,6 +29,7 @@ function Price({ navigation }) {
                     <Picker.Item label="$90-100" value='10'/>
                 </Picker>
             </View>
+            <StatusBar style="auto" />
         </View>
     );
 }

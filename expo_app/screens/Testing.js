@@ -13,47 +13,43 @@ function Testing({ navigation }) {
 
     const [post, setPost] = useState();
 
-   const getAllKeys = async () => {
+    const getAllKeys = async () => {
         let keys = []
         try {
-          keys = await AsyncStorage.getAllKeys()
-        } catch(e) {
-          // read key error
+            keys = await AsyncStorage.getAllKeys()
+        } catch (e) {
+            // read key error
         }
-      
+
         console.log(keys)
         // example console.log result:
         // ['@MyApp_user', '@MyApp_key']
-      }
+    }
 
-    const getData = async () => {
+    const clearAsync = async () => {
+        let keys = []
         try {
-            const value = await AsyncStorage.getItem("@post");
-
-            postObj = JSON.parse(value);
-            setPost(postObj);
-            if (value !== null) {
-                // value previously stored
-            }
+            keys = await AsyncStorage.getAllKeys()
+            await AsyncStorage.multiRemove(keys);
         } catch (e) {
-            console.error("error");
-            // error reading value
+            // read key error
         }
-    };
+        console.log("cleared")
+    }
 
     useEffect(() => {
         if (isFocused) {
-            getData();
+            
         }
     }, [isFocused]);
 
     return (
         <View style={styles.container}>
-            {post && post.caption !== undefined && (
-                <Snaq photos={post.photo} restaurantname={post.caption}></Snaq>
-            )} 
-            <Text>This is the Bookmarks Screen!</Text>
-            <FlatButton text='Test get all async keys' onPress={getAllKeys}/>
+            <Text>Testing Page</Text>
+            <FlatButton text='Async getAllKeys' onPress={getAllKeys} />
+            <FlatButton text='Clear Async Storage' onPress={clearAsync} />
+            <FlatButton text='Ratings Screen' onPress={() => navigation.navigate('Ratings')} />
+            <FlatButton text='Price Screen' onPress={() => navigation.navigate('Price')} />
             <StatusBar style="auto" />
         </View>
     );

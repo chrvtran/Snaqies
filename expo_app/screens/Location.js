@@ -1,13 +1,27 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
-import FlatButton from '../assets/button';
 import * as GeoLocation from 'expo-location';
 import { useEffect, useState } from 'react';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import uuid from 'react-native-uuid';
+
  
 function Location({ navigation }) {
 
   const [location, setLocation] = useState({});
+  const [ flag, setFlag ] = useState(false);
+  const [ post, setPost ] = useState();
+  const [ region, setRegion ] = React.useState({
+    latitude: lat,
+    longitude: long,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
+
+  let lat = 0;
+  let long = 0;
 
   useEffect(() => {
     (async() => {
@@ -25,25 +39,88 @@ function Location({ navigation }) {
 
     })();
   }, []);
+  
+  if (JSON.stringify(location) !== '{}') {
+    lat = location.coords.latitude;
+    long = location.coords.longitude;
+  }
 
-  const lat = location.coords.latitude;
-  const long = location.coords.longitude;
+  const storeData = async (details) => {
+    const newuuid = uuid.v1()
+    const postObj = {
+      uuid: newuuid,
+      name: details.name,
+      address: details.formatted_address,
+    }
+    try {
+      const jsonValue = JSON.stringify(postObj)
+      await AsyncStorage.setItem(newuuid, jsonValue)
+      getData(newuuid)
+      console.log(`Stored at ${uuid}, Value: ${jsonValue}`)
+    } catch (e) {
+      // saving error
+    }
+  }
+
+  const getData = async(key) => {
+    try {
+      const value = await AsyncStorage.getItem(key);
+      postObj = JSON.parse(value);
+      setPost(postObj);
+      if (value !== null) {
+        // value previously stored
+      }
+    } catch (e) {
+      //error reading value
+    }
+  }
 
   return (
-    <View style={styles.container}>
-      <Text>This is the Location Screen!</Text>
-      <FlatButton text='Back to Home' onPress={() => navigation.navigate('Snaqies')}/>
+    <View style={{flex: 1}}>
+      <GooglePlacesAutocomplete
+        placeholder="Search"
+        fetchDetails={true}
+        GooglePlacesSearchQuery={{
+          rankby: "distance",
+        }}
+        onPress={(data, details = null) => {
+          // console.log(data, details)
+          console.log("Formatted Address", details.formatted_address)
+          console.log("Name", details.name)
+          setFlag(true)
+          storeData(details)
+          setRegion({
+            latitude: details.geometry.location.lat,
+            longitude: details.geometry.location.lng,
+            latitudeDelta: 0.004757,
+            longitudeDelta: 0.006866,
+          })
+        }}
+        query={{
+          key: "AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U",
+          language: "en",
+          components: "country:us",
+          types: "establishment",
+          radius: 30000,
+          location: `${lat}, ${long}`
+        }}
+        styles={{
+          container: { flex: 0, position: "absolute", width: "100%", zIndex: 1 },
+          listView: { backgroundConolor: "white" }
+        }}
+      />
       { JSON.stringify(location) !== '{}' ?
         <MapView 
           style={styles.map}
           provider='google'
-          region={{
+          region= { flag ? region : {
             latitude: lat,
             longitude: long,
             latitudeDelta: 0.004757,
             longitudeDelta: 0.006866,
           }}
         >
+          <Marker coordinate={{latitude: region.latitude, longitude: region.longitude}} />
           <Marker 
             coordinate={{
               latitude: lat,
@@ -78,6 +155,6 @@ const styles = StyleSheet.create({
   },
   map: {
     width: '100%',
-    height: '70%'
-  }
+    height: '100%'
+  },
 });

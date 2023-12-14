@@ -7,7 +7,6 @@ import HomeScreen from './screens/Home';
 import PostScreen from './screens/Post';
 import CameraOpen from './screens/CameraOpen';
 import LocationScreen from './screens/Location';
-import MapScreen from './screens/Map.js';
 import RatingsScreen from './screens/Ratings';
 import PriceScreen from './screens/Price';
 import TestingScreen from './screens/Testing';
@@ -53,7 +52,7 @@ function TabNavigator() {
       />
       <Tab.Screen 
         name="Location" 
-        component={MapScreen} 
+        component={LocationScreen} 
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
@@ -139,7 +138,9 @@ function MainStack() {
   return (
     <Stack.Navigator 
       screenOptions={{
-        headerShown: false
+        headerTitle: () => <Header/>, 
+        headerTitleAlign: 'center',
+        headerBackVisible: false,
       }}
     >
       <Stack.Screen name="TabNav" component={TabNavigator} />
