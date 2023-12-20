@@ -6,17 +6,19 @@ import SearchIcon from './icons/search.svg'
 function Header() {
     return (
         <View style={styles.header}>
-            <View>
-                <Text style={styles.headerText}>Snaqies</Text>
-            </View>
-            <View style={styles.imageIconContainer}>
-                <TouchableOpacity>
-                    <SearchIcon style={styles.icon}/>
-                </TouchableOpacity>
-                <Image 
-                    source={require('./images/Snaqies_logo.png')}
-                    style={styles.image}
-                />
+            <View style={styles.innerCont}>
+                <View>
+                    <Text style={styles.headerText}>Snaqies</Text>
+                </View>
+                <View style={styles.imageIconContainer}>
+                    <TouchableOpacity>
+                        <SearchIcon style={styles.icon}/>
+                    </TouchableOpacity>
+                    <Image 
+                        source={require('./images/Snaqies_logo.png')}
+                        style={styles.image}
+                    />
+                </View>
             </View>
         </View>
     );
@@ -26,13 +28,24 @@ export default Header;
 
 const styles = StyleSheet.create({
     header: {
-        width: '98%',
-        height: '100%',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        width: '100%',
+        height: 80,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center', 
+        backgroundColor: 'white',
+        paddingTop: 30,
+        overflow: 'hidden',
+
+    },
+    innerCont: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between', 
-        backgroundColor: 'white',
-
     },
     headerText: {
         fontWeight: 'bold',

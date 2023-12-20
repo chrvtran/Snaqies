@@ -141,10 +141,11 @@ function MainStack() {
         headerTitle: () => <Header/>, 
         headerTitleAlign: 'center',
         headerBackVisible: false,
+        headerShown: false,
       }}
     >
       <Stack.Screen name="TabNav" component={TabNavigator} />
-      <Stack.Screen name="Post" component={PostScreen} options={{headerShown: true, headerBackVisible: false, headerTitle: () => <Header/>}}/>
+      <Stack.Screen name="Post" component={PostScreen} />
       <Stack.Screen name="Ratings" component={RatingsScreen} />
       <Stack.Screen name="Price" component={PriceScreen}  />
     </Stack.Navigator>

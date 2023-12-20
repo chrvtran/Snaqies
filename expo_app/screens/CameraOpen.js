@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   },
   nextButton: {
     position: 'absolute',
-    top: 5,
+    top: 40,
     right: 0,
     height: 30,
     width: 40,

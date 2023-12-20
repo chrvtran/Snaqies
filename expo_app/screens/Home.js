@@ -12,9 +12,10 @@ import { useHeaderHeight, headerBackground } from '@react-navigation/elements';
 function Home({navigation }) {
   
     const scrollY = new Animated.Value(0);
-    const translateY = scrollY.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, -1],
+    const diffClamp = Animated.diffClamp(scrollY, 0, 80)
+    const translateY = diffClamp.interpolate({
+    inputRange: [0, 80],
+    outputRange: [0, -80],
     extrapolateLeft: 'clamp',
   });
 

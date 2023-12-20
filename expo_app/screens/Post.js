@@ -1,13 +1,22 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, ScrollView, SafeAreaView, Dimensions, TouchableOpacity,} from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, SafeAreaView, Dimensions, TouchableOpacity, Animated} from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import FlatButton from '../assets/button';
 import BackArrow from 'expo_app/assets/icons/back-arrow.svg'
 import { useHeaderHeight } from '@react-navigation/elements';
+import { AnimatedHeader } from '../assets/AnimateHeader';
 
  
 function Post({ route, navigation }) {
+
+  const scrollY = new Animated.Value(0);
+  const translateY = scrollY.interpolate({
+  inputRange: [0, 80],
+  outputRange: [0, -80],
+  extrapolateLeft: 'clamp',
+  });
+
 
   const { width, height } = Dimensions.get("window"); 
   const headerHeight = useHeaderHeight();
@@ -23,8 +32,16 @@ function Post({ route, navigation }) {
 
   const {photos} = route.params
 
-  return (
+  return (  
     <SafeAreaView style={styles.container}>
+            {AnimatedHeader(translateY)}
+        <ScrollView 
+          style={styles.container}
+          scrollEventThrottle={16}
+          onScroll={(e)=>{
+            scrollY.setValue(e.nativeEvent.contentOffset.y)
+          }}
+        >
       <View style={styles.scrollViewCont}>
         <ScrollView style={styles.scrollView}>
           <Image source={{uri: photos[0]}} style={[styles.photo, {height: height - headerHeight}]}/>
@@ -35,7 +52,7 @@ function Post({ route, navigation }) {
           </View>
           <SafeAreaView style={styles.bottomContainer}>
             <SafeAreaView style={styles.infoContainer}>
-              
+
             </SafeAreaView>
             <SafeAreaView style={styles.buttonsContainer}>
               <TouchableOpacity style={styles.button}>
@@ -49,6 +66,7 @@ function Post({ route, navigation }) {
           <StatusBar style="auto" />
         </ScrollView>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
