@@ -10,6 +10,8 @@ import uuid from 'react-native-uuid';
  
 function Location({ navigation }) {
 
+  const myApiKey = "AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U"
+
   const [location, setLocation] = useState({});
   const [ flag, setFlag ] = useState(false);
   const [ post, setPost ] = useState();
@@ -33,6 +35,7 @@ function Location({ navigation }) {
         const loc = await GeoLocation.getCurrentPositionAsync(); 
         console.log(loc);
         setLocation(loc);
+        getAddressFromCoordinates()
       } else {
         console.log("Permission not granted");
       }
@@ -43,6 +46,27 @@ function Location({ navigation }) {
   if (JSON.stringify(location) !== '{}') {
     lat = location.coords.latitude;
     long = location.coords.longitude;
+  }
+
+  const getAddressFromCoordinates = () => {
+    return new Promise((resolve, reject) => {
+      latitude = location.coords.latitude
+      longitude = location.coords.longitude
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${latitude},${longitude}&key=${myApiKey}`
+      fetch(url)
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log(responseJson)
+          if (responseJson.status === 'OK') {
+            resolve(responseJson?.results?.[0]?.formatted_address);
+          } else {
+            reject('not found');
+          }
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   }
 
   const storeData = async (details) => {
@@ -97,7 +121,7 @@ function Location({ navigation }) {
           })
         }}
         query={{
-          key: "AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U",
+          key: myApiKey,
           language: "en",
           components: "country:us",
           types: "establishment",
@@ -106,7 +130,7 @@ function Location({ navigation }) {
         }}
         styles={{
           container: { flex: 0, position: "absolute", width: "100%", zIndex: 1 },
-          listView: { backgroundConolor: "white" }
+          listView: { backgroundColor: "white" }
         }}
       />
       { JSON.stringify(location) !== '{}' ?
