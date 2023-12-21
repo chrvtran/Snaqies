@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View, Animated, SafeAreaView } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, SafeAreaView, Animated } from 'react-native';
 import Snaq from '../assets/snaq';
 import FlatButton from '../assets/button';
 import { useIsFocused } from "@react-navigation/native";
@@ -8,20 +8,20 @@ import { useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AnimatedHeader } from '../assets/AnimateHeader';
 import { useHeaderHeight, headerBackground } from '@react-navigation/elements';
+import Header from '../assets/header.js';
 
 function Home({navigation }) {
-  
-    const scrollY = new Animated.Value(0);
-    const diffClamp = Animated.diffClamp(scrollY, 0, 80)
-    const translateY = diffClamp.interpolate({
-    inputRange: [0, 80],
-    outputRange: [0, -80],
-    extrapolateLeft: 'clamp',
-  });
 
     const isFocused = useIsFocused();
 
     const [posts, setPosts] = useState();
+    
+    const scrollY = new Animated.Value(0);
+    const diffClamp = Animated.diffClamp(scrollY, 0, 70)
+    const headerY = diffClamp.interpolate({
+        inputRange: [0, 70],
+        outputRange: [0, -70]
+    })
 
     const getData = async () => {
         try {
@@ -51,14 +51,28 @@ function Home({navigation }) {
 
     return (
       <View style={{flex: 1}}>
-      {AnimatedHeader(translateY)}
-        <ScrollView 
-          style={styles.container}
+      <Animated.View style={{
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        height: 70,
+        backgroundColor: 'gray',
+        zIndex: 1000,
+        elevation: 1000,
+        transform:[{translateY: headerY}]
+      }}/>
+        <Animated.ScrollView 
+          bounces={false}
           scrollEventThrottle={16}
-          onScroll={(e)=>{
-            scrollY.setValue(e.nativeEvent.contentOffset.y)
-          }}
+          style={styles.container}
+          onScroll={Animated.event([
+            {
+                nativeEvent:{contentOffset:{y: scrollY}}
+            }
+          ],)}
         >
+
             <Text style={styles.headertext}>↓ Recent</Text>
                 <View style={styles.snaqcontainer}>
                     {posts && posts.map((post) =>
@@ -69,7 +83,7 @@ function Home({navigation }) {
                     )}
                 </View>
             <StatusBar style="auto" />
-        </ScrollView>
+        </Animated.ScrollView>
       </View>
     );
 }
@@ -89,6 +103,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     headertext: {
+        paddingTop: 70,
         fontWeight: 'bold',
         fontSize: 20,
         marginLeft: 20,

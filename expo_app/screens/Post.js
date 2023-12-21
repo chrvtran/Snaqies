@@ -34,14 +34,6 @@ function Post({ route, navigation }) {
 
   return (  
     <SafeAreaView style={styles.container}>
-            {AnimatedHeader(translateY)}
-        <ScrollView 
-          style={styles.container}
-          scrollEventThrottle={16}
-          onScroll={(e)=>{
-            scrollY.setValue(e.nativeEvent.contentOffset.y)
-          }}
-        >
       <View style={styles.scrollViewCont}>
         <ScrollView style={styles.scrollView}>
           <Image source={{uri: photos[0]}} style={[styles.photo, {height: height - headerHeight}]}/>
@@ -66,7 +58,6 @@ function Post({ route, navigation }) {
           <StatusBar style="auto" />
         </ScrollView>
       </View>
-      </ScrollView>
     </SafeAreaView>
   );
 }

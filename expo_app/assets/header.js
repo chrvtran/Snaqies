@@ -1,12 +1,30 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, SafeAreaView, Animated} from 'react-native';
 import { useHeaderHeight } from '@react-navigation/elements'
 import SearchIcon from './icons/search.svg'
 
 function Header() {
+
+    const scrollY = new Animated.Value(0);
+    const diffClamp = Animated.diffClamp(scrollY, 0, 70)
+    const headerY = diffClamp.interpolate({
+        inputRange: [0, 70],
+        outputRange: [0, -70]
+    })
+    
     return (
-        <View style={styles.header}>
-            <View style={styles.innerCont}>
+        <Animated.View style={styles={
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 70,
+            backgroundColor: 'gray',
+            zIndex: 1000,
+            elevation: 1000,
+            transform:[{translateY: headerY}]
+        }}>
+            {/* <View style={styles.innerCont}>
                 <View>
                     <Text style={styles.headerText}>Snaqies</Text>
                 </View>
@@ -19,29 +37,14 @@ function Header() {
                         style={styles.image}
                     />
                 </View>
-            </View>
-        </View>
+            </View> */}
+        </Animated.View>
     );
 }
 
 export default Header;
 
 const styles = StyleSheet.create({
-    header: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        width: '100%',
-        height: 80,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center', 
-        backgroundColor: 'white',
-        paddingTop: 30,
-        overflow: 'hidden',
-
-    },
     innerCont: {
         flexDirection: 'row',
         alignItems: 'center',
