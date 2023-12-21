@@ -21,7 +21,20 @@ function Home({navigation }) {
             if (values !== null) {
                 // We retrieved data
                 postObjs = values.map((val) => { return [val[0], JSON.parse(val[1])] })
+                sortedPostObjs = Object.entries(postObjs[0][1].date);
+                // for (let i = 0; i < postObjs.length; i++) {
+                //     if (!sortedPostObjs) {
+                //         sortedPostObjs.push([postObjs])
+                //     }
+                //     if (sortedPostObjs[i][1].date < postObjs[i][1].date) {
+                //         sortedPostObjs.unshift(postObjs);
+                //     }
+                // }
+
+                console.log(sortedPostObjs)
+
                 setPosts(postObjs);
+                console.log(postObjs[2][1].date) // MAGIC !!!
             }
             else {
                 throw "ERROR: Cannot retrieve AsyncStorage data in Home.js";
@@ -35,7 +48,7 @@ function Home({navigation }) {
     useEffect(() => {
         if (isFocused) {
             getData();
-            console.log(posts)
+            //console.log(posts)
         }
     }, [isFocused]);
 

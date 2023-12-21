@@ -108,15 +108,18 @@ function CameraOpen({navigation}) {
 
   const storeData = async () => {
     const newuuid = uuid.v1()
+    const date = Date.now();
     const postObj = {
       uuid: newuuid,
-      photos: photoSet.map((photo) => {return photo.uri})
+      photos: photoSet.map((photo) => {return photo.uri}),
+      date: date
     }
     try {
       const jsonValue = JSON.stringify(postObj)
+      console.log(jsonValue, postObj)
       await AsyncStorage.setItem(newuuid, jsonValue);
       getData(newuuid)
-      console.log(`Stored at ${uuid}, ${photoSet.length} photo(s)`)
+      console.log(`Stored at ${uuid}, ${photoSet.length} photo(s), ${date}`)
       resetPhotoList()
     } catch (e) {
       // saving error
