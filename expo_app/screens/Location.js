@@ -25,7 +25,7 @@ function Location({ navigation }) {
         // Gets current location
         const loc = await GeoLocation.getCurrentPositionAsync(); 
         setLocation(loc);
-        place = await findPlace(await reverseGeolocate(loc.coords.latitude, loc.coords.longitude))
+        const place = await findPlace(await reverseGeolocate(loc.coords.latitude, loc.coords.longitude))
         console.log(place)
       } else {
         console.log("Permission not granted");
