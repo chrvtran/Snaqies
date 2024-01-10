@@ -35,7 +35,6 @@ function Home({navigation }) {
     useEffect(() => {
         if (isFocused) {
             getData();
-            console.log(posts)
         }
     }, [isFocused]);
 

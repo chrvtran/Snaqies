@@ -35,7 +35,7 @@ function Location({ navigation }) {
         const loc = await GeoLocation.getCurrentPositionAsync(); 
         console.log(loc);
         setLocation(loc);
-        getAddressFromCoordinates()
+        getAddressFromCoordinates(loc.coords.latitude, loc.coords.longitude)
       } else {
         console.log("Permission not granted");
       }
@@ -48,16 +48,15 @@ function Location({ navigation }) {
     long = location.coords.longitude;
   }
 
-  const getAddressFromCoordinates = () => {
+  const getAddressFromCoordinates = (latitude, longitude) => {
     return new Promise((resolve, reject) => {
-      latitude = location.coords.latitude
-      longitude = location.coords.longitude
+      console.log("this is lat and long", latitude, longitude)
       const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${latitude},${longitude}&key=${myApiKey}`
       fetch(url)
         .then(response => response.json())
         .then(responseJson => {
-          console.log(responseJson)
           if (responseJson.status === 'OK') {
+            console.log(responseJson)
             resolve(responseJson?.results?.[0]?.formatted_address);
           } else {
             reject('not found');
