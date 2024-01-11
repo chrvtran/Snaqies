@@ -26,8 +26,6 @@ function TabNavigator() {
     <Tab.Navigator 
       initialRouteName="Snaqies"
       screenOptions={{
-        headerTitle: () => <></>,
-        // headerShown: true, 
         headerShown: false,
         tabBarShowLabel: false, 
         tabBarStyle:{}
@@ -61,8 +59,7 @@ function TabNavigator() {
                 }}
               />
             </View>
-          ),
-          headerShown: false
+          )
         }}
       /> 
       <Tab.Screen 
@@ -77,8 +74,7 @@ function TabNavigator() {
                 }}
               />
             </View>
-          ),
-          headerShown: false
+          )
         }}
       />
       <Tab.Screen 
@@ -93,8 +89,7 @@ function TabNavigator() {
                 }}
               />
             </View>
-          ),
-          headerShown: false
+          )
         }}
       />
       <Tab.Screen 
@@ -109,8 +104,7 @@ function TabNavigator() {
                 }}
               />
             </View>
-          ),
-          headerShown: false
+          )
         }}
       />
       <Tab.Screen 
@@ -125,8 +119,7 @@ function TabNavigator() {
                 }}
               />
             </View>
-          ),
-          headerShown: false
+          )
         }}
       />
     </Tab.Navigator>
