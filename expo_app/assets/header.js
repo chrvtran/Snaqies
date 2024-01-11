@@ -24,6 +24,11 @@ function Header() {
             elevation: 1000,
             transform:[{translateY: headerY}]
         }}>
+            <View style={styles={
+                backgroundColor: 'yellow'
+            }}>
+                <Text>hello</Text>
+            </View>
             {/* <View style={styles.innerCont}>
                 <View>
                     <Text style={styles.headerText}>Snaqies</Text>

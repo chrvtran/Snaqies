@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View, SafeAreaView, Animated } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, SafeAreaView, Animated, Platform} from 'react-native';
 import Snaq from '../assets/snaq';
 import FlatButton from '../assets/button';
 import { useIsFocused } from "@react-navigation/native";
@@ -10,6 +10,8 @@ import { AnimatedHeader } from '../assets/AnimateHeader';
 import { useHeaderHeight, headerBackground } from '@react-navigation/elements';
 import Header from '../assets/header.js';
 
+const HEADER_HEIGHT = Platform.OS == 'ios' ? 100 : 70 + StatusBar.currentHeight;
+
 function Home({navigation }) {
 
     const isFocused = useIsFocused();
@@ -17,10 +19,10 @@ function Home({navigation }) {
     const [posts, setPosts] = useState();
     
     const scrollY = new Animated.Value(0);
-    const diffClamp = Animated.diffClamp(scrollY, 0, 70)
+    const diffClamp = Animated.diffClamp(scrollY, 0, HEADER_HEIGHT)
     const headerY = diffClamp.interpolate({
-        inputRange: [0, 70],
-        outputRange: [0, -70]
+        inputRange: [0, HEADER_HEIGHT],
+        outputRange: [0, -HEADER_HEIGHT]
     })
 
     const getData = async () => {
@@ -56,12 +58,60 @@ function Home({navigation }) {
         left: 0,
         right: 0,
         top: 0,
-        height: 70,
-        backgroundColor: 'gray',
+        height: HEADER_HEIGHT,
+        backgroundColor: 'white',
+        // borderBottomWidth: 1,
         zIndex: 1000,
         elevation: 1000,
-        transform:[{translateY: headerY}]
-      }}/>
+        transform:[{translateY: headerY}],
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: 30,
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 2.22,
+        
+        elevation: 3,
+      }}>
+        <View style={{
+            height: 40,
+            width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+        }}>
+            <Text style={{
+                fontSize: '30',
+            }}>Snaqies
+            </Text>
+
+            <View style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+
+            }}>
+                <View style={{
+                    borderWidth: 2,
+                    height: 40,
+                    width: 40,
+                    marginRight: 10,
+                }}>
+                </View>
+
+                <View style={{
+                    borderWidth: 2,
+                    height: 40,
+                    width: 40,
+                    marginLeft: 10,
+                }}>
+                </View>
+            </View>
+
+        </View>
+        </Animated.View>
         <Animated.ScrollView 
           bounces={false}
           scrollEventThrottle={16}
@@ -72,7 +122,6 @@ function Home({navigation }) {
             }
           ],)}
         >
-
             <Text style={styles.headertext}>↓ Recent</Text>
                 <View style={styles.snaqcontainer}>
                     {posts && posts.map((post) =>
@@ -103,7 +152,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     headertext: {
-        paddingTop: 70,
+        paddingTop: 100,
         fontWeight: 'bold',
         fontSize: 20,
         marginLeft: 20,
