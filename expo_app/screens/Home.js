@@ -83,7 +83,7 @@ function Home({navigation }) {
             justifyContent: 'space-around',
         }}>
             <Text style={{
-                fontSize: '30',
+                fontSize: 30,
             }}>Snaqies
             </Text>
 
