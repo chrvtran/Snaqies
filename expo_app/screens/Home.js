@@ -18,6 +18,7 @@ function Home({navigation }) {
 
     const [posts, setPosts] = useState();
     
+    // animation of the header
     const scrollY = new Animated.Value(0);
     const diffClamp = Animated.diffClamp(scrollY, 0, HEADER_HEIGHT)
     const headerY = diffClamp.interpolate({
@@ -53,6 +54,7 @@ function Home({navigation }) {
 
     return (
       <View style={{flex: 1}}>
+        {/* header part itself including styling */}
       <Animated.View style={{
         position: 'absolute',
         left: 0,
@@ -112,6 +114,7 @@ function Home({navigation }) {
 
         </View>
         </Animated.View>
+        {/* animates header on scrollEvent (going up or down) */}
         <Animated.ScrollView 
           bounces={false}
           scrollEventThrottle={16}

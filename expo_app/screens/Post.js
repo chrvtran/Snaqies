@@ -11,6 +11,7 @@ const HEADER_HEIGHT = Platform.OS == 'ios' ? 100 : 70 + StatusBar.currentHeight;
  
 function Post({ route, navigation }) {
 
+  // animation of the header
   const scrollY = new Animated.Value(0);
   const diffClamp = Animated.diffClamp(scrollY, 0, HEADER_HEIGHT)
   const headerY = diffClamp.interpolate({
@@ -34,7 +35,8 @@ function Post({ route, navigation }) {
 
   return (  
     <View style={{flex: 1}}>
-            <Animated.View style={{
+      {/* header part itself including styling */}
+      <Animated.View style={{
         position: 'absolute',
         left: 0,
         right: 0,
@@ -84,6 +86,7 @@ function Post({ route, navigation }) {
 
         </View>
         </Animated.View>
+        {/* animates header on scrollEvent (going up or down) */}
         <Animated.ScrollView 
           bounces={false}
           scrollEventThrottle={16}
@@ -133,15 +136,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingTop: StatusBar.currentHeight,
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
   backButton: {
     position: 'absolute',
     top: 3,
     left: 5,
     height: '200',
-    // backgroundColor: 'green'
   },
   scrollViewCont: {
     height: '100%',
