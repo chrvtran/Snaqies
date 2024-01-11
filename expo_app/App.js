@@ -17,7 +17,6 @@ import LocationIcon from './assets/icons/location.svg';
 import CameraIcon from './assets/icons/camera.svg';
 import SavedIcon from './assets/icons/saved.svg';
 import ReviewIcon from './assets/icons/review.svg';
-import Header from './assets/header.js';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,7 +26,7 @@ function TabNavigator() {
     <Tab.Navigator 
       initialRouteName="Snaqies"
       screenOptions={{
-        headerTitle: () => <Header/>,
+        headerTitle: () => <></>,
         // headerShown: true, 
         headerShown: false,
         tabBarShowLabel: false, 
@@ -138,7 +137,7 @@ function MainStack() {
   return (
     <Stack.Navigator 
       screenOptions={{
-        headerTitle: () => <Header/>, 
+        headerTitle: () => <></>, 
         headerTitleAlign: 'center',
         headerBackVisible: false,
         headerShown: false,

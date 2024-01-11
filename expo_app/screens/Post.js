@@ -5,7 +5,6 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import FlatButton from '../assets/button';
 import BackArrow from 'expo_app/assets/icons/back-arrow.svg'
 import { useHeaderHeight } from '@react-navigation/elements';
-import { AnimatedHeader } from '../assets/AnimateHeader';
 
 const HEADER_HEIGHT = Platform.OS == 'ios' ? 100 : 70 + StatusBar.currentHeight;
  

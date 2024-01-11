@@ -6,9 +6,7 @@ import FlatButton from '../assets/button';
 import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AnimatedHeader } from '../assets/AnimateHeader';
 import { useHeaderHeight, headerBackground } from '@react-navigation/elements';
-import Header from '../assets/header.js';
 
 const HEADER_HEIGHT = Platform.OS == 'ios' ? 100 : 70 + StatusBar.currentHeight;
 
