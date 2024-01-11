@@ -10,7 +10,39 @@ import uuid from 'react-native-uuid';
  
 function Location({ navigation }) {
 
+  const myApiKey = "AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U"
+
   const [location, setLocation] = useState({});
+
+  // On intial tab open...
+  useEffect(() => {
+    (async() => {
+      // Request access to device location (if not already)
+      let {status} = await GeoLocation.requestForegroundPermissionsAsync()
+
+      if (status === "granted") {
+        console.log("Permission granted");
+        // Gets current location
+        const loc = await GeoLocation.getCurrentPositionAsync(); 
+        setLocation(loc);
+        const place = await findPlace(await reverseGeolocate(loc.coords.latitude, loc.coords.longitude))
+        console.log(place)
+      } else {
+        console.log("Permission not granted");
+      }
+
+    })();
+  }, []);
+
+
+  // Reassign initial lat,long values for current location
+  let lat = 0;
+  let long = 0;
+  if (JSON.stringify(location) !== '{}') {
+    lat = location.coords.latitude;
+    long = location.coords.longitude;
+  }
+
   const [ flag, setFlag ] = useState(false);
   const [ post, setPost ] = useState();
   const [ region, setRegion ] = React.useState({
@@ -20,31 +52,46 @@ function Location({ navigation }) {
     longitudeDelta: 0.0421,
   });
 
-  let lat = 0;
-  let long = 0;
-
-  useEffect(() => {
-    (async() => {
-
-      let {status} = await GeoLocation.requestForegroundPermissionsAsync()
-
-      if (status === "granted") {
-        console.log("Permission successful!");
-        const loc = await GeoLocation.getCurrentPositionAsync(); 
-        console.log(loc);
-        setLocation(loc);
-      } else {
-        console.log("Permission not granted");
-      }
-
-    })();
-  }, []);
-  
-  if (JSON.stringify(location) !== '{}') {
-    lat = location.coords.latitude;
-    long = location.coords.longitude;
+  // Gets address based on coordinates
+  const reverseGeolocate = (latitude, longitude) => {
+    return new Promise((resolve, reject) => {
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?fields=name&address=${latitude},${longitude}&key=${myApiKey}`
+      fetch(url)
+        .then(response => response.json())
+        .then(responseJson => {
+          if (responseJson.status === 'OK') {
+            resolve(responseJson?.results?.[0]?.formatted_address);
+          } else {
+            reject('not found');
+          }
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   }
 
+  // Makes a Place search to find certain information about an input
+  const findPlace = (input) => {
+    return new Promise((resolve, reject) => {
+        const find = `formatted_address,name`
+        const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?fields=${find}&input=establishment%20${input}&inputtype=textquery&key=${myApiKey}`
+        fetch(url)
+          .then(response => response.json())
+          .then(responseJson => {
+            if (responseJson.status === 'OK') {
+              resolve(responseJson?.candidates?.[0]);
+            } else {
+              reject('not found');
+            }
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+  };    
+
+  // Stores location data asynchronously
   const storeData = async (details) => {
     const newuuid = uuid.v1()
     const postObj = {
@@ -77,6 +124,7 @@ function Location({ navigation }) {
 
   return (
     <View style={{flex: 1}}>
+      {/* Search Bar */}
       <GooglePlacesAutocomplete
         placeholder="Search"
         fetchDetails={true}
@@ -97,18 +145,20 @@ function Location({ navigation }) {
           })
         }}
         query={{
-          key: "AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U",
+          key: myApiKey,
           language: "en",
           components: "country:us",
           types: "establishment",
           radius: 30000,
-          location: `${lat}, ${long}`
+          location: `${region.latitude}, ${region.longitude}`
         }}
         styles={{
           container: { flex: 0, position: "absolute", width: "100%", zIndex: 1 },
-          listView: { backgroundConolor: "white" }
+          listView: { backgroundColor: "white" }
         }}
       />
+
+      {/* Map interface */}
       { JSON.stringify(location) !== '{}' ?
         <MapView 
           style={styles.map}
@@ -120,18 +170,18 @@ function Location({ navigation }) {
             longitudeDelta: 0.006866,
           }}
         >
+          {/* Marker for the searched location */}
           <Marker coordinate={{latitude: region.latitude, longitude: region.longitude}} />
-          <Marker 
-            coordinate={{
-              latitude: lat,
-              longitude: long
-            }}
-          > 
+
+          {/* Marker for the current location */}
+          <Marker coordinate={{latitude: lat, longitude: long}}> 
             <Callout>
               <Text>I'm here</Text>
             </Callout>
           </Marker>
         </MapView> :
+
+        // If location permission isn't granted
         <View>
           <MapView 
             style={styles.map}
