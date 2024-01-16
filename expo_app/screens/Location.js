@@ -5,7 +5,7 @@ import * as GeoLocation from 'expo-location';
 import { useEffect, useState } from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import FlatButton from '../assets/button';
+import NextArrow from 'expo_app/assets/icons/arrow-foward.svg'
 
 
 function Location({ route, navigation }) {
@@ -14,6 +14,7 @@ function Location({ route, navigation }) {
 
   const {key} = route.params
   const [location, setLocation] = useState({});
+  const [place, setPlace] = useState('{}')
 
   // On intial tab open...
   useEffect(() => {
@@ -27,7 +28,7 @@ function Location({ route, navigation }) {
         const loc = await GeoLocation.getCurrentPositionAsync(); 
         setLocation(loc);
         const place = await findPlace(await reverseGeolocate(loc.coords.latitude, loc.coords.longitude))
-        console.log(place)
+        setPlace(place)
       } else {
         console.log("Permission not granted");
       }
@@ -92,22 +93,28 @@ function Location({ route, navigation }) {
   };    
 
   // Stores location data asynchronously
-  const storeData = async (details) => {
-    // const newuuid = uuid.v1()
-    // const postObj = {
-    //   uuid: newuuid,
-    //   name: details.name,
-    //   address: details.formatted_address,
-    // }
+  const storeData = async () => {
     try {
-      // const jsonValue = JSON.stringify(postObj)
-      // await AsyncStorage.setItem(newuuid, jsonValue)
-      // getData(newuuid)
-      // console.log(`Stored at ${uuid}, Value: ${jsonValue}`)
+      const jsonValue = JSON.stringify(place)
+      await AsyncStorage.mergeItem(key, jsonValue)
+      getData(key)
     } catch (e) {
       // saving error
     }
   }
+
+  // Debugging function to print out uuid and stored content
+  const getData = async (key) => {
+    try {
+      const value = await AsyncStorage.getItem(key);
+      let values = JSON.parse(value)
+      if (value !== null) {
+        console.log(`Key: ${key}, Value: ${Object.values(values)}`)
+      }
+    } catch (e) {
+      console.log(`No key: ${key}`)
+    }
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -145,8 +152,11 @@ function Location({ route, navigation }) {
         }}
       />
 
+      {/* TEMPORARY: Blue button to go back to home if stuck */}
       <View style={styles.nextButton}>
-        <FlatButton text='Go Home' onPress={() => navigation.navigate('Snaqies')} />
+        <TouchableOpacity onPress={() => storeData() && navigation.navigate('Home')}>
+          <NextArrow/>
+        </TouchableOpacity>
       </View>
 
       {/* Map interface */}
@@ -197,5 +207,11 @@ const styles = StyleSheet.create({
   map: {
     width: '100%',
     height: '100%'
+  },
+  nextButton: {
+    height: 90,
+    width: 65,
+    right: 0,
+    left: 320,
   },
 });

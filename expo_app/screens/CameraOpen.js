@@ -19,6 +19,7 @@ function CameraOpen({navigation}) {
   const { control, handleSubmit } = useForm();
   const isFocused = useIsFocused();
 
+  let key = useRef();
   let cameraRef = useRef();
   let photoList = useRef([]);
   let sliderRef = useRef();
@@ -27,7 +28,6 @@ function CameraOpen({navigation}) {
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [pickedImages, setPickedImages] = useState(false);
-  const [key, setKey] = useState('');
 
   // On intial tab open...
   useEffect(() => {
@@ -108,15 +108,12 @@ function CameraOpen({navigation}) {
     photoList.current = [];
     setPhotoSet([]);
     setPickedImages(false);
-    setKey('')
     alert("Sucessfully cleared photos.")
   }
 
   // Stores uuid and photolist to async location
   const storeData = async () => {
-    if (key == '') {
-      setKey(uuid.v1())
-    }
+    key = uuid.v1()
     const postObj = {
       uuid: key,
       photos: photoSet.map((photo) => {return photo.uri})
