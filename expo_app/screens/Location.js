@@ -1,17 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import * as GeoLocation from 'expo-location';
 import { useEffect, useState } from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import uuid from 'react-native-uuid';
+import FlatButton from '../assets/button';
 
- 
-function Location({ navigation }) {
+
+function Location({ route, navigation }) {
 
   const myApiKey = "AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U"
 
+  const {key} = route.params
   const [location, setLocation] = useState({});
 
   // On intial tab open...
@@ -44,7 +45,6 @@ function Location({ navigation }) {
   }
 
   const [ flag, setFlag ] = useState(false);
-  const [ post, setPost ] = useState();
   const [ region, setRegion ] = React.useState({
     latitude: lat,
     longitude: long,
@@ -93,32 +93,19 @@ function Location({ navigation }) {
 
   // Stores location data asynchronously
   const storeData = async (details) => {
-    const newuuid = uuid.v1()
-    const postObj = {
-      uuid: newuuid,
-      name: details.name,
-      address: details.formatted_address,
-    }
+    // const newuuid = uuid.v1()
+    // const postObj = {
+    //   uuid: newuuid,
+    //   name: details.name,
+    //   address: details.formatted_address,
+    // }
     try {
-      const jsonValue = JSON.stringify(postObj)
-      await AsyncStorage.setItem(newuuid, jsonValue)
-      getData(newuuid)
-      console.log(`Stored at ${uuid}, Value: ${jsonValue}`)
+      // const jsonValue = JSON.stringify(postObj)
+      // await AsyncStorage.setItem(newuuid, jsonValue)
+      // getData(newuuid)
+      // console.log(`Stored at ${uuid}, Value: ${jsonValue}`)
     } catch (e) {
       // saving error
-    }
-  }
-
-  const getData = async(key) => {
-    try {
-      const value = await AsyncStorage.getItem(key);
-      postObj = JSON.parse(value);
-      setPost(postObj);
-      if (value !== null) {
-        // value previously stored
-      }
-    } catch (e) {
-      //error reading value
     }
   }
 
@@ -157,6 +144,10 @@ function Location({ navigation }) {
           listView: { backgroundColor: "white" }
         }}
       />
+
+      <View style={styles.nextButton}>
+        <FlatButton text='Go Home' onPress={() => navigation.navigate('Snaqies')} />
+      </View>
 
       {/* Map interface */}
       { JSON.stringify(location) !== '{}' ?

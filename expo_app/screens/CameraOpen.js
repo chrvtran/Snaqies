@@ -23,12 +23,13 @@ function CameraOpen({navigation}) {
   let photoList = useRef([]);
   let sliderRef = useRef();
   const [photoSet, setPhotoSet] = useState([]);
-  const [post, setPost] = useState();
   const [photos, setPhoto] = useState();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [pickedImages, setPickedImages] = useState(false);
+  const [key, setKey] = useState('');
 
+  // On intial tab open...
   useEffect(() => {
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
@@ -47,6 +48,7 @@ function CameraOpen({navigation}) {
     return <Text>Permission not granted. Please change in settings.</Text>
   }
 
+  // Lets user upload photos from camera roll
   const uploadPhoto = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -69,6 +71,7 @@ function CameraOpen({navigation}) {
     }
   };
 
+  // Takes photo
   let takePhoto = async () => {
     let options = {
       quality: 1,
@@ -84,13 +87,14 @@ function CameraOpen({navigation}) {
     setPhotoSet(newPhotoList)
   };
 
+  // Saves current photo to camera roll
   let savePhoto = async () => {
-    // TODO need to get index from slider.js
     var index = Number(sliderRef.current.getIndex())
     await MediaLibrary.saveToLibraryAsync(photoSet[index].uri)
     alert("Successfully saved to camera roll.")
   }
 
+  // Removes current photo from photolist
   let deletePhoto = () => {
     var index = Number(sliderRef.current.getIndex())
     photoList.current.splice(index, 1)
@@ -99,52 +103,60 @@ function CameraOpen({navigation}) {
     alert("Successfully deleted photo.")
   }
 
+  // Clears current photolist
   let resetPhotoList = () => {
     photoList.current = [];
     setPhotoSet([]);
     setPickedImages(false);
+    setKey('')
     alert("Sucessfully cleared photos.")
   }
 
+  // Stores uuid and photolist to async location
   const storeData = async () => {
-    const newuuid = uuid.v1()
+    if (key == '') {
+      setKey(uuid.v1())
+    }
     const postObj = {
-      uuid: newuuid,
+      uuid: key,
       photos: photoSet.map((photo) => {return photo.uri})
     }
     try {
       const jsonValue = JSON.stringify(postObj)
-      await AsyncStorage.setItem(newuuid, jsonValue);
-      getData(newuuid)
-      console.log(`Stored at ${uuid}, ${photoSet.length} photo(s)`)
-      resetPhotoList()
+      await AsyncStorage.setItem(key, jsonValue);
+      getData(key)
     } catch (e) {
       // saving error
     }
   };
 
+  // Debugging function to print out uuid and stored content
   const getData = async (key) => {
     try {
       const value = await AsyncStorage.getItem(key);
       postObj = JSON.parse(value);
-      setPost(postObj);
       if (value !== null) {
-        // value previously stored
+        console.log(`Stored at ${key}, ${postObj.photos.length} photo(s)`)
       }
     } catch (e) {
-      // error reading value
+      console.log(`No key: ${key}`)
     }
   };
 
   return  (
     <>
+      {/* Initial camera screen */}
       {!pickedImages &&
         <Camera style={styles.container} ref={cameraRef}>
+
+          {/* Foward Arrow Button */}
           {(photoSet.length > 0) && <View style={styles.nextButton}>
             <TouchableOpacity onPress={() => setPickedImages(true)}>
               <NextArrow style={{fill: "white"}}/>
             </TouchableOpacity>
           </View>}
+
+          {/* Other buttons */}
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.picButtons} onPress={takePhoto}>
               <Text>Take Pic</Text>
@@ -156,6 +168,8 @@ function CameraOpen({navigation}) {
                 <Text>Reset Pics</Text>
             </TouchableOpacity>
           </View>
+
+          {/* Area towards the bottom */}
           <SafeAreaView style={styles.photoList}> 
             <ScrollView horizontal={true}>
               {photoSet && photoSet.map((photo, index) =>
@@ -163,22 +177,33 @@ function CameraOpen({navigation}) {
                 )}
               </ScrollView>
           </SafeAreaView>
+
         <StatusBar style="auto" />
       </Camera>
     }
+
+    {/* Select images screen */}
     {pickedImages &&
       <SafeAreaView style={styles.container}>
         <Slider ref={sliderRef} photos={photoSet} />
+
+        {/* Back Arrow Button */}
         <View style={styles.backButton}>
             <TouchableOpacity onPress={() => setPickedImages(false)}>
                 <BackArrow/>
               </TouchableOpacity>
         </View>
+
+        {/* Forward Arrow Button */}
         <View style={styles.nextButton}>
-          <TouchableOpacity onPress={storeData}>
+          <TouchableOpacity onPress={() => storeData() && navigation.navigate('Location', {
+            key: key
+          })}>
             <NextArrow/>
           </TouchableOpacity>
         </View>
+
+        {/* Other buttons */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.picButtons} onPress={savePhoto}>
             <Text>Save to Roll</Text>
@@ -190,14 +215,17 @@ function CameraOpen({navigation}) {
               <Text>Delete Pic</Text>
           </TouchableOpacity>
         </View>
+
+        {/* Area towards the bottom */}
         <SafeAreaView style={styles.photoList}> 
             <ScrollView horizontal={true}>
               {photoSet && photoSet.map((photo, index) =>
                 <Image key={index} style={styles.imageRoll} source={{uri: photo.uri}}></Image>
                 )}
               </ScrollView>
-            </SafeAreaView>
-        <StatusBar style="auto" />
+        </SafeAreaView>
+
+      <StatusBar style="auto" />
     </SafeAreaView>
     }
     </>
@@ -231,7 +259,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 5,
+    top: 40,
     left: 5,
     height: 30,
     width: 40
