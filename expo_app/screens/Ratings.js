@@ -10,7 +10,7 @@ function Ratings({ navigation }) {
             <Text style={styles.ratingText}>Rate Your Snaq</Text>
             <Rating fractions={1} startingValue={0} style={{ paddingVertical: 20 }}
                 onFinishRating={rating => console.log(`Finished Rating: ${rating}`)} />
-            <FlatButton text='Back to Home' onPress={() => navigation.navigate('Snaqies')}/>
+            <FlatButton text='Back to Home' onPress={() => navigation.navigate('Home')}/>
             <StatusBar style="auto" />
         </View>
     );

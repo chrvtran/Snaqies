@@ -32,7 +32,7 @@ function TabNavigator() {
       }}
     >
       <Tab.Screen 
-        name="Snaqies" 
+        name="Home" 
         component={HomeScreen} 
         options={{
           tabBarIcon: ({focused}) => (
@@ -47,7 +47,7 @@ function TabNavigator() {
 
         }} 
       />
-      <Tab.Screen 
+      {/* <Tab.Screen 
         name="Location" 
         component={LocationScreen} 
         options={{
@@ -61,7 +61,7 @@ function TabNavigator() {
             </View>
           )
         }}
-      /> 
+      />  */}
       <Tab.Screen 
         name="Camera" 
         component={CameraOpen} 
@@ -92,7 +92,7 @@ function TabNavigator() {
           )
         }}
       />
-      <Tab.Screen 
+      {/* <Tab.Screen 
         name="Review"
         component={ReviewScreen} 
         options={{
@@ -106,7 +106,7 @@ function TabNavigator() {
             </View>
           )
         }}
-      />
+      /> */}
       <Tab.Screen 
         name="Testing" 
         component={TestingScreen} 
@@ -140,6 +140,7 @@ function MainStack() {
       <Stack.Screen name="Post" component={PostScreen} />
       <Stack.Screen name="Ratings" component={RatingsScreen} />
       <Stack.Screen name="Price" component={PriceScreen}  />
+      <Stack.Screen name="Location" component={LocationScreen} />
     </Stack.Navigator>
   );
 }
