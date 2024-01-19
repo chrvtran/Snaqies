@@ -57,7 +57,7 @@ function Post({ route, navigation }) {
             justifyContent: 'space-around',
         }}>
             <Text style={{
-                fontSize: '30',
+                fontSize: 30,
             }}>Snaqies
             </Text>
 
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 3,
     left: 5,
-    height: '200',
+    height: 200,
   },
   scrollViewCont: {
     height: '100%',

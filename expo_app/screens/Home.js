@@ -125,8 +125,9 @@ function Home({navigation }) {
             <Text style={styles.headertext}>↓ Recent</Text>
                 <View style={styles.snaqcontainer}>
                     {posts && posts.map((post) =>
-                    <Snaq key={post[0]} photos={post[1].photos} onPress={() => navigation.navigate('Post', {
-                        key: post[0],
+                    <Snaq key={post[0]} photos={post[1].photos} name={post[1].name}
+                    onPress={() => navigation.navigate('Post', {
+                        uuid: post[0],
                         photos: post[1].photos,
                     })} />
                     )}
