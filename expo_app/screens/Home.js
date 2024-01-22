@@ -20,21 +20,19 @@ function Home({navigation }) {
 
             if (values !== null) {
                 // We retrieved data
-                postObjs = values.map((val) => { return [val[0], JSON.parse(val[1])] })
-                sortedPostObjs = Object.entries(postObjs[0][1].date);
-                // for (let i = 0; i < postObjs.length; i++) {
-                //     if (!sortedPostObjs) {
-                //         sortedPostObjs.push([postObjs])
-                //     }
-                //     if (sortedPostObjs[i][1].date < postObjs[i][1].date) {
-                //         sortedPostObjs.unshift(postObjs);
-                //     }
-                // }
+                postObjs = values.map((val) => [val[0], JSON.parse(val[1])]);
+                //setPosts(postObjs);
+                const validPostObjs = postObjs.filter(([key, post]) => post && post.date !== undefined);
+                    const sortedPostObjs = validPostObjs.sort((a, b) => {
+                    const dateA = new Date(a[1].date).getTime();
+                    const dateB = new Date(b[1].date).getTime();
+                    return dateB - dateA; 
+                });
+                
+            console.log("Valid Post Objects:", validPostObjs);
+            console.log("Sorted Post Objects:", sortedPostObjs);
 
-                console.log(sortedPostObjs)
-
-                setPosts(postObjs);
-                console.log(postObjs[2][1].date) // MAGIC !!!
+            setPosts(sortedPostObjs);
             }
             else {
                 throw "ERROR: Cannot retrieve AsyncStorage data in Home.js";
