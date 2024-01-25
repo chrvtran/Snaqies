@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NextArrow from 'expo_app/assets/icons/arrow-foward.svg'
-
+import Icon from 'react-native-vector-icons/MaterialIcons'; 
 
 function Location({ route, navigation }) {
 
@@ -15,7 +15,7 @@ function Location({ route, navigation }) {
   const {key} = route.params
   const [location, setLocation] = useState({});
   const [place, setPlace] = useState('{}')
-
+  
   // On intial tab open...
   useEffect(() => {
     (async() => {
@@ -180,6 +180,23 @@ function Location({ route, navigation }) {
               <Text>I'm here</Text>
             </Callout>
           </Marker>
+          {/* Recenter Button */}
+          <TouchableOpacity
+            style={styles.recenterButton}
+            onPress={() => {
+              print("recenter button pressed")
+              if (location.coords) {
+                setRegion({
+                  latitude: location.coords.latitude,
+                  longitude: location.coords.longitude,
+                  latitudeDelta: 0.004757,
+                  longitudeDelta: 0.006866,
+                });
+              }
+            }}
+          >
+            <Icon name="my-location" size={24} color="black" />
+          </TouchableOpacity>
         </MapView> :
 
         // If location permission isn't granted
@@ -213,5 +230,14 @@ const styles = StyleSheet.create({
     width: 65,
     right: 0,
     left: 320,
+  },
+  recenterButton: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    backgroundColor: 'white',
+    borderRadius: 5,
+    padding: 10,
+    zIndex: 1, // Ensure the button is above the map
   },
 });
