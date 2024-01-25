@@ -117,7 +117,7 @@ function CameraOpen({navigation}) {
     const date = Date.now();
     const postObj = {
       uuid: key,
-      photos: photoSet.map((photo) => {return photo.uri})
+      photos: photoSet.map((photo) => {return photo.uri}),
       date: date
     }
     try {
