@@ -114,9 +114,11 @@ function CameraOpen({navigation}) {
   // Stores uuid and photolist to async location
   const storeData = async () => {
     key = uuid.v1()
+    const date = Date.now();
     const postObj = {
       uuid: key,
       photos: photoSet.map((photo) => {return photo.uri})
+      date: date
     }
     try {
       const jsonValue = JSON.stringify(postObj)
