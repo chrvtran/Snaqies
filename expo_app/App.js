@@ -17,7 +17,6 @@ import LocationIcon from './assets/icons/location.svg';
 import CameraIcon from './assets/icons/camera.svg';
 import SavedIcon from './assets/icons/saved.svg';
 import ReviewIcon from './assets/icons/review.svg';
-import Header from './assets/header.js';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -26,10 +25,14 @@ function TabNavigator() {
   return(
     <Tab.Navigator 
       initialRouteName="Snaqies"
-      screenOptions={{headerShown: false, tabBarShowLabel: false, tabBarStyle:{}}}
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: false, 
+        tabBarStyle:{}
+      }}
     >
       <Tab.Screen 
-        name="Snaqies" 
+        name="Home" 
         component={HomeScreen} 
         options={{
           tabBarIcon: ({focused}) => (
@@ -41,9 +44,10 @@ function TabNavigator() {
               />
             </View>
           )
+
         }} 
       />
-      <Tab.Screen 
+      {/* <Tab.Screen 
         name="Location" 
         component={LocationScreen} 
         options={{
@@ -57,7 +61,7 @@ function TabNavigator() {
             </View>
           )
         }}
-      /> 
+      />  */}
       <Tab.Screen 
         name="Camera" 
         component={CameraOpen} 
@@ -88,7 +92,7 @@ function TabNavigator() {
           )
         }}
       />
-      <Tab.Screen 
+      {/* <Tab.Screen 
         name="Review"
         component={ReviewScreen} 
         options={{
@@ -102,7 +106,7 @@ function TabNavigator() {
             </View>
           )
         }}
-      />
+      /> */}
       <Tab.Screen 
         name="Testing" 
         component={TestingScreen} 
@@ -126,15 +130,17 @@ function MainStack() {
   return (
     <Stack.Navigator 
       screenOptions={{
-        headerTitle: () => <Header/>, 
+        headerTitle: () => <></>, 
         headerTitleAlign: 'center',
         headerBackVisible: false,
+        headerShown: false,
       }}
     >
       <Stack.Screen name="TabNav" component={TabNavigator} />
       <Stack.Screen name="Post" component={PostScreen} />
       <Stack.Screen name="Ratings" component={RatingsScreen} />
-      <Stack.Screen name="Price" component={PriceScreen} />
+      <Stack.Screen name="Price" component={PriceScreen}  />
+      <Stack.Screen name="Location" component={LocationScreen} />
     </Stack.Navigator>
   );
 }

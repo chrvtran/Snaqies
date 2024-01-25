@@ -9,7 +9,7 @@ function Price({ navigation }) {
     return (
         <View style={styles.container}>
             <Text>This is the Price Screen!</Text>
-            <FlatButton text='Back to Home' onPress={() => navigation.navigate('Snaqies')}/>
+            <FlatButton text='Back to Home' onPress={() => navigation.navigate('Home')}/>
             <View>        
                 <Text style={styles.pickerText}>Select the Price</Text>
                 <Picker
