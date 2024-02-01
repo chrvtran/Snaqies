@@ -127,8 +127,8 @@ function Post({ route, navigation }) {
             </View>
             <SafeAreaView style={styles.bottomContainer}>
               <SafeAreaView style={styles.infoContainer}>
-              <Text>{postDetails.name}</Text> {/* Add Styling */}
-              <Text>{postDetails.formatted_address}</Text> {/* add styling */}
+              <Text>{postDetails.name}</Text> 
+              <Text>{postDetails.formatted_address}</Text> 
               </SafeAreaView>
               <SafeAreaView style={styles.buttonsContainer}>
                 <TouchableOpacity style={styles.button}>
