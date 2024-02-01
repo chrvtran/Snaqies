@@ -5,9 +5,13 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import FlatButton from '../assets/button';
 import BackArrow from 'expo_app/assets/icons/back-arrow.svg'
 import { useHeaderHeight } from '@react-navigation/elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState, useEffect } from 'react';
+
+
 
 const HEADER_HEIGHT = Platform.OS == 'ios' ? 100 : 70 + StatusBar.currentHeight;
- 
+
 function Post({ route, navigation }) {
 
   // animation of the header
@@ -27,10 +31,25 @@ function Post({ route, navigation }) {
   // const photos = props.photos; // list of images
   // const foodtags = props.foodtags; // list of food names
   // const restaurantname = props.restaurantname;
-  // const address = props.address; // address
+  //const address = props.address; // address
   // const reviews = [];
 
-  const {photos} = route.params
+  const { photos, uuid } = route.params;
+  const [postDetails, setPostDetails] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem(uuid);
+        const postData = JSON.parse(jsonValue);
+        setPostDetails(postData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [uuid]);
 
   return (  
     <View style={{flex: 1}}>
@@ -108,7 +127,8 @@ function Post({ route, navigation }) {
             </View>
             <SafeAreaView style={styles.bottomContainer}>
               <SafeAreaView style={styles.infoContainer}>
-
+              <Text>{postDetails.name}</Text> {/* Add Styling */}
+              <Text>{postDetails.formatted_address}</Text> {/* add styling */}
               </SafeAreaView>
               <SafeAreaView style={styles.buttonsContainer}>
                 <TouchableOpacity style={styles.button}>
