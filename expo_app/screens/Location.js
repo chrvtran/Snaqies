@@ -117,7 +117,7 @@ function Location({ route, navigation }) {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.container}>
       {/* Search Bar */}
       <GooglePlacesAutocomplete
         placeholder="Search"
@@ -152,12 +152,16 @@ function Location({ route, navigation }) {
         }}
       />
 
-      {/* TEMPORARY: Blue button to go back to home if stuck */}
-      <View style={styles.nextButton}>
-        <TouchableOpacity onPress={() => storeData() && navigation.navigate('Home')}>
-          <NextArrow/>
-        </TouchableOpacity>
-      </View>
+      {/* Post Button */}
+      <TouchableOpacity 
+            style={styles.postButton}
+            onPress={() => storeData() && navigation.navigate('Home')}>
+            <Text style={{
+              fontSize: 20,
+              color: '#00A3FF'
+            }}>Post
+            </Text>
+      </TouchableOpacity>
 
       {/* Map interface */}
       { JSON.stringify(location) !== '{}' ?
@@ -180,6 +184,7 @@ function Location({ route, navigation }) {
               <Text>I'm here</Text>
             </Callout>
           </Marker>
+
           {/* Recenter Button */}
           <TouchableOpacity
             style={styles.recenterButton}
@@ -198,7 +203,6 @@ function Location({ route, navigation }) {
             <Icon name="my-location" size={24} color="black" />
           </TouchableOpacity>
         </MapView> :
-
         // If location permission isn't granted
         <View>
           <MapView 
@@ -217,23 +221,21 @@ export default Location;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    top: 90,
     alignItems: 'center',
-    justifyContent: 'center',
   },
   map: {
     width: '100%',
     height: '100%'
   },
-  nextButton: {
-    height: 90,
-    width: 65,
-    right: 0,
-    left: 320,
+  postButton: {
+    position: 'absolute',
+    right: 20,
+    top: -40
   },
   recenterButton: {
     position: 'absolute',
-    top: 20,
+    top: 60,
     right: 20,
     backgroundColor: 'white',
     borderRadius: 5,
