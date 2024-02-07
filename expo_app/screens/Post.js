@@ -23,14 +23,16 @@ function Post({ route, navigation }) {
 
   console.log(headerHeight);
   
-  // const key = props.uuid;
-  // const photos = props.photos; // list of images
-  // const foodtags = props.foodtags; // list of food names
-  // const restaurantname = props.restaurantname;
-  // const address = props.address; // address
-  // const reviews = [];
+  // const uuid = string
+  // const date = integer
+  // const address = string
+  // const restaurantname = string
+  // const photos = [Array] of images
+  
+  // const foodtags = [Array] of food names, component?
+  // const reviews = [Array] of review components
 
-  const {photos} = route.params
+  const {uuid, date, address, name, photos} = route.params
 
   return (  
     <View style={{flex: 1}}>
