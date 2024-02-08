@@ -44,13 +44,21 @@ function Post({ route, navigation }) {
         top: 0,
         height: HEADER_HEIGHT,
         backgroundColor: 'white',
-        borderBottomWidth: 1,
         zIndex: 1000,
         elevation: 1000,
         transform:[{translateY: headerY}],
         alignItems: 'center',
         justifyContent: 'center',
         paddingTop: 30,
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 2.22,
+        
+        elevation: 3,
       }}>
         <View style={{
             height: 40,
@@ -94,31 +102,27 @@ function Post({ route, navigation }) {
           style={styles.container}
           onScroll={Animated.event([
             {
-                nativeEvent:{contentOffset:{y: scrollY}}
+                nativeEvent:{contentOffset:{y: scrollY}},
+                
+
             }
-          ],)}
+          ],{ useNativeDriver: true,})}
         >
 
       <SafeAreaView style={styles.container}>
         <View style={styles.scrollViewCont}>
           <ScrollView style={styles.scrollView}>
-            <Image source={{uri: photos[0]}} style={[styles.photo, {height: height - headerHeight}]}/>
+            <Image source={{uri: photos[0]}} style={styles.photo}/>
             <View style={styles.backButton}>
-                <TouchableOpacity onPress={() => navigation.navigate('Snaqies')}>
+                <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                   <BackArrow style={styles.icon}/>
                 </TouchableOpacity>
             </View>
             <SafeAreaView style={styles.bottomContainer}>
               <SafeAreaView style={styles.infoContainer}>
+              <Text style={{fontSize: '20em', fontWeight: 'bold', textAlign: 'center'}}> {name} </Text>
+              <Text style={{textAlign: 'center'}}> {address} </Text>
 
-              </SafeAreaView>
-              <SafeAreaView style={styles.buttonsContainer}>
-                <TouchableOpacity style={styles.button}>
-                  <Text style={styles.buttonText}>Map</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
-                  <Text style={styles.buttonText}>Review</Text>
-                </TouchableOpacity>
               </SafeAreaView>
             </SafeAreaView>
             <StatusBar style="auto" />
@@ -140,28 +144,31 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 3,
-    left: 5,
-    height: 200,
+    top: 70,
+    left: 10,
+    height: 30,
+    width: 30,
   },
   scrollViewCont: {
     height: '100%',
   },
-  scrollView: {
-    backgroundColor: "green",
-  },
   photo: {
+    position: 'relative',
     width: '100%',
+    height: Dimensions.get('window').height * .75,
   },
   bottomContainer: {
-    flexDirection: 'row',
+    margin: 10,
+    display: "flex",
+    flexDirection: "column",
     backgroundColor: 'white',
-    height: Dimensions.get('window').height * .15,
-    width: '100%',
+    height: Dimensions.get('window').height * .35,
   },
   infoContainer: {
-    flex: 2,
-    backgroundColor: 'yellow',
+    gap: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
   },
   buttonsContainer: {
     flex: 1,
