@@ -32,16 +32,13 @@ function Home({navigation }) {
             if (values !== null) {
                 // We retrieved data
                 postObjs = values.map((val) => [val[0], JSON.parse(val[1])]);
-                //setPosts(postObjs);
+
                 const validPostObjs = postObjs.filter(([key, post]) => post && post.date !== undefined);
                     const sortedPostObjs = validPostObjs.sort((a, b) => {
                     const dateA = new Date(a[1].date).getTime();
                     const dateB = new Date(b[1].date).getTime();
                     return dateB - dateA; 
                 });
-                
-            console.log("Valid Post Objects:", validPostObjs);
-            console.log("Sorted Post Objects:", sortedPostObjs);
 
             setPosts(sortedPostObjs);
             }
@@ -131,18 +128,23 @@ function Home({navigation }) {
             {
                 nativeEvent:{contentOffset:{y: scrollY}}
             }
-          ],)}
+          ],{
+            useNativeDriver: true
+          })}
         >
             <Text style={styles.headertext}>↓ Recent</Text>
-                <View style={styles.snaqcontainer}>
-                    {posts && posts.map((post) =>
-                    <Snaq key={post[0]} photos={post[1].photos} name={post[1].name}
-                    onPress={() => navigation.navigate('Post', {
-                        uuid: post[0],
-                        photos: post[1].photos,
-                    })} />
-                    )}
-                </View>
+            <View style={styles.snaqcontainer}>
+                {posts && posts.map((post) =>
+                <Snaq key={post[0]} photos={post[1].photos} name={post[1].name}
+                onPress={() => navigation.navigate('Post', {
+                    uuid: post[0],
+                    date: post[1].date,
+                    address: post[1].formatted_address,
+                    name: post[1].name,
+                    photos: post[1].photos,
+                })} />
+                )}
+            </View>
             <StatusBar style="auto" />
         </Animated.ScrollView>
       </View>
