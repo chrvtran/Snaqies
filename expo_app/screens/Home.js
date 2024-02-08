@@ -128,7 +128,9 @@ function Home({navigation }) {
             {
                 nativeEvent:{contentOffset:{y: scrollY}}
             }
-          ],)}
+          ],{
+            useNativeDriver: true
+          })}
         >
             <Text style={styles.headertext}>↓ Recent</Text>
             <View style={styles.snaqcontainer}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, ScrollView, SafeAreaView, Dimensions, TouchableOpacity, Animated, Touchable} from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, SafeAreaView, Dimensions, TouchableOpacity, Animated} from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import FlatButton from '../assets/button';
 import BackArrow from 'expo_app/assets/icons/back-arrow.svg'
@@ -18,7 +18,7 @@ function Post({ route, navigation }) {
       outputRange: [0, -HEADER_HEIGHT]
   })
 
-  const { width, height} = Dimensions.get("window"); 
+  const { width, height } = Dimensions.get("window"); 
   const headerHeight = useHeaderHeight();
 
   console.log(headerHeight);
@@ -47,7 +47,7 @@ function Post({ route, navigation }) {
         zIndex: 1000,
         elevation: 1000,
         transform:[{translateY: headerY}],
-        alignItems: 'start',
+        alignItems: 'center',
         justifyContent: 'center',
         paddingTop: 30,
         shadowColor: "#000",
@@ -63,10 +63,35 @@ function Post({ route, navigation }) {
         <View style={{
             height: 40,
             width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'space-around',
         }}>
-          <TouchableOpacity style={{marginLeft: 10, width: 35, height: 35, justifyContent: 'center', alignItems: 'center'}}>
-            <BackArrow/>
-          </TouchableOpacity>
+            <Text style={{
+                fontSize: 30,
+            }}>Snaqies
+            </Text>
+
+            <View style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+
+            }}>
+                <View style={{
+                    borderWidth: 2,
+                    height: 40,
+                    width: 40,
+                    marginRight: 10,
+                }}>
+                </View>
+
+                <View style={{
+                    borderWidth: 2,
+                    height: 40,
+                    width: 40,
+                    marginLeft: 10,
+                }}>
+                </View>
+            </View>
 
         </View>
         </Animated.View>
@@ -77,17 +102,19 @@ function Post({ route, navigation }) {
           style={styles.container}
           onScroll={Animated.event([
             {
-                nativeEvent:{contentOffset:{y: scrollY}}
+                nativeEvent:{contentOffset:{y: scrollY}},
+                
+
             }
-          ],)}
+          ],{ useNativeDriver: true,})}
         >
 
       <SafeAreaView style={styles.container}>
         <View style={styles.scrollViewCont}>
           <ScrollView style={styles.scrollView}>
-            <Image source={{uri: photos[0]}} style={[styles.photo, {height: height - headerHeight}]}/>
+            <Image source={{uri: photos[0]}} style={styles.photo}/>
             <View style={styles.backButton}>
-                <TouchableOpacity onPress={() => navigation.navigate('Snaqies')}>
+                <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                   <BackArrow style={styles.icon}/>
                 </TouchableOpacity>
             </View>
@@ -117,22 +144,25 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 3,
-    left: 5,
-    height: 200,
+    top: 70,
+    left: 10,
+    height: 30,
+    width: 30,
   },
   scrollViewCont: {
     height: '100%',
   },
   photo: {
+    position: 'relative',
     width: '100%',
+    height: Dimensions.get('window').height * .75,
   },
   bottomContainer: {
     margin: 10,
     display: "flex",
     flexDirection: "column",
     backgroundColor: 'white',
-    height: Dimensions.get('window').height * .15,
+    height: Dimensions.get('window').height * .35,
   },
   infoContainer: {
     gap: 5,
@@ -140,6 +170,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
   },
+  buttonsContainer: {
+    flex: 1,
+    backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }, 
   button: {
     borderWidth: 1,
     borderRadius: 13,
