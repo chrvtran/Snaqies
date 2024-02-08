@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, ScrollView, SafeAreaView, Dimensions, TouchableOpacity, Animated} from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, SafeAreaView, Dimensions, TouchableOpacity, Animated, Touchable} from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import FlatButton from '../assets/button';
 import BackArrow from 'expo_app/assets/icons/back-arrow.svg'
@@ -18,7 +18,7 @@ function Post({ route, navigation }) {
       outputRange: [0, -HEADER_HEIGHT]
   })
 
-  const { width, height } = Dimensions.get("window"); 
+  const { width, height} = Dimensions.get("window"); 
   const headerHeight = useHeaderHeight();
 
   console.log(headerHeight);
@@ -44,46 +44,29 @@ function Post({ route, navigation }) {
         top: 0,
         height: HEADER_HEIGHT,
         backgroundColor: 'white',
-        borderBottomWidth: 1,
         zIndex: 1000,
         elevation: 1000,
         transform:[{translateY: headerY}],
-        alignItems: 'center',
+        alignItems: 'start',
         justifyContent: 'center',
         paddingTop: 30,
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 2.22,
+        
+        elevation: 3,
       }}>
         <View style={{
             height: 40,
             width: '100%',
-            flexDirection: 'row',
-            justifyContent: 'space-around',
         }}>
-            <Text style={{
-                fontSize: 30,
-            }}>Snaqies
-            </Text>
-
-            <View style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-
-            }}>
-                <View style={{
-                    borderWidth: 2,
-                    height: 40,
-                    width: 40,
-                    marginRight: 10,
-                }}>
-                </View>
-
-                <View style={{
-                    borderWidth: 2,
-                    height: 40,
-                    width: 40,
-                    marginLeft: 10,
-                }}>
-                </View>
-            </View>
+          <TouchableOpacity style={{marginLeft: 10, width: 35, height: 35, justifyContent: 'center', alignItems: 'center'}}>
+            <BackArrow/>
+          </TouchableOpacity>
 
         </View>
         </Animated.View>
@@ -110,15 +93,9 @@ function Post({ route, navigation }) {
             </View>
             <SafeAreaView style={styles.bottomContainer}>
               <SafeAreaView style={styles.infoContainer}>
+              <Text style={{fontSize: '20em', fontWeight: 'bold', textAlign: 'center'}}> {name} </Text>
+              <Text style={{textAlign: 'center'}}> {address} </Text>
 
-              </SafeAreaView>
-              <SafeAreaView style={styles.buttonsContainer}>
-                <TouchableOpacity style={styles.button}>
-                  <Text style={styles.buttonText}>Map</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
-                  <Text style={styles.buttonText}>Review</Text>
-                </TouchableOpacity>
               </SafeAreaView>
             </SafeAreaView>
             <StatusBar style="auto" />
@@ -147,28 +124,22 @@ const styles = StyleSheet.create({
   scrollViewCont: {
     height: '100%',
   },
-  scrollView: {
-    backgroundColor: "green",
-  },
   photo: {
     width: '100%',
   },
   bottomContainer: {
-    flexDirection: 'row',
+    margin: 10,
+    display: "flex",
+    flexDirection: "column",
     backgroundColor: 'white',
     height: Dimensions.get('window').height * .15,
-    width: '100%',
   },
   infoContainer: {
-    flex: 2,
-    backgroundColor: 'yellow',
-  },
-  buttonsContainer: {
-    flex: 1,
-    backgroundColor: 'red',
+    gap: 5,
     alignItems: 'center',
     justifyContent: 'center',
-  }, 
+    textAlign: 'center',
+  },
   button: {
     borderWidth: 1,
     borderRadius: 13,
