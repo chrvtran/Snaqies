@@ -33,7 +33,8 @@ function TabNavigator() {
     >
       <Tab.Screen 
         name="Home" 
-        component={HomeScreen} 
+        component={HomeScreen}
+        initialParams={{photoList: 0}} 
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
@@ -62,6 +63,7 @@ function TabNavigator() {
           )
         }}
       />  */}
+      
       <Tab.Screen 
         name="Camera" 
         component={CameraOpen} 
@@ -77,6 +79,7 @@ function TabNavigator() {
           )
         }}
       />
+      
       <Tab.Screen 
         name="Saved" 
         component={SavedScreen} 

@@ -13,8 +13,10 @@ function Location({ route, navigation }) {
   const myApiKey = "AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U"
 
   const {key} = route.params
+  let {photoSet, setPhotoSet, photoList} = route.params // [photoSet, setPhotoSet] = CO.js photo slider state
   const [location, setLocation] = useState({});
   const [place, setPlace] = useState('{}')
+  console.log(photoSet.length, setPhotoSet) //checking CO.js connection
   
   // On intial tab open...
   useEffect(() => {
@@ -92,12 +94,18 @@ function Location({ route, navigation }) {
       });
   };    
 
+  clearPhotoSet = () => {
+    console.log('clearing Photo set');
+    setPhotoSet([]);
+    photoList.current = [];
+  }
   // Stores location data asynchronously
   const storeData = async () => {
     try {
       const jsonValue = JSON.stringify(place)
       await AsyncStorage.mergeItem(key, jsonValue)
       getData(key)
+      clearPhotoSet();
     } catch (e) {
       // saving error
     }
