@@ -16,7 +16,6 @@ function Location({ route, navigation }) {
   let {photoSet, setPhotoSet, photoList} = route.params // [photoSet, setPhotoSet] = CO.js photo slider state
   const [location, setLocation] = useState({});
   const [place, setPlace] = useState('{}')
-  console.log(photoSet.length, setPhotoSet) //checking CO.js connection
   
   // On intial tab open...
   useEffect(() => {
@@ -95,10 +94,11 @@ function Location({ route, navigation }) {
   };    
 
   clearPhotoSet = () => {
-    console.log('clearing Photo set');
+    console.log('Clearing PhotoSet');
     setPhotoSet([]);
     photoList.current = [];
   }
+
   // Stores location data asynchronously
   const storeData = async () => {
     try {
@@ -117,7 +117,7 @@ function Location({ route, navigation }) {
       const value = await AsyncStorage.getItem(key);
       let values = JSON.parse(value)
       if (value !== null) {
-        console.log(`Key: ${key}, Value: ${Object.values(values)}`)
+        console.log(`CREATING SNAQ POST\tKey: ${key}\tValue: ${Object.values(values)}`)
       }
     } catch (e) {
       console.log(`No key: ${key}`)
@@ -135,10 +135,8 @@ function Location({ route, navigation }) {
         }}
         onPress={(data, details = null) => {
           // console.log(data, details)
-          console.log("Formatted Address", details.formatted_address)
-          console.log("Name", details.name)
           setFlag(true)
-          storeData(details)
+          setPlace({formatted_address: details.formatted_address, name: details.name})
           setRegion({
             latitude: details.geometry.location.lat,
             longitude: details.geometry.location.lng,
@@ -189,7 +187,7 @@ function Location({ route, navigation }) {
           {/* Marker for the current location */}
           <Marker coordinate={{latitude: lat, longitude: long}}> 
             <Callout>
-              <Text>I'm here</Text>
+              <Text>{place.name}</Text>
             </Callout>
           </Marker>
 

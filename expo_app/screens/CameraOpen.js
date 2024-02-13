@@ -47,7 +47,7 @@ function CameraOpen({navigation}) {
   } else if (!hasCameraPermission) {
     return <Text>Permission not granted. Please change in settings.</Text>
   }
-  console.log(photoList.current.length)
+
   // Lets user upload photos from camera roll
   const uploadPhoto = async () => {
     // No permissions request is necessary for launching the image library
@@ -58,7 +58,6 @@ function CameraOpen({navigation}) {
       quality: 1,
     });
     delete result.cancelled;
-    //console.log(result);
     let i = 0;
     while (!result.canceled && i < result.assets.length) {
       setPhoto(result.assets[i]);
