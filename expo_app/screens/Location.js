@@ -229,8 +229,7 @@ export default Location;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    top: 90,
-    alignItems: 'center',
+    top: 90
   },
   map: {
     width: '100%',
