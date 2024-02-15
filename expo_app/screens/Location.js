@@ -15,7 +15,7 @@ function Location({ route, navigation }) {
   const {key} = route.params
   let {photoSet, setPhotoSet, photoList} = route.params // [photoSet, setPhotoSet] = CO.js photo slider state
   const [location, setLocation] = useState({});
-  const [place, setPlace] = useState('{}')
+  const [place, setPlace] = useState({formatted_address: "", name: "", geometry: {location: {lat: 0, lng: 0}}})
   
   // On intial tab open...
   useEffect(() => {
@@ -38,18 +38,18 @@ function Location({ route, navigation }) {
   }, []);
 
 
-  // Reassign initial lat,long values for current location
+  // Reassign initial lat,lng values for current location
   let lat = 0;
-  let long = 0;
+  let lng = 0;
   if (JSON.stringify(location) !== '{}') {
     lat = location.coords.latitude;
-    long = location.coords.longitude;
+    lng = location.coords.longitude;
   }
 
   const [ flag, setFlag ] = useState(false);
   const [ region, setRegion ] = React.useState({
     latitude: lat,
-    longitude: long,
+    longitude: lng,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
@@ -57,7 +57,9 @@ function Location({ route, navigation }) {
   // Gets address based on coordinates
   const reverseGeolocate = (latitude, longitude) => {
     return new Promise((resolve, reject) => {
-      const url = `https://maps.googleapis.com/maps/api/geocode/json?fields=name&address=${latitude},${longitude}&key=${myApiKey}`
+      let url = `https://maps.googleapis.com/maps/api/geocode/json?fields=name`
+      url += `&address=${latitude},${longitude}`
+      url += `&key=${myApiKey}`
       fetch(url)
         .then(response => response.json())
         .then(responseJson => {
@@ -76,8 +78,11 @@ function Location({ route, navigation }) {
   // Makes a Place search to find certain information about an input
   const findPlace = (input) => {
     return new Promise((resolve, reject) => {
-        const find = `formatted_address,name`
-        const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?fields=${find}&input=establishment%20${input}&inputtype=textquery&key=${myApiKey}`
+        let url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?`
+        url += `fields=formatted_address,name,geometry`
+        url += `&input=food ${input}`
+        url += `&inputtype=textquery`
+        url += `&key=${myApiKey}`
         fetch(url)
           .then(response => response.json())
           .then(responseJson => {
@@ -94,7 +99,6 @@ function Location({ route, navigation }) {
   };    
 
   clearPhotoSet = () => {
-    console.log('Clearing PhotoSet');
     setPhotoSet([]);
     photoList.current = [];
   }
@@ -136,7 +140,7 @@ function Location({ route, navigation }) {
         onPress={(data, details = null) => {
           // console.log(data, details)
           setFlag(true)
-          setPlace({formatted_address: details.formatted_address, name: details.name})
+          setPlace({formatted_address: details.formatted_address, name: details.name, geometry: details.geometry})
           setRegion({
             latitude: details.geometry.location.lat,
             longitude: details.geometry.location.lng,
@@ -176,7 +180,7 @@ function Location({ route, navigation }) {
           provider='google'
           region= { flag ? region : {
             latitude: lat,
-            longitude: long,
+            longitude: lng,
             latitudeDelta: 0.004757,
             longitudeDelta: 0.006866,
           }}
@@ -185,7 +189,14 @@ function Location({ route, navigation }) {
           <Marker coordinate={{latitude: region.latitude, longitude: region.longitude}} />
 
           {/* Marker for the current location */}
-          <Marker coordinate={{latitude: lat, longitude: long}}> 
+          <Marker coordinate={{latitude: lat, longitude: lng}}> 
+            <Callout>
+              <Text>I'm here</Text>
+            </Callout>
+          </Marker>
+
+          {/* Marker for findPlace location */}
+          <Marker coordinate={{latitude: place.geometry.location.lat, longitude: place.geometry.location.lng}}>
             <Callout>
               <Text>{place.name}</Text>
             </Callout>
