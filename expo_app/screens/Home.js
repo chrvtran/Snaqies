@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useHeaderHeight, headerBackground } from '@react-navigation/elements';
 
-const HEADER_HEIGHT = Platform.OS == 'ios' ? 100 : 70 + StatusBar.currentHeight;
+const HEADER_HEIGHT = Platform.OS == 'ios' ? 110 : 70 + StatusBar.currentHeight;
 
 function Home({navigation }) {
 
@@ -132,7 +132,6 @@ function Home({navigation }) {
             useNativeDriver: true
           })}
         >
-            <Text style={styles.headertext}>↓ Recent</Text>
             <View style={styles.snaqcontainer}>
                 {posts && posts.map((post) =>
                 <Snaq key={post[0]} photos={post[1].photos} name={post[1].name}
@@ -158,6 +157,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     snaqcontainer: {
+        paddingTop: 120,
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',

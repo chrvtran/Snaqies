@@ -6,7 +6,7 @@ import FlatButton from '../assets/button';
 import BackArrow from 'expo_app/assets/icons/back-arrow.svg'
 import { useHeaderHeight } from '@react-navigation/elements';
 
-const HEADER_HEIGHT = Platform.OS == 'ios' ? 100 : 70 + StatusBar.currentHeight;
+const HEADER_HEIGHT = Platform.OS == 'ios' ? 110 : 70 + StatusBar.currentHeight;
  
 function Post({ route, navigation }) {
 
@@ -103,8 +103,6 @@ function Post({ route, navigation }) {
           onScroll={Animated.event([
             {
                 nativeEvent:{contentOffset:{y: scrollY}},
-                
-
             }
           ],{ useNativeDriver: true,})}
         >
