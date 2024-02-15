@@ -20,8 +20,6 @@ function Post({ route, navigation }) {
 
   const { width, height } = Dimensions.get("window"); 
   const headerHeight = useHeaderHeight();
-
-  console.log(headerHeight);
   
   // const uuid = string
   // const date = integer
@@ -132,7 +130,7 @@ function Post({ route, navigation }) {
             </View>
             <SafeAreaView style={styles.bottomContainer}>
               <SafeAreaView style={styles.infoContainer}>
-              <Text style={{fontSize: '20em', fontWeight: 'bold', textAlign: 'center'}}> {name} </Text>
+              <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}> {name} </Text>
               <Text style={{textAlign: 'center'}}> {address} </Text>
 
               </SafeAreaView>
