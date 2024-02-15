@@ -80,7 +80,7 @@ function Location({ route, navigation }) {
     return new Promise((resolve, reject) => {
         let url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?`
         url += `fields=formatted_address,name,geometry`
-        url += `&input=food ${input}`
+        url += `&input=point_of_interest ${input}`
         url += `&inputtype=textquery`
         url += `&key=${myApiKey}`
         fetch(url)
