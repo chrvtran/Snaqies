@@ -35,7 +35,7 @@ function Post({ route, navigation }) {
   const {uuid, date, address, name, photos} = route.params
 
   return (  
-    <View style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1}}>
       {/* header part itself including styling */}
       <Animated.View style={{
         position: 'absolute',
@@ -112,7 +112,21 @@ function Post({ route, navigation }) {
       <SafeAreaView style={styles.container}>
         <View style={styles.scrollViewCont}>
           <ScrollView style={styles.scrollView}>
-            <Image source={{uri: photos[0]}} style={styles.photo}/>
+            <SafeAreaView style={styles.horizontalScroll}>
+              <ScrollView horizontal={true}>
+
+              {photos && photos.map((photo) => {
+                {console.log(photo)}
+                return(
+
+                <Image source={{uri: photo}} style={styles.photo}/>
+                )
+              })}
+
+              {/* <Image source={{uri: photo}} style={styles.photo}/>
+              <Image source={{uri: photo}} style={styles.photo}/> */}
+              </ScrollView>
+            </SafeAreaView>
             <View style={styles.backButton}>
                 <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                   <BackArrow style={styles.icon}/>
@@ -130,7 +144,7 @@ function Post({ route, navigation }) {
         </View>
       </SafeAreaView>
       </Animated.ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -152,9 +166,13 @@ const styles = StyleSheet.create({
   scrollViewCont: {
     height: '100%',
   },
+  horizontalScroll: {
+    top: 0,
+    flexDirection: 'row',
+  },
   photo: {
     position: 'relative',
-    width: '100%',
+    width: Dimensions.get('window').width,
     height: Dimensions.get('window').height * .75,
   },
   bottomContainer: {
