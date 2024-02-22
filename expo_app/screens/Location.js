@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Button} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Button, Animated} from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import * as GeoLocation from 'expo-location';
 import { useEffect, useState } from 'react';
@@ -7,6 +7,11 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NextArrow from 'expo_app/assets/icons/arrow-foward.svg'
 import Icon from 'react-native-vector-icons/MaterialIcons'; 
+import BackArrow from "expo_app/assets/icons/arrow-backward.svg"
+
+
+const HEADER_HEIGHT = Platform.OS == 'ios' ? 110 : 70 + StatusBar.currentHeight;
+
 
 function Location({ route, navigation }) {
 
@@ -16,6 +21,14 @@ function Location({ route, navigation }) {
   let {photoSet, setPhotoSet, photoList} = route.params // [photoSet, setPhotoSet] = CO.js photo slider state
   const [location, setLocation] = useState({});
   const [place, setPlace] = useState('{}')
+
+  // animation of the header
+  const scrollY = new Animated.Value(0);
+  const diffClamp = Animated.diffClamp(scrollY, 0, HEADER_HEIGHT)
+  const headerY = diffClamp.interpolate({
+      inputRange: [0, HEADER_HEIGHT],
+      outputRange: [0, -HEADER_HEIGHT]
+  })
   
   // On intial tab open...
   useEffect(() => {
@@ -126,40 +139,53 @@ function Location({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* Search Bar */}
-      <GooglePlacesAutocomplete
-        placeholder="Search"
-        fetchDetails={true}
-        GooglePlacesSearchQuery={{
-          rankby: "distance",
-        }}
-        onPress={(data, details = null) => {
-          // console.log(data, details)
-          setFlag(true)
-          setPlace({formatted_address: details.formatted_address, name: details.name})
-          setRegion({
-            latitude: details.geometry.location.lat,
-            longitude: details.geometry.location.lng,
-            latitudeDelta: 0.004757,
-            longitudeDelta: 0.006866,
-          })
-        }}
-        query={{
-          key: myApiKey,
-          language: "en",
-          components: "country:us",
-          types: "establishment",
-          radius: 30000,
-          location: `${region.latitude}, ${region.longitude}`
-        }}
-        styles={{
-          container: { flex: 0, position: "absolute", width: "100%", zIndex: 1 },
-          listView: { backgroundColor: "white" }
-        }}
-      />
-
-      {/* Post Button */}
-      <TouchableOpacity 
+      <Animated.View style={{
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        height: HEADER_HEIGHT,
+        backgroundColor: 'white',
+        // borderBottomWidth: 1,
+        zIndex: 1000,
+        elevation: 1000,
+        transform:[{translateY: headerY}],
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: 30,
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 2.22,
+        
+        elevation: 3,
+      }}>
+      <View style={{
+        flexDirection: 'column',
+        height: 80,
+        width: '100%',
+        justifyContent: 'center',
+      }}>
+        <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+        }}>
+        {/* Back Arrow Button */}
+          <TouchableOpacity style={{width: 50, height: 30,}} onPress={() => {}}>
+              <BackArrow/>
+          </TouchableOpacity>
+          {/* New Post */}
+          <View>
+            <Text style={{
+              fontWeight: 'bold',
+              fontSize: 20
+            }}>New Post</Text>
+          </View>
+          {/* Post Button */}
+          <TouchableOpacity 
             style={styles.postButton}
             onPress={() => storeData() && navigation.navigate('Home')}>
             <Text style={{
@@ -167,8 +193,63 @@ function Location({ route, navigation }) {
               color: '#00A3FF'
             }}>Post
             </Text>
-      </TouchableOpacity>
-
+          </TouchableOpacity>
+        </View>
+        <View style={{
+          height: 20,
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+                    {/* Search Bar */}
+          <GooglePlacesAutocomplete
+            placeholder="Search"
+            fetchDetails={true}
+            GooglePlacesSearchQuery={{
+              rankby: "distance",
+            }}
+            onPress={(data, details = null) => {
+              // console.log(data, details)
+              setFlag(true)
+              setPlace({formatted_address: details.formatted_address, name: details.name})
+              setRegion({
+                latitude: details.geometry.location.lat,
+                longitude: details.geometry.location.lng,
+                latitudeDelta: 0.004757,
+                longitudeDelta: 0.006866,
+              })
+            }}
+            query={{
+              key: myApiKey,
+              language: "en",
+              components: "country:us",
+              types: "establishment",
+              radius: 30000,
+              location: `${region.latitude}, ${region.longitude}`
+            }}
+            styles={{
+              container: { width: "100%",},
+              listView: { backgroundColor: "white", width: "80%", alignSelf:'center', position: 'absolute', marginTop: 35},
+              textInputContainer: {backgroundColor: "white", width: "80%", alignSelf: 'center'},
+              textInput: {backgroundColor: 'lightgray', height: "90%", width: "80%"}
+            }}
+          />
+        </View>
+      </View>
+        </Animated.View>
+        {/* animates header on scrollEvent (going up or down) */}
+        <Animated.ScrollView 
+          bounces={false}
+          scrollEventThrottle={16}
+          style={styles.container}
+          onScroll={Animated.event([
+            {
+                nativeEvent:{contentOffset:{y: scrollY}}
+            }
+          ],{
+            useNativeDriver: true
+          })}
+        >
+        </Animated.ScrollView>
       {/* Map interface */}
       { JSON.stringify(location) !== '{}' ?
         <MapView 
@@ -227,16 +308,13 @@ export default Location;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    top: 90
   },
   map: {
     width: '100%',
     height: '100%'
   },
   postButton: {
-    position: 'absolute',
-    right: 20,
-    top: -40
+    width: 50,
   },
   recenterButton: {
     position: 'absolute',
@@ -246,5 +324,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     zIndex: 1, // Ensure the button is above the map
+  },
+  backButton: {
   },
 });
