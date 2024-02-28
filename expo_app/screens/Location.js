@@ -15,6 +15,7 @@ function Location({ route, navigation }) {
   const {key} = route.params
   const [location, setLocation] = useState({});
   const [place, setPlace] = useState('{}')
+<<<<<<< Updated upstream
   const distance_threshold = 0.01
 
   const calculateDistance = (coord1, coord2) => {
@@ -44,7 +45,18 @@ function Location({ route, navigation }) {
   
     return closestIcon ? closestIcon.icon : null;
   };
+=======
+  const distance_threshold = 0.01;
+>>>>>>> Stashed changes
   // On intial tab open...
+
+  const calculateDistance = (coord1, coord2) => {
+    return Math.sqrt(
+      Math.pow(coord1.latitude - coord2.latitude, 2) +
+      Math.pow(coord1.longitude - coord2.longitude, 2)
+    );
+  };
+  
   useEffect(() => {
     (async() => {
       // Request access to device location (if not already)
@@ -189,6 +201,7 @@ function Location({ route, navigation }) {
 
       {/* Map interface */}
       { JSON.stringify(location) !== '{}' ?
+<<<<<<< Updated upstream
         <MapView 
         style={styles.map}
         provider='google'
@@ -249,6 +262,49 @@ function Location({ route, navigation }) {
           <Icon name="my-location" size={24} color="black" />
         </TouchableOpacity>
       </MapView> :
+=======
+            <MapView 
+            style={styles.map}
+            provider='google'
+            region={flag ? region : {
+              latitude: lat,
+              longitude: long,
+              latitudeDelta: 0.004757,
+              longitudeDelta: 0.006866,
+            }}
+            onPress={(event) => {
+              const { coordinate } = event.nativeEvent;
+              alert(`Selected Location - Lat: ${coordinate.latitude}, Lng: ${coordinate.longitude}`);
+            }}
+          >
+            {/* Marker for the current location */}
+            {region.latitude && region.longitude && (
+              <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }}>
+                <Callout>
+                  <Text>I'm here</Text>
+                </Callout>
+              </Marker>
+            )}
+          
+            {/* Recenter Button */}
+            <TouchableOpacity
+              style={styles.recenterButton}
+              onPress={() => {
+                if (location.coords) {
+                  // Update the current location marker's coordinate to the device's location
+                  setRegion({
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
+                    latitudeDelta: 0.004757,
+                    longitudeDelta: 0.006866,
+                  });
+                }
+              }}
+            >
+              <Icon name="my-location" size={24} color="black" />
+            </TouchableOpacity>
+          </MapView> :
+>>>>>>> Stashed changes
 
         // If location permission isn't granted
         <View>
