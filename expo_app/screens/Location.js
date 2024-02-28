@@ -15,7 +15,35 @@ function Location({ route, navigation }) {
   const {key} = route.params
   const [location, setLocation] = useState({});
   const [place, setPlace] = useState('{}')
+  const distance_threshold = 0.01
+
+  const calculateDistance = (coord1, coord2) => {
+    return Math.sqrt(
+      Math.pow(coord1.latitude - coord2.latitude, 2) +
+      Math.pow(coord1.longitude - coord2.longitude, 2)
+    );
+  };
+  const findClosestIcon = (pressedCoordinate) => {
+    // Replace this with your logic to find the closest labeled icon
+    const labeledIcons = [
+      { latitude: 37.7749, longitude: -122.4194, description: "Example Icon 1" },
+      { latitude: 37.7858, longitude: -122.4016, description: "Example Icon 2" },
+      // Add more labeled icons as needed
+    ];
   
+    // Placeholder logic to find the closest icon based on distance
+    const closestIcon = labeledIcons.reduce((closest, icon) => {
+      const distance = calculateDistance(pressedCoordinate, icon);
+  
+      if (!closest || distance < closest.distance) {
+        return { icon, distance };
+      }
+  
+      return closest;
+    }, null);
+  
+    return closestIcon ? closestIcon.icon : null;
+  };
   // On intial tab open...
   useEffect(() => {
     (async() => {
@@ -162,42 +190,65 @@ function Location({ route, navigation }) {
       {/* Map interface */}
       { JSON.stringify(location) !== '{}' ?
         <MapView 
-          style={styles.map}
-          provider='google'
-          region= { flag ? region : {
-            latitude: lat,
-            longitude: long,
+        style={styles.map}
+        provider='google'
+        region={flag ? region : {
+          latitude: lat,
+          longitude: long,
+          latitudeDelta: 0.004757,
+          longitudeDelta: 0.006866,
+        }}
+        onPress={(event) => {
+          const { coordinate } = event.nativeEvent;
+          // Set the region to the pressed coordinate
+          setRegion({
+            latitude: coordinate.latitude,
+            longitude: coordinate.longitude,
             latitudeDelta: 0.004757,
             longitudeDelta: 0.006866,
-          }}
-        >
-          {/* Marker for the searched location */}
-          <Marker coordinate={{latitude: region.latitude, longitude: region.longitude}} />
-
-          {/* Marker for the current location */}
-          <Marker coordinate={{latitude: lat, longitude: long}}> 
+          });
+        }}
+      >
+        {/* Marker for the current location */}
+        {region.latitude && !region.longitude && (
+          <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }}>
             <Callout>
-              <Text>I'm here</Text>
+              <View>
+                <Text>I'm here</Text>
+              </View>
             </Callout>
           </Marker>
-          {/* Recenter Button */}
-          <TouchableOpacity
-            style={styles.recenterButton}
-            onPress={() => {
-              print("recenter button pressed")
-              if (location.coords) {
-                setRegion({
-                  latitude: location.coords.latitude,
-                  longitude: location.coords.longitude,
-                  latitudeDelta: 0.004757,
-                  longitudeDelta: 0.006866,
-                });
-              }
-            }}
-          >
-            <Icon name="my-location" size={24} color="black" />
-          </TouchableOpacity>
-        </MapView> :
+        )}
+      
+        {/* Marker for the pressed location */}
+        {region.latitude && region.longitude && (
+          <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }}>
+            <Callout>
+              <View>
+                <Text>Pressed Location</Text>
+              </View>
+            </Callout>
+          </Marker>
+        )}
+      
+        {/* Recenter Button */}
+        <TouchableOpacity
+          style={styles.recenterButton}
+          onPress={() => {
+            if (location.coords) {
+              // Update the current location marker's coordinate to the device's location
+              setRegion({
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                latitudeDelta: 0.004757,
+                longitudeDelta: 0.006866,
+              });
+            }
+          }}
+        >
+          <Icon name="my-location" size={24} color="black" />
+        </TouchableOpacity>
+      </MapView> :
 
         // If location permission isn't granted
         <View>
@@ -233,8 +284,8 @@ const styles = StyleSheet.create({
   },
   recenterButton: {
     position: 'absolute',
-    top: 20,
-    right: 20,
+    top: '5%',
+    right: '5%',
     backgroundColor: 'white',
     borderRadius: 5,
     padding: 10,
