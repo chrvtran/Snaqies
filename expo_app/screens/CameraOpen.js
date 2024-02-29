@@ -99,7 +99,6 @@ function CameraOpen({navigation}) {
     const newPhotoList = [...photoList.current];
     setPhotoSet(newPhotoList)
     alert("Successfully deleted photo.")
-    console.log(photoList.current.length)
     if (photoList.current.length == 0) {
       setPickedImages(false)
     }
