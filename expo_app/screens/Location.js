@@ -1,32 +1,32 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Button} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import * as GeoLocation from 'expo-location';
 import { useEffect, useState } from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NextArrow from 'expo_app/assets/icons/arrow-foward.svg'
-import Icon from 'react-native-vector-icons/MaterialIcons'; 
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 function Location({ route, navigation }) {
 
   const myApiKey = "AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U"
 
-  const {key} = route.params
-  let {photoSet, setPhotoSet, photoList} = route.params // [photoSet, setPhotoSet] = CO.js photo slider state
+  const { key } = route.params
+  let { photoSet, setPhotoSet, photoList } = route.params // [photoSet, setPhotoSet] = CO.js photo slider state
   const [location, setLocation] = useState({});
-  const [place, setPlace] = useState({formatted_address: "", name: "", geometry: {location: {lat: 0, lng: 0}}})
-  
+  const [place, setPlace] = useState({ formatted_address: "", name: "", geometry: { location: { lat: 0, lng: 0 } } })
+
   // On intial tab open...
   useEffect(() => {
-    (async() => {
+    (async () => {
       // Request access to device location (if not already)
-      let {status} = await GeoLocation.requestForegroundPermissionsAsync()
+      let { status } = await GeoLocation.requestForegroundPermissionsAsync()
 
       if (status === "granted") {
         console.log("Permission granted");
         // Gets current location
-        const loc = await GeoLocation.getCurrentPositionAsync(); 
+        const loc = await GeoLocation.getCurrentPositionAsync();
         setLocation(loc);
         const place = await findPlace(await reverseGeolocate(loc.coords.latitude, loc.coords.longitude))
         setPlace(place)
@@ -46,8 +46,8 @@ function Location({ route, navigation }) {
     lng = location.coords.longitude;
   }
 
-  const [ flag, setFlag ] = useState(false);
-  const [ region, setRegion ] = React.useState({
+  const [flag, setFlag] = useState(false);
+  const [region, setRegion] = React.useState({
     latitude: lat,
     longitude: lng,
     latitudeDelta: 0.0922,
@@ -78,25 +78,25 @@ function Location({ route, navigation }) {
   // Makes a Place search to find certain information about an input
   const findPlace = (input) => {
     return new Promise((resolve, reject) => {
-        let url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?`
-        url += `fields=formatted_address,name,geometry`
-        url += `&input=point_of_interest ${input}`
-        url += `&inputtype=textquery`
-        url += `&key=${myApiKey}`
-        fetch(url)
-          .then(response => response.json())
-          .then(responseJson => {
-            if (responseJson.status === 'OK') {
-              resolve(responseJson?.candidates?.[0]);
-            } else {
-              reject('not found');
-            }
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-  };    
+      let url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?`
+      url += `fields=formatted_address,name,geometry`
+      url += `&input=point_of_interest ${input}`
+      url += `&inputtype=textquery`
+      url += `&key=${myApiKey}`
+      fetch(url)
+        .then(response => response.json())
+        .then(responseJson => {
+          if (responseJson.status === 'OK') {
+            resolve(responseJson?.candidates?.[0]);
+          } else {
+            reject('not found');
+          }
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  };
 
   clearPhotoSet = () => {
     setPhotoSet([]);
@@ -128,6 +128,8 @@ function Location({ route, navigation }) {
     }
   };
 
+  const [markerData, setMarkerData] = useState({});
+  console.log(markerData)
   return (
     <View style={styles.container}>
       {/* Search Bar */}
@@ -138,9 +140,9 @@ function Location({ route, navigation }) {
           rankby: "distance",
         }}
         onPress={(data, details = null) => {
-          // console.log(data, details)
+          //console.log(data, details)
           setFlag(true)
-          setPlace({formatted_address: details.formatted_address, name: details.name, geometry: details.geometry})
+          setPlace({ formatted_address: details.formatted_address, name: details.name, geometry: details.geometry })
           setRegion({
             latitude: details.geometry.location.lat,
             longitude: details.geometry.location.lng,
@@ -163,44 +165,45 @@ function Location({ route, navigation }) {
       />
 
       {/* Post Button */}
-      <TouchableOpacity 
-            style={styles.postButton}
-            onPress={() => storeData() && navigation.navigate('Home')}>
-            <Text style={{
-              fontSize: 20,
-              color: '#00A3FF'
-            }}>Post
-            </Text>
+      <TouchableOpacity
+        style={styles.postButton}
+        onPress={() => storeData() && navigation.navigate('Home')}>
+        <Text style={{
+          fontSize: 20,
+          color: '#00A3FF'
+        }}>Post
+        </Text>
       </TouchableOpacity>
 
       {/* Map interface */}
-      { JSON.stringify(location) !== '{}' ?
-        <MapView 
+      {JSON.stringify(location) !== '{}' ?
+        <MapView
           style={styles.map}
           provider='google'
-          region= { flag ? region : {
+          region={flag ? region : {
             latitude: lat,
             longitude: lng,
             latitudeDelta: 0.004757,
             longitudeDelta: 0.006866,
           }}
+          onPress={(data) => setMarkerData(data?.nativeEvent.coordinate)}
+          onPoiClick={(data) => setMarkerData(data?.nativeEvent.coordinate)}
         >
           {/* Marker for the searched location */}
-          <Marker coordinate={{latitude: region.latitude, longitude: region.longitude}} />
+          <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }} />
 
           {/* Marker for the current location */}
-          <Marker coordinate={{latitude: lat, longitude: lng}}> 
-            <Callout>
-              <Text>I'm here</Text>
-            </Callout>
-          </Marker>
+          {Object.keys(markerData).length === 0 ?
+            <Marker coordinate={{ latitude: lat, longitude: lng }} />
+            : Object.keys(markerData).length > 0 && <Marker coordinate={markerData} />
+          }
 
           {/* Marker for findPlace location */}
-          <Marker coordinate={{latitude: place.geometry.location.lat, longitude: place.geometry.location.lng}}>
+          {/*<Marker coordinate={{ latitude: place.geometry.location.lat, longitude: place.geometry.location.lng }}>
             <Callout>
               <Text>{place.name}</Text>
             </Callout>
-          </Marker>
+          </Marker> *}
 
           {/* Recenter Button */}
           <TouchableOpacity
@@ -222,7 +225,7 @@ function Location({ route, navigation }) {
         </MapView> :
         // If location permission isn't granted
         <View>
-          <MapView 
+          <MapView
             style={styles.map}
             provider='google'
           />
