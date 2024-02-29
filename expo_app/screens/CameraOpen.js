@@ -28,7 +28,7 @@ function CameraOpen({navigation}) {
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [pickedImages, setPickedImages] = useState(false);
-
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
   // On intial tab open...
   useEffect(() => {
     (async () => {
@@ -172,10 +172,19 @@ function CameraOpen({navigation}) {
           {/* Area towards the bottom */}
           <SafeAreaView style={styles.photoList}> 
             <ScrollView horizontal={true}>
-              {photoSet && photoSet.map((photo, index) =>
-                <Image key={index} style={styles.imageRoll} source={{uri: photo.uri}}></Image>
-                )}
-              </ScrollView>
+              {photoSet && photoSet.map((photo, index) => (
+                <Pressable
+                  key={index}
+                  onPress={() => setSelectedPhotoIndex(index)}
+                  style={[styles.imageContainer, selectedPhotoIndex === index && styles.selectedPhotoContainer]}
+                >
+                  <Image
+                    style={[styles.imageRoll, selectedPhotoIndex === index && styles.selectedPhoto]}
+                    source={{ uri: photo.uri }}
+                  />
+                </Pressable>
+              ))}
+            </ScrollView>
           </SafeAreaView>
 
         <StatusBar style="auto" />
@@ -312,7 +321,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     flex: 3,
-    backgroundColor: 'yellow',
+    // backgroundColor: 'yellow',
     alignSelf: 'stretch',
     height: '30%',
     flexDirection: 'row',
@@ -358,5 +367,15 @@ const styles = StyleSheet.create({
   locationCont: {
     flex: 1,
     backgroundColor: 'blue'
+  },
+  selectedPhotoContainer: {
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  
+  selectedPhoto: {
+    borderWidth: 2,
+    borderColor: '#339BFF',
+    
   },
 });
