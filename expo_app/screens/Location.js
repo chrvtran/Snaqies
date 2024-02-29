@@ -193,7 +193,10 @@ function Location({ route, navigation }) {
           <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }} />
 
           {/* Marker for the current location */}
-          {Object.keys(markerData).length === 0 ? <Marker coordinate={{ latitude: lat, longitude: lng }} /> : Object.keys(markerData).length > 0 && <Marker coordinate={markerData} />}
+          {Object.keys(markerData).length === 0 ?
+            <Marker coordinate={{ latitude: lat, longitude: lng }} />
+            : Object.keys(markerData).length > 0 && <Marker coordinate={markerData} />
+          }
 
           {/* Marker for findPlace location */}
           {/*<Marker coordinate={{ latitude: place.geometry.location.lat, longitude: place.geometry.location.lng }}>
