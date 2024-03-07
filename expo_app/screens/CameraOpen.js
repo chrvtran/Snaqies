@@ -226,12 +226,21 @@ function CameraOpen({navigation}) {
         </View>
 
         {/* Area towards the bottom */}
-        <SafeAreaView style={styles.photoList}> 
-            <ScrollView horizontal={true}>
-              {photoSet && photoSet.map((photo, index) =>
-                <Image key={index} style={styles.imageRoll} source={{uri: photo.uri}}></Image>
-                )}
-              </ScrollView>
+        <SafeAreaView style={styles.photoList}>
+          <ScrollView horizontal={true}>
+            {photoSet && photoSet.map((photo, index) => (
+              <Pressable
+                key={index}
+                onPress={() => setSelectedPhotoIndex(index)}
+                style={[styles.imageContainer, selectedPhotoIndex === index && styles.selectedPhotoContainer]}
+              >
+                <Image
+                  style={[styles.imageRoll, selectedPhotoIndex === index && styles.selectedPhoto]}
+                  source={{ uri: photo.uri }}
+                />
+              </Pressable>
+            ))}
+          </ScrollView>
         </SafeAreaView>
 
       <StatusBar style="auto" />
