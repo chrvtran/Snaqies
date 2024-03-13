@@ -149,6 +149,7 @@ function Location({ route, navigation }) {
             latitudeDelta: 0.004757,
             longitudeDelta: 0.006866,
           })
+          setMarkerData({ latitude: details.geometry.location.lat, longitude: details.geometry.location.lng })
         }}
         query={{
           key: myApiKey,
@@ -189,10 +190,7 @@ function Location({ route, navigation }) {
           onPress={(data) => setMarkerData(data?.nativeEvent.coordinate)}
           onPoiClick={(data) => setMarkerData(data?.nativeEvent.coordinate)}
         >
-          {/* Marker for the searched location */}
-          <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }} />
-
-          {/* Marker for the current location */}
+          {/* Marker for location */}
           {Object.keys(markerData).length === 0 ?
             <Marker coordinate={{ latitude: lat, longitude: lng }} />
             : Object.keys(markerData).length > 0 && <Marker coordinate={markerData} />
