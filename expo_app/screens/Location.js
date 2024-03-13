@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import BackArrow from "expo_app/assets/icons/arrow-backward.svg"
 
 
-const HEADER_HEIGHT = Platform.OS == 'ios' ? 110 : 70 + StatusBar.currentHeight;
+const HEADER_HEIGHT = Platform.OS == 'ios' ? 130 : 90 + StatusBar.currentHeight;
 
 
 function Location({ route, navigation }) {
@@ -166,6 +166,7 @@ function Location({ route, navigation }) {
       <View style={{
         flexDirection: 'column',
         height: 80,
+        gap: 1,
         width: '100%',
         justifyContent: 'center',
       }}>
@@ -174,7 +175,7 @@ function Location({ route, navigation }) {
             justifyContent: 'space-between',
         }}>
         {/* Back Arrow Button */}
-          <TouchableOpacity style={{width: 50, height: 30,}} onPress={() => {}}>
+          <TouchableOpacity style={{width: 50, height: 30,}} onPress={() => {navigation.goBack()}}>
               <BackArrow/>
           </TouchableOpacity>
           {/* New Post */}
@@ -195,8 +196,11 @@ function Location({ route, navigation }) {
             </Text>
           </TouchableOpacity>
         </View>
+        <View>
+          <Text style={{alignSelf: 'center'}}>Where did you Snaq?</Text>
+        </View>
         <View style={{
-          height: 20,
+          height: 30,
           justifyContent: 'center',
           alignItems: 'center'
         }}>
@@ -227,10 +231,10 @@ function Location({ route, navigation }) {
               location: `${region.latitude}, ${region.longitude}`
             }}
             styles={{
-              container: { width: "100%",},
-              listView: { backgroundColor: "white", width: "80%", alignSelf:'center', position: 'absolute', marginTop: 35},
-              textInputContainer: {backgroundColor: "white", width: "80%", alignSelf: 'center'},
-              textInput: {backgroundColor: 'lightgray', height: "90%", width: "80%"}
+              container: { width: "100%", marginTop: 3},
+              listView: { backgroundColor: "white", width: "90%", alignSelf:'center', position: 'absolute', marginTop: 35},
+              textInputContainer: {backgroundColor: "white", width: "90%", alignSelf: 'center'},
+              textInput: {backgroundColor: 'lightgray', height: "90%", width: "90%"}
             }}
           />
         </View>
