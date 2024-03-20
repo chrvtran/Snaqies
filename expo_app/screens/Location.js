@@ -136,7 +136,6 @@ function Location({ route, navigation }) {
   };
 
   const [markerData, setMarkerData] = useState({});
-  console.log(markerData);
   return (
     <View style={styles.container}>
       {/* Search Bar */}
@@ -147,7 +146,6 @@ function Location({ route, navigation }) {
           rankby: "distance",
         }}
         onPress={(data, details = null) => {
-          //console.log(data, details)
           setFlag(true);
           setPlace({
             formatted_address: details.formatted_address,
