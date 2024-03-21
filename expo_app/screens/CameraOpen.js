@@ -11,7 +11,9 @@ import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 import NextArrow from 'expo_app/assets/icons/arrow-foward.svg'
-import BackArrow from "expo_app/assets/icons/arrow-backward.svg"
+import BackArrow from "expo_app/assets/icons/back-arrow.svg"
+import CloseButton from "expo_app/assets/icons/close.svg"
+import UploadButton from "expo_app/assets/icons/upload.svg"
 import Slider from 'expo_app/assets/slider.js'
 
 function CameraOpen({navigation}) {
@@ -149,7 +151,14 @@ function CameraOpen({navigation}) {
       {!pickedImages &&
         <Camera style={styles.container} ref={cameraRef}>
 
-          {/* Foward Arrow Button */}
+        {/* Close Arrow Button */}
+        <View style={styles.closeButton}>
+            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                <CloseButton style={{fill: "white"}}/>
+              </TouchableOpacity>
+        </View>
+
+          {/* Forward Arrow Button */}
           {(photoSet.length > 0) && <View style={styles.nextButton}>
             <TouchableOpacity onPress={() => setPickedImages(true)}>
               <NextArrow style={{fill: "white"}}/>
@@ -158,14 +167,12 @@ function CameraOpen({navigation}) {
 
           {/* Other buttons */}
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.picButtons} onPress={takePhoto}>
-              <Text>Take Pic</Text>
+            <TouchableOpacity style={styles.captureButton} onPress={takePhoto}>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.picButtons} title="Pick an image from camera roll" onPress={uploadPhoto}>
-                <Text>Upload Pic</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.picButtons} onPress={resetPhotoList}>
-                <Text>Reset Pics</Text>
+          </View>
+          <View style={styles.uploadButton}>
+          <TouchableOpacity onPress={uploadPhoto}>
+              <UploadButton style={{fill: "white"}}/>
             </TouchableOpacity>
           </View>
 
@@ -273,16 +280,16 @@ const styles = StyleSheet.create({
     margin: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    height: 60,
+    height: 100,
     bottom: 100,
     width: '100%',
     position: 'absolute',
   },
-  backButton: {
+  closeButton: {
     position: 'absolute',
-    top: 40,
+    top: 35,
     left: 5,
-    height: 30,
+    height: 40,
     width: 40
   },
   nextButton: {
@@ -291,6 +298,21 @@ const styles = StyleSheet.create({
     right: 0,
     height: 30,
     width: 40,
+  },
+  uploadButton: {
+    position: 'absolute',
+    bottom: 130,
+    left: 15,
+    height: 30,
+    width: 30,
+  },
+  captureButton: {
+    borderColor: 'white',
+    borderWidth: 4,
+    width: 70,
+    height: 70,
+    borderRadius: 50,
+    backgroundColor: '#d3d3d3',
   },
   picButtons: {
     margin: 5,
@@ -305,9 +327,10 @@ const styles = StyleSheet.create({
   },
   photoList: {
     position: 'absolute',
+    alignItems: 'center',
     bottom: 0,
     flexDirection: 'row',
-    height: 80,
+    height: 115,
     backgroundColor: 'white',
     width: '100%',
   },
@@ -347,12 +370,12 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   }, 
   fullImageRoll: {
-    height: 200,
+    height: 100,
     width: 100,
   },
   imageRoll: {
-    height: 80,
-    width: 50,
+    height: 70,
+    width: 45,
     borderRadius: 5,
     marginLeft: 5,
   }, 
@@ -378,7 +401,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue'
   },
   selectedPhotoContainer: {
-    borderWidth: 2,
+    // borderWidth: 2,
     borderColor: 'transparent',
   },
   
