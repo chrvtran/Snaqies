@@ -4,7 +4,7 @@ import MapView, { Marker, Callout } from "react-native-maps";
 import * as GeoLocation from "expo-location";
 import { useEffect, useState } from "react";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import Geocoder from "react-native-geocoding";
+// import Geocoder from "react-native-geocoding";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NextArrow from "expo_app/assets/icons/arrow-foward.svg";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -12,7 +12,7 @@ import { ScreenStackHeaderConfig } from "react-native-screens";
 
 function Location({ route, navigation }) {
   const myApiKey = "AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U";
-  Geocoder.init("AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U");
+  // Geocoder.init("AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U");
 
   const { key } = route.params;
   let { photoSet, setPhotoSet, photoList } = route.params; // [photoSet, setPhotoSet] = CO.js photo slider state
@@ -54,9 +54,7 @@ function Location({ route, navigation }) {
   const [flag, setFlag] = useState(false);
   const [region, setRegion] = React.useState({
     latitude: lat,
-    longitude: lng,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    longitude: lng
   });
 
   // Gets address based on coordinates
@@ -135,7 +133,6 @@ function Location({ route, navigation }) {
     }
   };
 
-  const [markerData, setMarkerData] = useState({});
   return (
     <View style={styles.container}>
       {/* Search Bar */}
@@ -154,13 +151,7 @@ function Location({ route, navigation }) {
           });
           setRegion({
             latitude: details.geometry.location.lat,
-            longitude: details.geometry.location.lng,
-            latitudeDelta: 0.004757,
-            longitudeDelta: 0.006866,
-          });
-          setMarkerData({
-            latitude: details.geometry.location.lat,
-            longitude: details.geometry.location.lng,
+            longitude: details.geometry.location.lng
           });
         }}
         query={{
@@ -204,7 +195,7 @@ function Location({ route, navigation }) {
           provider="google"
           region={
             flag
-              ? region
+              ? Object.assign(region, {latitudeDelta: 0.004757, longitudeDelta: 0.006866})
               : {
                   latitude: lat,
                   longitude: lng,
@@ -213,46 +204,47 @@ function Location({ route, navigation }) {
                 }
           }
           onPress={(data) => {
-            setMarkerData(data?.nativeEvent.coordinate);
-            Geocoder.from(data?.nativeEvent.coordinate)
-              .then((json) => {
-                new_formatted_address = json.results[0].formatted_address;
-                new_short_name =
-                  json.results[0].address_components[1].short_name;
-                setPlace({
-                  formatted_address: new_formatted_address,
-                  name: new_short_name,
-                  geometry: markerData,
-                });
-              })
+            console.log(region)
+            setRegion(data?.nativeEvent.coordinate);
+            // Geocoder.from(data?.nativeEvent.coordinate)
+            //   .then((json) => {
+            //     new_formatted_address = json.results[0].formatted_address;
+            //     new_short_name =
+            //       json.results[0].address_components[1].short_name;
+            //     setPlace({
+            //       formatted_address: new_formatted_address,
+            //       name: new_short_name,
+            //       geometry: markerData,
+            //     });
+            //   })
 
-              .catch((error) => console.warn(error));
+            //   .catch((error) => console.warn(error));
           }}
           onPoiClick={(data) => {
-            setMarkerData(data?.nativeEvent.coordinate);
-            Geocoder.from(data?.nativeEvent.coordinate)
-              .then((json) => {
-                POI_formatted_address = json.results[0].formatted_address;
-                findPlace(POI_formatted_address)
-                  .then((place) => {
-                    POI_name = place.name;
-                    setPlace({
-                      formatted_address: POI_formatted_address,
-                      name: POI_name,
-                      geometry: markerData,
-                    });
-                  })
-                  .catch((error) => console.warn(error));
-              })
-              .catch((error) => console.warn(error));
+            setRegion(data?.nativeEvent.coordinate);
+            // Geocoder.from(data?.nativeEvent.coordinate)
+            //   .then((json) => {
+            //     POI_formatted_address = json.results[0].formatted_address;
+            //     findPlace(POI_formatted_address)
+            //       .then((place) => {
+            //         POI_name = place.name;
+            //         setPlace({
+            //           formatted_address: POI_formatted_address,
+            //           name: POI_name,
+            //           geometry: markerData,
+            //         });
+            //       })
+            //       .catch((error) => console.warn(error));
+            //   })
+            //   .catch((error) => console.warn(error));
           }}
         >
           {/* Marker for location */}
-          {Object.keys(markerData).length === 0 ? (
+          {Object.keys(region).length === 0 ? (
             <Marker coordinate={{ latitude: lat, longitude: lng }} />
           ) : (
-            Object.keys(markerData).length > 0 && (
-              <Marker coordinate={markerData} />
+            Object.keys(region).length > 0 && (
+              <Marker coordinate={region} />
             )
           )}
 
