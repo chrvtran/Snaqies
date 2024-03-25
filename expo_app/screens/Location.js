@@ -193,12 +193,12 @@ function Location({ route, navigation }) {
           onPress={(data) => {
             setLat(data.nativeEvent.coordinate.latitude)
             setLng(current = data.nativeEvent.coordinate.longitude)
-            reverseGeolocate(lat, lng).then(data => findPlace(data).then(place => {setPlace(place); console.log(place)}))
+            reverseGeolocate(lat, lng).then(data => findPlace(data).then(place => setPlace(place)))
           }}
           onPoiClick={(data) => {
             setLat(data.nativeEvent.coordinate.latitude)
             setLng(current = data.nativeEvent.coordinate.longitude)
-            reverseGeolocate(lat, lng).then(data => findPlace(data).then(place => {setPlace(place); console.log(place)}))
+            reverseGeolocate(lat, lng).then(data => findPlace(data).then(place => setPlace(place)))
           }}
         >
           {/* Marker for location */}
