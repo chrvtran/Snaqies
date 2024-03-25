@@ -4,7 +4,6 @@ import MapView, { Marker, Callout } from "react-native-maps";
 import * as GeoLocation from "expo-location";
 import { useEffect, useState } from "react";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-// import Geocoder from "react-native-geocoding";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NextArrow from "expo_app/assets/icons/arrow-foward.svg";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -12,7 +11,6 @@ import { ScreenStackHeaderConfig } from "react-native-screens";
 
 function Location({ route, navigation }) {
   const myApiKey = "AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U";
-  // Geocoder.init("AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U");
 
   const { key } = route.params;
   let { photoSet, setPhotoSet, photoList } = route.params; // [photoSet, setPhotoSet] = CO.js photo slider state
@@ -195,49 +193,16 @@ function Location({ route, navigation }) {
           onPress={(data) => {
             setLat(data.nativeEvent.coordinate.latitude)
             setLng(current = data.nativeEvent.coordinate.longitude)
-            // Geocoder.from(data?.nativeEvent.coordinate)
-            //   .then((json) => {
-            //     new_formatted_address = json.results[0].formatted_address;
-            //     new_short_name =
-            //       json.results[0].address_components[1].short_name;
-            //     setPlace({
-            //       formatted_address: new_formatted_address,
-            //       name: new_short_name,
-            //       geometry: markerData,
-            //     });
-            //   })
-
-            //   .catch((error) => console.warn(error));
+            reverseGeolocate(lat, lng).then(data => findPlace(data).then(place => {setPlace(place); console.log(place)}))
           }}
           onPoiClick={(data) => {
             setLat(data.nativeEvent.coordinate.latitude)
             setLng(current = data.nativeEvent.coordinate.longitude)
-            // Geocoder.from(data?.nativeEvent.coordinate)
-            //   .then((json) => {
-            //     POI_formatted_address = json.results[0].formatted_address;
-            //     findPlace(POI_formatted_address)
-            //       .then((place) => {
-            //         POI_name = place.name;
-            //         setPlace({
-            //           formatted_address: POI_formatted_address,
-            //           name: POI_name,
-            //           geometry: markerData,
-            //         });
-            //       })
-            //       .catch((error) => console.warn(error));
-            //   })
-            //   .catch((error) => console.warn(error));
+            reverseGeolocate(lat, lng).then(data => findPlace(data).then(place => {setPlace(place); console.log(place)}))
           }}
         >
           {/* Marker for location */}
           <Marker coordinate={{latitude: lat, longitude: lng}} />
-
-          {/* Marker for findPlace location */}
-          {/*<Marker coordinate={{ latitude: place.geometry.location.lat, longitude: place.geometry.location.lng }}>
-            <Callout>
-              <Text>{place.name}</Text>
-            </Callout>
-          </Marker> *}
 
           {/* Recenter Button */}
           <TouchableOpacity
