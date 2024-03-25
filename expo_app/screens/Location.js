@@ -16,6 +16,8 @@ function Location({ route, navigation }) {
 
   const { key } = route.params;
   let { photoSet, setPhotoSet, photoList } = route.params; // [photoSet, setPhotoSet] = CO.js photo slider state
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
   const [location, setLocation] = useState({});
   const [place, setPlace] = useState({
     formatted_address: "",
@@ -38,24 +40,16 @@ function Location({ route, navigation }) {
           await reverseGeolocate(loc.coords.latitude, loc.coords.longitude),
         );
         setPlace(place);
+
+        // Reassign initial lat,lng values for current location
+        setLat(loc.coords.latitude)
+        setLng(loc.coords.longitude)
+
       } else {
         console.log("Permission not granted");
       }
     })();
   }, []);
-  // Reassign initial lat,lng values for current location
-  let lat = 0;
-  let lng = 0;
-  if (JSON.stringify(location) !== "{}") {
-    lat = location.coords.latitude;
-    lng = location.coords.longitude;
-  }
-
-  const [flag, setFlag] = useState(false);
-  const [region, setRegion] = React.useState({
-    latitude: lat,
-    longitude: lng
-  });
 
   // Gets address based on coordinates
   const reverseGeolocate = (latitude, longitude) => {
@@ -143,16 +137,13 @@ function Location({ route, navigation }) {
           rankby: "distance",
         }}
         onPress={(data, details = null) => {
-          setFlag(true);
           setPlace({
             formatted_address: details.formatted_address,
             name: details.name,
             geometry: details.geometry,
           });
-          setRegion({
-            latitude: details.geometry.location.lat,
-            longitude: details.geometry.location.lng
-          });
+          setLat(details.geometry.location.lat)
+          setLng(details.geometry.location.lng)
         }}
         query={{
           key: myApiKey,
@@ -160,7 +151,7 @@ function Location({ route, navigation }) {
           components: "country:us",
           types: "establishment",
           radius: 30000,
-          location: `${region.latitude}, ${region.longitude}`,
+          location: `${lat}, ${lng}`,
         }}
         styles={{
           container: {
@@ -194,18 +185,16 @@ function Location({ route, navigation }) {
           style={styles.map}
           provider="google"
           region={
-            flag
-              ? Object.assign(region, {latitudeDelta: 0.004757, longitudeDelta: 0.006866})
-              : {
-                  latitude: lat,
-                  longitude: lng,
-                  latitudeDelta: 0.004757,
-                  longitudeDelta: 0.006866,
-                }
+            {
+              latitude: lat,
+              longitude: lng,
+              latitudeDelta: 0.004757,
+              longitudeDelta: 0.006866,
+            }
           }
           onPress={(data) => {
-            console.log(region)
-            setRegion(data?.nativeEvent.coordinate);
+            setLat(data.nativeEvent.coordinate.latitude)
+            setLng(current = data.nativeEvent.coordinate.longitude)
             // Geocoder.from(data?.nativeEvent.coordinate)
             //   .then((json) => {
             //     new_formatted_address = json.results[0].formatted_address;
@@ -221,7 +210,8 @@ function Location({ route, navigation }) {
             //   .catch((error) => console.warn(error));
           }}
           onPoiClick={(data) => {
-            setRegion(data?.nativeEvent.coordinate);
+            setLat(data.nativeEvent.coordinate.latitude)
+            setLng(current = data.nativeEvent.coordinate.longitude)
             // Geocoder.from(data?.nativeEvent.coordinate)
             //   .then((json) => {
             //     POI_formatted_address = json.results[0].formatted_address;
@@ -240,13 +230,7 @@ function Location({ route, navigation }) {
           }}
         >
           {/* Marker for location */}
-          {Object.keys(region).length === 0 ? (
-            <Marker coordinate={{ latitude: lat, longitude: lng }} />
-          ) : (
-            Object.keys(region).length > 0 && (
-              <Marker coordinate={region} />
-            )
-          )}
+          <Marker coordinate={{latitude: lat, longitude: lng}} />
 
           {/* Marker for findPlace location */}
           {/*<Marker coordinate={{ latitude: place.geometry.location.lat, longitude: place.geometry.location.lng }}>
@@ -261,12 +245,8 @@ function Location({ route, navigation }) {
             onPress={() => {
               print("recenter button pressed");
               if (location.coords) {
-                setRegion({
-                  latitude: location.coords.latitude,
-                  longitude: location.coords.longitude,
-                  latitudeDelta: 0.004757,
-                  longitudeDelta: 0.006866,
-                });
+                setLat(location.coords.latitude)
+                setLng(location.coords.longitude)
               }
             }}
           >
