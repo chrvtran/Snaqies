@@ -20,3 +20,23 @@ Can't remember what foods and restaurants you tried before? Try using Snaqies! T
 ## Bugs
 - WARN  Possible Unhandled Promise Rejection (id: 0): Error: Another photo capture is already being processed. Await the first call.
     - Some input time or optimizing issue not important for right now
+
+# Contributions
+
+## Design Team
+### Christopher Tran
+
+### Emily Chen
+
+## Developer Team
+### Aaron Cheng
+
+### Andrew Chun
+
+### Ben Rao
+
+### Christopher Tran
+
+### Eric Wu
+
+### Kevin Chiu
