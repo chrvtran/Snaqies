@@ -8,8 +8,8 @@ import CloseButton from 'expo_app/assets/icons/close.svg';
 import DownloadButton from 'expo_app/assets/icons/download.svg';
 import TrashCanButton from 'expo_app/assets/icons/trashcan.svg';
 
-function SelectPhoto() {
-  const navigation = useNavigation();
+function SelectPhoto({ navigation }) {
+  // const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
