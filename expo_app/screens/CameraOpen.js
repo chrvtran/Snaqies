@@ -1,9 +1,9 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, Button, Image, Pressable, TextInput, ScrollView, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Button, Image, Pressable, TextInput, ScrollView, TouchableOpacity, Modal} from 'react-native';
 import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState} from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Camera } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
@@ -15,6 +15,7 @@ import BackArrow from "expo_app/assets/icons/back-arrow.svg"
 import CloseButton from "expo_app/assets/icons/close.svg"
 import UploadButton from "expo_app/assets/icons/upload.svg"
 import Slider from 'expo_app/assets/slider.js'
+import Alert from 'expo_app/assets/alert.js'
 
 function CameraOpen({navigation}) {
 
@@ -31,6 +32,12 @@ function CameraOpen({navigation}) {
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [pickedImages, setPickedImages] = useState(false);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
+
+  const handleAlertState = () => {
+    setShowAlert(false);
+  }
+
   // On intial tab open...
   useEffect(() => {
     (async () => {
@@ -111,7 +118,8 @@ function CameraOpen({navigation}) {
     photoList.current = [];
     setPhotoSet([]);
     setPickedImages(false);
-    alert("Sucessfully cleared photos.")
+    setShowAlert(false);
+    navigation.navigate('Home')
   }
 
   // Stores uuid and photolist to async location
@@ -150,13 +158,14 @@ function CameraOpen({navigation}) {
       {/* Initial camera screen */}
       {!pickedImages &&
         <Camera style={styles.container} ref={cameraRef}>
-
+        
         {/* Close Arrow Button */}
         <View style={styles.closeButton}>
-            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <TouchableOpacity onPress={() => setShowAlert(true)}>
                 <CloseButton style={{fill: "white"}}/>
               </TouchableOpacity>
         </View>
+
 
           {/* Forward Arrow Button */}
           {(photoSet.length > 0) && <View style={styles.nextButton}>
@@ -175,6 +184,9 @@ function CameraOpen({navigation}) {
               <UploadButton style={{fill: "white"}}/>
             </TouchableOpacity>
           </View>
+
+          {/* Popup Alert upon pressing X */}
+            <Alert showAlert={showAlert} onUpdate={handleAlertState} resetPhotoList={resetPhotoList}/>
 
           {/* Area towards the bottom */}
           <SafeAreaView style={styles.photoList}> 
