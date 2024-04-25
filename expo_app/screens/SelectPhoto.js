@@ -1,52 +1,50 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import NextArrow from 'expo_app/assets/icons/arrow-forward.svg';
-import BackArrow from 'expo_app/assets/icons/back-arrow.svg';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import CloseButton from 'expo_app/assets/icons/close.svg';
+import NextArrow from 'expo_app/assets/icons/arrow-foward.svg';
+import BackArrow from "expo_app/assets/icons/back-arrow.svg"
+
 import DownloadButton from 'expo_app/assets/icons/download.svg';
 import TrashCanButton from 'expo_app/assets/icons/trashcan.svg';
+import UploadButton from 'expo_app/assets/icons/upload.svg';
+
 
 function SelectPhoto({ navigation }) {
-  // const navigation = useNavigation();
-
   return (
     <View style={styles.container}>
       {/* Close Arrow Button */}
-      <View style={styles.closeButton}>
+      <View style={styles.backButton}>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <CloseButton style={{ fill: 'white' }} />
+          <BackArrow style={{ fill: 'black' }} />
         </TouchableOpacity>
       </View>
 
-      {/* Forward Arrow Button */}
       <View style={styles.nextButton}>
         <TouchableOpacity onPress={() => navigation.navigate('Location')}>
-          <NextArrow style={{ fill: 'white' }} />
+          <Text style={styles.nextButtonText}>Next</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Title */}
-      <Text style={styles.title}>New Post</Text>
 
-      {/* Subtitle */}
-      <Text style={styles.subtitle}>which photos do you want to Snaq?</Text>
-
-      {/* Main Image */}
-      <Image
-        source={require('./assets/main_image.jpg')}
-        style={styles.mainImage}
-        resizeMode="cover"
-      />
+      {/* Title and Subtitle at the top */}
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>New Post</Text>
+        <Text style={[styles.subtitle, { marginTop: 10 }]}>Which photos do you want to Snaq?</Text>
+      </View>
 
       {/* Bar */}
       <View style={styles.bar}>
+      <View style={styles.barRight}>
+          <TouchableOpacity style={styles.iconButton}>
+            <UploadButton />
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity style={styles.barButton} onPress={() => navigation.navigate('Home')}>
-          <Text>Continue Later</Text>
+          <Text>Save Draft</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.barButton}>
-          <Text>Food</Text>
+          <Text>Tag Food</Text>
         </TouchableOpacity>
         <View style={styles.barRight}>
           <TouchableOpacity style={styles.iconButton}>
@@ -74,16 +72,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  closeButton: {
+  backButton: {
     position: 'absolute',
-    top: 35,
+    top: 30,
     left: 5,
     height: 40,
     width: 40,
-    zIndex: 1,
   },
   nextButton: {
     position: 'absolute',
@@ -91,20 +86,20 @@ const styles = StyleSheet.create({
     right: 5,
     height: 40,
     width: 40,
-    zIndex: 1,
+  },
+  titleContainer: {
+    position: 'absolute',
+    top: 20, 
+    alignItems: 'center',
+    width: '100%',
   },
   title: {
     fontWeight: 'bold',
     fontSize: 20,
-    marginTop: 20,
   },
   subtitle: {
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  mainImage: {
-    width: '100%',
-    height: '40%',
+    fontSize: 16,
+    color: '#555',
   },
   bar: {
     flexDirection: 'row',
@@ -114,7 +109,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#eee',
     position: 'absolute',
-    bottom: 0,
+    bottom: '15%',
   },
   barButton: {
     padding: 10,
@@ -127,12 +122,24 @@ const styles = StyleSheet.create({
   iconButton: {
     marginLeft: 10,
   },
+  nextButton: {
+    position: 'absolute',
+    top: 20,
+    right: 5,
+    height: 40,
+    width: 60,
+    justifyContent: 'center', // Center text within the view
+    alignItems: 'center',
+  },
+  nextButtonText: {
+    color: '#00aaff', // Change text color to blue
+    fontSize: 20
+  },
   imageRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
     width: '100%',
-    height: '15%',
-    paddingTop: 20,
+    padding: 20,
   },
 });
