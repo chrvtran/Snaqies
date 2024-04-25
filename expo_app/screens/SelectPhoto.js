@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 30,
+    top: 35,
     left: 5,
     height: 40,
     width: 40,
@@ -85,7 +85,13 @@ const styles = StyleSheet.create({
     top: 35,
     right: 5,
     height: 40,
-    width: 40,
+    width: 60,
+    justifyContent: 'center', // Center text within the view
+    alignItems: 'center',
+  },
+  nextButtonText: {
+    color: '#00aaff', // Change text color to blue
+    fontSize: 20
   },
   titleContainer: {
     position: 'absolute',
@@ -107,9 +113,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     padding: 10,
-    backgroundColor: '#eee',
+    backgroundColor: 'white',
     position: 'absolute',
     bottom: '15%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 }, 
+    shadowOpacity: 0.4, 
+    shadowRadius: 5, 
+    elevation: 5, 
   },
   barButton: {
     padding: 10,
@@ -121,19 +132,6 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     marginLeft: 10,
-  },
-  nextButton: {
-    position: 'absolute',
-    top: 20,
-    right: 5,
-    height: 40,
-    width: 60,
-    justifyContent: 'center', // Center text within the view
-    alignItems: 'center',
-  },
-  nextButtonText: {
-    color: '#00aaff', // Change text color to blue
-    fontSize: 20
   },
   imageRow: {
     flexDirection: 'row',
