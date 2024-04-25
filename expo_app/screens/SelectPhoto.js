@@ -56,9 +56,7 @@ function SelectPhoto({ navigation }) {
         </View>
       </View>
 
-      {/* Image Row */}
       <View style={styles.imageRow}>
-        {/* Render your images here */}
       </View>
 
       <StatusBar style="auto" />
