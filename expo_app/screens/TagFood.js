@@ -21,7 +21,7 @@ function TagFood({ route, navigation }) {
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
   const [tagView, setTagView] = useState(false);
-  const [text, onChangeText] = React.useState("Hello World");
+  const [text, onChangeText] = React.useState("#TODO");
 
   const handleAddTag = () => {
     // Save the tag with coordinates
@@ -105,7 +105,7 @@ function TagFood({ route, navigation }) {
             >
               Edit Tags
             </Text>
-            <Button title="Done"></Button>
+            <Button title="#TODO DONE"></Button>
           </View>
           <View>
             <Text
