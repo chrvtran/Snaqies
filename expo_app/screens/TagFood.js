@@ -21,7 +21,7 @@ function TagFood({ route, navigation }) {
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
   const [tagView, setTagView] = useState(false);
-  const [text, onChangeText] = React.useState("#TODO");
+  const [text, onChangeText] = React.useState("");
 
   const handleAddTag = () => {
     // Save the tag with coordinates
@@ -35,7 +35,6 @@ function TagFood({ route, navigation }) {
 
   const handleImagePress = (data) => {
     const { locationX, locationY } = data.nativeEvent;
-    console.log(locationX, locationY);
     setX(locationX);
     setY(locationY);
     setTagView(true);
@@ -80,7 +79,7 @@ function TagFood({ route, navigation }) {
                 width: "100%",
               }}
             >
-              <Text>Hi</Text>
+              {tags && tags.map((tag) => {})}
             </View>
           </View>
         </SafeAreaView>
@@ -105,7 +104,7 @@ function TagFood({ route, navigation }) {
             >
               Edit Tags
             </Text>
-            <Button title="#TODO DONE"></Button>
+            <Button title="DONE" onPress={handleAddTag}></Button>
           </View>
           <View>
             <Text
