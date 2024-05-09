@@ -67,33 +67,41 @@ Can't remember what foods and restaurants you tried before? Try using Snaqies! T
 <br><br>
 ### Contributors
 # Christopher Tran
-Role: Product Designer & Developer
 September 13, 2024 - Present
+
+Role: Project Manager, Product Designer, & Developer
 
 # Aaron Cheng
-Role: Developer
 September 13, 2024 - April 24, 2024
 
-# Eric Wu
 Role: Developer
+
+# Eric Wu
 September 13, 2024 - Present
 
-# Kevin Chiu
 Role: Developer
+
+# Kevin Chiu
 September 16, 2024 - January 17, 2024
 
+Role: Developer
+
 # Emily Chen
-Role: Product Designer
 October 9, 2024 - January 17, 2024
 
+Role: Product Designer
+
 # Andrew Chun
-Role: Developer
 November 27, 2024 - Present
 
-# Ben Rao
 Role: Developer
+
+# Ben Rao
 January 3, 2024 - Present
 
-# Ivan Liu
 Role: Developer
+
+# Ivan Liu
 May 3, 2024 - Present
+
+Role: Developer
