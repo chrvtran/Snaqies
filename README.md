@@ -74,7 +74,7 @@ Role: Project Manager, Product Designer, & Developer
 # Aaron Cheng
 September 13, 2024 - April 24, 2024
 
-Role: Developer
+Role: Product Designer & Developer
 
 # Eric Wu
 September 13, 2024 - Present
@@ -89,7 +89,7 @@ Role: Developer
 # Emily Chen
 October 9, 2024 - January 17, 2024
 
-Role: Product Designer
+Role: UI/UX Researcher
 
 # Andrew Chun
 November 27, 2024 - Present
