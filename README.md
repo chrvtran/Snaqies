@@ -25,44 +25,44 @@ Can't remember what foods and restaurants you tried before? Try using Snaqies! T
 
 - App.js
     - Creates the Navigation Bar on the bottom of the Page to traverse through the main programs of the App
-    - 
+
 ### Screens
 - CameraOpen.js
-    - Creates the Camera Screen with the ability to take/save photos to and from the camera roll or asynchronous storage system on the app, and remove/clear photos from the Photo List that's shown on the bottom of the page. 
+    - The Camera Screen allows user to take/upload photos to create their Snaq post
 - Home.js
-    - Creates the Scrollable Home Screen with the Snaq Icons/Posts
+    - The Home Screen lists all of the Snaqs and is the default screen
 - Location.js
-    - Creates a Map Screen with the ability to search locations or use your current location for each Post
+    - The Map Screen allows users to use their current location or search for a location to include with their Snaq post
 - Post.js
-    - Creates a Post Screen after clicking on the Snaq Icon to reveal more general information of the restaurant, comments and photos
+    - The Post Screen appears after clicking on a Snaq on the Home Screen to reveal the Snaq post and reviews
 - Price.js
-    - Creates a Price Screen to choose a price range for the eateries in the restuarant
+    - The Price Screen lets users choose a price range for their Snaq review
 - Profile.js
-    - Creates a Profile Page for the User
+    - (empty)
 - Rating.js
-    - Creates a Rating Screen to rate the resturant out of 5 Stars
+    - The Rating Screen lets users rate their Snaq experience out of 5 stars
 - Review.js
-    - Create a Review Screen
+    - (empty)
 - Saved.js
-    - Creates a Saved Screen
+    - (empty)
 - Setting.js
-    - Creates a Settings Page for the User
+    - (empty)
 - Testing.js
-    - Creates a Testing Page for Developers to Test WIP Programs
+    - The Testing Screen is used by developers
  
  ### Assets
 - alert.js
-    - Creates a Pop Up componenet upon pressing X on the camera screen to discard/save taken photos or return back to the camera screen
+    - Creates a Pop-Up component upon pressing X on the camera screen to discard/save taken photos or return to the camera screen
 - button.js
     - Creates a Flat Button component with given the Text and Function on Press
 - review.js
-    - Creates a component that has the review's tags, comments, rating, price and photos
+    - Creates a component that contains the review data
 - slideItem.js
-    - Creates a component for Images
+    - Creates a component for images
 - slider.js
-    - Creates a sliding List of Images for the taken photos from the camera screen
+    - Creates a horizontally sliding list of images that snaps
 - snaq.js
-    - Creates a Icon/Post component for the reviews showcasing the Restaurant's Name and Photo and pressable to showcase more information like Date, Address and other photos
+    - Creates the Snaq component on the home screen  that acts like a thumbnail for the Post Screen
   
 <br><br>
 ### Contributors
