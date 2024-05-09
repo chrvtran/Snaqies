@@ -22,22 +22,11 @@ Can't remember what foods and restaurants you tried before? Try using Snaqies! T
     - Some input time or optimizing issue not important for right now
 <br><br>
 ## File Information
-### Assets
-- alert.js
-    - Creates a Pop Up componenet upon pressing X on the camera screen to discard/save taken photos or return back to the camera screen
-- button.js
-    - Creates a Flat Button component with given the Text and Function on Press
-- review.js
-    - Creates a component that has the review's tags, comments, rating, price and photos
-- slideItem.js
-    - Creates a component for Images
-- slider.js
-    - Creates a sliding List of Images for the taken photos from the camera screen
-- snaq.js
-    - Creates a Icon/Post component for the reviews showcasing the Restaurant's Name and Photo and pressable to showcase more information like Date, Address and other photos
-### Screens
+
 - App.js
     - Creates the Navigation Bar on the bottom of the Page to traverse through the main programs of the App
+    - 
+### Screens
 - CameraOpen.js
     - Creates the Camera Screen with the ability to take/save photos to and from the camera roll or asynchronous storage system on the app, and remove/clear photos from the Photo List that's shown on the bottom of the page. 
 - Home.js
@@ -60,8 +49,20 @@ Can't remember what foods and restaurants you tried before? Try using Snaqies! T
     - Creates a Settings Page for the User
 - Testing.js
     - Creates a Testing Page for Developers to Test WIP Programs
-
-
+ 
+ ### Assets
+- alert.js
+    - Creates a Pop Up componenet upon pressing X on the camera screen to discard/save taken photos or return back to the camera screen
+- button.js
+    - Creates a Flat Button component with given the Text and Function on Press
+- review.js
+    - Creates a component that has the review's tags, comments, rating, price and photos
+- slideItem.js
+    - Creates a component for Images
+- slider.js
+    - Creates a sliding List of Images for the taken photos from the camera screen
+- snaq.js
+    - Creates a Icon/Post component for the reviews showcasing the Restaurant's Name and Photo and pressable to showcase more information like Date, Address and other photos
   
 <br><br>
 ### Contributors
