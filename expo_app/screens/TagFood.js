@@ -1,5 +1,12 @@
 import * as React from "react";
-import { TouchableOpacity, Button, View, Image, Text } from "react-native";
+import {
+  TouchableOpacity,
+  Button,
+  View,
+  Image,
+  Text,
+  PlatformColor,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Pressable,
@@ -9,30 +16,45 @@ import {
   TextInput,
 } from "react-native";
 import { useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
-
+//#TODO Styling
 function TagFood({ route, navigation }) {
+  //Recieve selected image
   const { image } = route.params;
+
+  //tag object list
   const [tags, setTags] = useState([]);
-  const [tagInputText, setTagInputText] = useState("");
+
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
+
+  //checks input
   const [tagView, setTagView] = useState(false);
+
+  //for Tagview searchbar
   const [text, onChangeText] = React.useState("");
 
   const handleAddTag = () => {
-    // Save the tag with coordinates
-    const newTag = {
-      text: tagInputText,
-      x: x,
-      y: y,
-    };
-    setTags([...tags, newTag]);
+    //check empty tagHandle
+    if (text === "") {
+      setTagView(false);
+      console.log(tags);
+      return;
+    } else {
+      // Save the tag with coordinates
+      const newTag = {
+        foodHandle: text,
+        x: x,
+        y: y,
+      };
+      setTags([...tags, newTag]);
+      onChangeText("");
+      setTagView(false);
+      console.log(tags);
+    }
   };
 
+  //Grab coords && open tagview
   const handleImagePress = (data) => {
     const { locationX, locationY } = data.nativeEvent;
     setX(locationX);
@@ -69,6 +91,15 @@ function TagFood({ route, navigation }) {
                 }}
               />
             </Pressable>
+
+            {/*TODO*/}
+            {tags.map((i) => {
+              <View>
+                <Text styles={{ display: "absolute", color: "blue" }}>
+                  {i.foodHandle}
+                </Text>
+              </View>;
+            })}
             <View
               style={{
                 position: "absolute",
@@ -79,7 +110,7 @@ function TagFood({ route, navigation }) {
                 width: "100%",
               }}
             >
-              {tags && tags.map((tag) => {})}
+              {/*#TODO area for tag list rendered*/}
             </View>
           </View>
         </SafeAreaView>
