@@ -1,9 +1,9 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, ScrollView, SafeAreaView, Dimensions, TouchableOpacity, Animated} from 'react-native';
+import { Platform, StyleSheet, Text, View, Image, ScrollView, SafeAreaView, Dimensions, TouchableOpacity, Animated} from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import FlatButton from '../assets/button';
-import BackArrow from 'expo_app/assets/icons/back-arrow.svg'
+import BackArrow from '../assets/icons/back-arrow.svg'
 import { useHeaderHeight } from '@react-navigation/elements';
 
 const HEADER_HEIGHT = Platform.OS == 'ios' ? 110 : 70 + StatusBar.currentHeight;
