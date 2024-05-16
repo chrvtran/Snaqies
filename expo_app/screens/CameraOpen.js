@@ -17,11 +17,8 @@ import UploadButton from "expo_app/assets/icons/upload.svg"
 import Slider from 'expo_app/assets/slider.js'
 import Alert from 'expo_app/assets/alert.js'
 
-function CameraOpen({navigation}) {
-
 function CameraOpen({ navigation }) {
   const { control, handleSubmit } = useForm();
-  const isFocused = useIsFocused();
 
   let key = useRef();
   let cameraRef = useRef();
