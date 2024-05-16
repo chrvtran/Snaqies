@@ -17,6 +17,7 @@ import LocationIcon from './assets/icons/location.svg';
 import CameraIcon from './assets/icons/camera.svg';
 import SavedIcon from './assets/icons/saved.svg';
 import ReviewIcon from './assets/icons/review.svg';
+import TagFood from './screens/TagFood';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -145,6 +146,8 @@ function MainStack() {
       <Stack.Screen name="Ratings" component={RatingsScreen} />
       <Stack.Screen name="Price" component={PriceScreen}  />
       <Stack.Screen name="Location" component={LocationScreen} />
+      <Stack.Screen name="TagFood" component={TagFood} />
+
     </Stack.Navigator>
   );
 }
