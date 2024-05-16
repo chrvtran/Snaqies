@@ -134,6 +134,7 @@ function CameraOpen({ navigation }) {
       const jsonValue = JSON.stringify(postObj);
       await AsyncStorage.setItem(key, jsonValue);
       getData(key);
+      setPickedImages(false)
     } catch (e) {
       // saving error
     }
