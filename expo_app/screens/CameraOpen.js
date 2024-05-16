@@ -1,21 +1,33 @@
-import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, Button, Image, Pressable, TextInput, ScrollView, TouchableOpacity, Modal} from 'react-native';
+import React from "react";
+import { StatusBar } from "expo-status-bar";
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Button,
+  Image,
+  Pressable,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+  Modal,
+} from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useRef, useState} from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { Camera } from 'expo-camera';
-import { shareAsync } from 'expo-sharing';
-import * as MediaLibrary from 'expo-media-library';
-import * as ImagePicker from 'expo-image-picker';
-import uuid from 'react-native-uuid';
-import NextArrow from 'expo_app/assets/icons/arrow-foward.svg'
-import BackArrow from "expo_app/assets/icons/back-arrow.svg"
-import CloseButton from "expo_app/assets/icons/close.svg"
-import UploadButton from "expo_app/assets/icons/upload.svg"
-import Slider from 'expo_app/assets/slider.js'
-import Alert from 'expo_app/assets/alert.js'
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useRef, useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { Camera } from "expo-camera";
+import { shareAsync } from "expo-sharing";
+import * as MediaLibrary from "expo-media-library";
+import * as ImagePicker from "expo-image-picker";
+import uuid from "react-native-uuid";
+import NextArrow from "expo_app/assets/icons/arrow-foward.svg";
+import BackArrow from "expo_app/assets/icons/back-arrow.svg";
+import CloseButton from "expo_app/assets/icons/close.svg";
+import UploadButton from "expo_app/assets/icons/upload.svg";
+import Slider from "expo_app/assets/slider.js";
+import Alert from "expo_app/assets/alert.js";
 
 function CameraOpen({ navigation }) {
   const { control, handleSubmit } = useForm();
@@ -34,7 +46,7 @@ function CameraOpen({ navigation }) {
 
   const handleAlertState = () => {
     setShowAlert(false);
-  }
+  };
 
   // On intial tab open...
   useEffect(() => {
@@ -115,10 +127,6 @@ function CameraOpen({ navigation }) {
     setPickedImages(false);
     alert("Sucessfully cleared photos.");
   };
-    setShowAlert(false);
-    navigation.navigate('Home')
-  }
-
   // Stores uuid and photolist to async location
   const storeData = async () => {
     key = uuid.v1();
@@ -134,7 +142,7 @@ function CameraOpen({ navigation }) {
       const jsonValue = JSON.stringify(postObj);
       await AsyncStorage.setItem(key, jsonValue);
       getData(key);
-      setPickedImages(false)
+      setPickedImages(false);
     } catch (e) {
       // saving error
     }
@@ -158,34 +166,41 @@ function CameraOpen({ navigation }) {
       {/* Initial camera screen */}
       {!pickedImages && (
         <Camera style={styles.container} ref={cameraRef}>
-        {/* Close Arrow Button */}
-        <View style={styles.closeButton}>
+          {/* Close Arrow Button */}
+          <View style={styles.closeButton}>
             <TouchableOpacity onPress={() => setShowAlert(true)}>
-                <CloseButton style={{fill: "white"}}/>
-              </TouchableOpacity>
-        </View>
-
+              <CloseButton style={{ fill: "white" }} />
+            </TouchableOpacity>
+          </View>
 
           {/* Forward Arrow Button */}
-          {(photoSet.length > 0) && <View style={styles.nextButton}>
-            <TouchableOpacity onPress={() => setPickedImages(true)}>
-              <NextArrow style={{fill: "white"}}/>
-            </TouchableOpacity>
-          </View>}
+          {photoSet.length > 0 && (
+            <View style={styles.nextButton}>
+              <TouchableOpacity onPress={() => setPickedImages(true)}>
+                <NextArrow style={{ fill: "white" }} />
+              </TouchableOpacity>
+            </View>
+          )}
 
           {/* Other buttons */}
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.captureButton} onPress={takePhoto}>
-            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.captureButton}
+              onPress={takePhoto}
+            ></TouchableOpacity>
           </View>
           <View style={styles.uploadButton}>
-          <TouchableOpacity onPress={uploadPhoto}>
-              <UploadButton style={{fill: "white"}}/>
+            <TouchableOpacity onPress={uploadPhoto}>
+              <UploadButton style={{ fill: "white" }} />
             </TouchableOpacity>
           </View>
 
           {/* Popup Alert upon pressing X */}
-            <Alert showAlert={showAlert} onUpdate={handleAlertState} resetPhotoList={resetPhotoList}/>
+          <Alert
+            showAlert={showAlert}
+            onUpdate={handleAlertState}
+            resetPhotoList={resetPhotoList}
+          />
 
           {/* Area towards the bottom */}
           <SafeAreaView style={styles.photoList}>
@@ -212,7 +227,6 @@ function CameraOpen({ navigation }) {
                 ))}
             </ScrollView>
           </SafeAreaView>
-
           <StatusBar style="auto" />
         </Camera>
       )}
@@ -220,7 +234,7 @@ function CameraOpen({ navigation }) {
       {/* Select images screen */}
       {pickedImages && (
         <SafeAreaView style={styles.container}>
-          <Slider ref={sliderRef} photos={photoSet}/>
+          <Slider ref={sliderRef} photos={photoSet} />
 
           {/* Back Arrow Button */}
           <View style={styles.backButton}>
@@ -252,14 +266,16 @@ function CameraOpen({ navigation }) {
               <Text>Save to Roll</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.picButtons}
-              onPress={() => navigation.navigate("TagFood", {
-                  image: photoSet[0]
-              })
-              }>
+              onPress={() =>
+                navigation.navigate("TagFood", {
+                  image: photoSet[0],
+                })
+              }
+            >
               <Text>Tag Food</Text>
-              </TouchableOpacity>
+            </TouchableOpacity>
             <TouchableOpacity
               style={styles.picButtons}
               title="Select photos to upload into your Snaq"
@@ -320,8 +336,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     // flex: 1,
     margin: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     height: 100,
 
     bottom: 100,
@@ -330,11 +346,11 @@ const styles = StyleSheet.create({
   },
 
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     top: 35,
     left: 5,
     height: 40,
-    width: 40
+    width: 40,
   },
   nextButton: {
     position: "absolute",
@@ -344,19 +360,19 @@ const styles = StyleSheet.create({
     width: 40,
   },
   uploadButton: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 130,
     left: 15,
     height: 30,
     width: 30,
   },
   captureButton: {
-    borderColor: 'white',
+    borderColor: "white",
     borderWidth: 4,
     width: 70,
     height: 70,
     borderRadius: 50,
-    backgroundColor: '#d3d3d3',
+    backgroundColor: "#d3d3d3",
   },
   picButtons: {
     margin: 5,
@@ -369,13 +385,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   photoList: {
-    position: 'absolute',
-    alignItems: 'center',
+    position: "absolute",
+    alignItems: "center",
     bottom: 0,
-    flexDirection: 'row',
+    flexDirection: "row",
     height: 115,
-    backgroundColor: 'white',
-    width: '100%',
+    backgroundColor: "white",
+    width: "100%",
   },
   topButtons: {
     justifyContent: "center",
@@ -444,7 +460,7 @@ const styles = StyleSheet.create({
   },
   selectedPhotoContainer: {
     // borderWidth: 2,
-    borderColor: 'transparent',
+    borderColor: "transparent",
   },
 
   selectedPhoto: {
