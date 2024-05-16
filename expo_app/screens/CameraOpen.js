@@ -1,29 +1,23 @@
-import React from "react";
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  Button,
-  Image,
-  Pressable,
-  TextInput,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import React from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, SafeAreaView, Button, Image, Pressable, TextInput, ScrollView, TouchableOpacity, Modal} from 'react-native';
 import { useIsFocused } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useRef, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
-import { Camera } from "expo-camera";
-import { shareAsync } from "expo-sharing";
-import * as MediaLibrary from "expo-media-library";
-import * as ImagePicker from "expo-image-picker";
-import uuid from "react-native-uuid";
-import NextArrow from "expo_app/assets/icons/arrow-foward.svg";
-import BackArrow from "expo_app/assets/icons/arrow-backward.svg";
-import Slider from "expo_app/assets/slider.js";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useRef, useState} from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { Camera } from 'expo-camera';
+import { shareAsync } from 'expo-sharing';
+import * as MediaLibrary from 'expo-media-library';
+import * as ImagePicker from 'expo-image-picker';
+import uuid from 'react-native-uuid';
+import NextArrow from 'expo_app/assets/icons/arrow-foward.svg'
+import BackArrow from "expo_app/assets/icons/back-arrow.svg"
+import CloseButton from "expo_app/assets/icons/close.svg"
+import UploadButton from "expo_app/assets/icons/upload.svg"
+import Slider from 'expo_app/assets/slider.js'
+import Alert from 'expo_app/assets/alert.js'
+
+function CameraOpen({navigation}) {
 
 function CameraOpen({ navigation }) {
   const { control, handleSubmit } = useForm();
@@ -39,6 +33,12 @@ function CameraOpen({ navigation }) {
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [pickedImages, setPickedImages] = useState(false);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
+
+  const handleAlertState = () => {
+    setShowAlert(false);
+  }
+
   // On intial tab open...
   useEffect(() => {
     (async () => {
@@ -118,6 +118,9 @@ function CameraOpen({ navigation }) {
     setPickedImages(false);
     alert("Sucessfully cleared photos.");
   };
+    setShowAlert(false);
+    navigation.navigate('Home')
+  }
 
   // Stores uuid and photolist to async location
   const storeData = async () => {
@@ -157,34 +160,34 @@ function CameraOpen({ navigation }) {
       {/* Initial camera screen */}
       {!pickedImages && (
         <Camera style={styles.container} ref={cameraRef}>
-          {/* Foward Arrow Button */}
-          {photoSet.length > 0 && (
-            <View style={styles.nextButton}>
-              <TouchableOpacity onPress={() => setPickedImages(true)}>
-                <NextArrow style={{ fill: "white" }} />
+        {/* Close Arrow Button */}
+        <View style={styles.closeButton}>
+            <TouchableOpacity onPress={() => setShowAlert(true)}>
+                <CloseButton style={{fill: "white"}}/>
               </TouchableOpacity>
-            </View>
-          )}
+        </View>
+
+
+          {/* Forward Arrow Button */}
+          {(photoSet.length > 0) && <View style={styles.nextButton}>
+            <TouchableOpacity onPress={() => setPickedImages(true)}>
+              <NextArrow style={{fill: "white"}}/>
+            </TouchableOpacity>
+          </View>}
 
           {/* Other buttons */}
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.picButtons} onPress={takePhoto}>
-              <Text>Take Pic</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.picButtons}
-              title="Pick an image from camera roll"
-              onPress={uploadPhoto}
-            >
-              <Text>Upload Pic</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.picButtons}
-              onPress={resetPhotoList}
-            >
-              <Text>Reset Pics</Text>
+            <TouchableOpacity style={styles.captureButton} onPress={takePhoto}>
             </TouchableOpacity>
           </View>
+          <View style={styles.uploadButton}>
+          <TouchableOpacity onPress={uploadPhoto}>
+              <UploadButton style={{fill: "white"}}/>
+            </TouchableOpacity>
+          </View>
+
+          {/* Popup Alert upon pressing X */}
+            <Alert showAlert={showAlert} onUpdate={handleAlertState} resetPhotoList={resetPhotoList}/>
 
           {/* Area towards the bottom */}
           <SafeAreaView style={styles.photoList}>
@@ -319,19 +322,21 @@ const styles = StyleSheet.create({
   buttonContainer: {
     // flex: 1,
     margin: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    height: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 100,
+
     bottom: 100,
     width: "100%",
     position: "absolute",
   },
-  backButton: {
-    position: "absolute",
-    top: 40,
+
+  closeButton: {
+    position: 'absolute',
+    top: 35,
     left: 5,
-    height: 30,
-    width: 40,
+    height: 40,
+    width: 40
   },
   nextButton: {
     position: "absolute",
@@ -339,6 +344,21 @@ const styles = StyleSheet.create({
     right: 0,
     height: 30,
     width: 40,
+  },
+  uploadButton: {
+    position: 'absolute',
+    bottom: 130,
+    left: 15,
+    height: 30,
+    width: 30,
+  },
+  captureButton: {
+    borderColor: 'white',
+    borderWidth: 4,
+    width: 70,
+    height: 70,
+    borderRadius: 50,
+    backgroundColor: '#d3d3d3',
   },
   picButtons: {
     margin: 5,
@@ -351,12 +371,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   photoList: {
-    position: "absolute",
+    position: 'absolute',
+    alignItems: 'center',
     bottom: 0,
-    flexDirection: "row",
-    height: 80,
-    backgroundColor: "white",
-    width: "100%",
+    flexDirection: 'row',
+    height: 115,
+    backgroundColor: 'white',
+    width: '100%',
   },
   topButtons: {
     justifyContent: "center",
@@ -393,12 +414,12 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   fullImageRoll: {
-    height: 200,
+    height: 100,
     width: 100,
   },
   imageRoll: {
-    height: 80,
-    width: 50,
+    height: 70,
+    width: 45,
     borderRadius: 5,
     marginLeft: 5,
   },
@@ -424,8 +445,8 @@ const styles = StyleSheet.create({
     backgroundColor: "blue",
   },
   selectedPhotoContainer: {
-    borderWidth: 2,
-    borderColor: "transparent",
+    // borderWidth: 2,
+    borderColor: 'transparent',
   },
 
   selectedPhoto: {

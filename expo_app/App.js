@@ -69,6 +69,7 @@ function TabNavigator() {
         name="Camera" 
         component={CameraOpen} 
         options={{
+          tabBarStyle: { display: 'none' },
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
               <CameraIcon
