@@ -181,7 +181,6 @@ function Location({ route, navigation }) {
       {JSON.stringify(location) !== "{}" ? (
         <MapView
           style={styles.map}
-          provider="google"
           region={
             {
               latitude: lat,
@@ -221,7 +220,7 @@ function Location({ route, navigation }) {
       ) : (
         // If location permission isn't granted
         <View>
-          <MapView style={styles.map} provider="google" />
+          <MapView style={styles.map} />
           <Text>Location Permission not Granted</Text>
         </View>
       )}
