@@ -17,17 +17,17 @@ import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Camera } from "expo-camera";
+import { Camera } from "expo-camera/legacy";
 import { shareAsync } from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
 import uuid from "react-native-uuid";
-import NextArrow from "expo_app/assets/icons/arrow-foward.svg";
-import BackArrow from "expo_app/assets/icons/back-arrow.svg";
-import CloseButton from "expo_app/assets/icons/close.svg";
-import UploadButton from "expo_app/assets/icons/upload.svg";
-import Slider from "expo_app/assets/slider.js";
-import Alert from "expo_app/assets/alert.js";
+import NextArrow from "../assets/icons/arrow-foward.svg";
+import BackArrow from "../assets/icons/back-arrow.svg";
+import CloseButton from "../assets/icons/close.svg";
+import UploadButton from "../assets/icons/upload.svg";
+import Slider from "../assets/slider.js";
+import Alert from "../assets/alert.js";
 
 function CameraOpen({ navigation }) {
   const { control, handleSubmit } = useForm();

@@ -5,7 +5,7 @@ import * as GeoLocation from "expo-location";
 import { useEffect, useState } from "react";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import NextArrow from "expo_app/assets/icons/arrow-foward.svg";
+import NextArrow from "../assets/icons/arrow-foward.svg";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { ScreenStackHeaderConfig } from "react-native-screens";
 
@@ -181,7 +181,6 @@ function Location({ route, navigation }) {
       {JSON.stringify(location) !== "{}" ? (
         <MapView
           style={styles.map}
-          provider="google"
           region={
             {
               latitude: lat,
@@ -221,7 +220,7 @@ function Location({ route, navigation }) {
       ) : (
         // If location permission isn't granted
         <View>
-          <MapView style={styles.map} provider="google" />
+          <MapView style={styles.map} />
           <Text>Location Permission not Granted</Text>
         </View>
       )}
