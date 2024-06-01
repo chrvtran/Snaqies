@@ -62,6 +62,12 @@ function TagFood({ route, navigation }) {
     setTagView(true);
   };
 
+  const handleRemoveTag = (index) => {
+    const tagsCopy = [...tags];
+    tagsCopy.splice(index, 1);
+    setTags(tagsCopy);
+  }
+
   return (
     <>
       {!tagView && (
@@ -111,6 +117,24 @@ function TagFood({ route, navigation }) {
               }}
             >
               {/*#TODO area for tag list rendered*/}
+              {tags.map((tag, index) => ( 
+                <View key={index}  style={{
+                  //TODO
+                }}> 
+                  <Text styles={{ //TODO 
+                  }}>
+                    {tag.foodHandle}
+                  </Text>
+                  <TouchableOpacity  
+                    onPress={() => handleRemoveTag(index)}> 
+                    <Text style={{
+                      //TODO
+                    }}> 
+                    X 
+                    </Text> 
+                  </TouchableOpacity> 
+                </View> 
+              ))} 
             </View>
           </View>
         </SafeAreaView>
