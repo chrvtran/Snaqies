@@ -162,6 +162,21 @@ function Location({ route, navigation }) {
         }}
       />
 
+      {/* Save Draft Button */}
+      <TouchableOpacity
+          style={styles.saveDraftButton}
+          onPress={() => console.log("Save draft!")}
+      >
+        <Text
+            style={{
+              fontSize: 20,
+              color: "#00A3FF"
+            }}
+        >
+          Save Draft  
+        </Text>
+      </TouchableOpacity>
+      
       {/* Post Button */}
       <TouchableOpacity
         style={styles.postButton}
@@ -243,6 +258,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 20,
     top: -40,
+  },
+  saveDraftButton: {
+    position: "absolute",
+    left: 20,
+    top: -40
   },
   recenterButton: {
     position: "absolute",
