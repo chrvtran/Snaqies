@@ -5,7 +5,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import BackArrow from '../assets/icons/back-arrow.svg';
 import DownloadButton from '../assets/icons/download.svg';
 import TrashCanButton from '../assets/icons/trashcan.svg';
-import UploadButton from '../assets/icons/upload_icon_black.svg';
+import UploadButton from '../assets/icons/upload.svg';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 import Snaq from '../assets/snaq';
@@ -44,41 +44,53 @@ function SelectPhoto({ navigation }) {
         }
     }, [isFocused]);
 
-    const handleUpload = () => {
+    const handleUpload = async () => {
         const options = {
             mediaType: 'photo',
             maxWidth: 300,
             maxHeight: 550,
             quality: 1,
         };
-
-        launchImageLibrary(options, (response) => {
-            if (response.didCancel) {
-                console.log('User cancelled image picker');
-            } else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-            } else {
+    
+        try {
+            const response = await new Promise((resolve, reject) => {
+                launchImageLibrary(options, (response) => {
+                    if (response.didCancel) {
+                        console.log('User cancelled image picker');
+                        resolve(null);
+                    } else if (response.error) {
+                        console.error('ImagePicker Error: ', response.error);
+                        reject(response.error);
+                    } else {
+                        resolve(response);
+                    }
+                });
+            });
+    
+            if (response) {
                 const source = { uri: response.uri };
                 console.log('Image URI: ', source.uri);
                 // Here you can handle the selected image
             }
-        });
+        } catch (error) {
+            console.error('Error picking image: ', error);
+        }
     };
 
     return (
         <View style={styles.container}>
             {/* Close Arrow Button */}
-            <View style={styles.backButton}>
-                <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                    <BackArrow style={{ fill: 'black' }} />
-                </TouchableOpacity>
-            </View>
 
-            <View style={styles.nextButton}>
-                <TouchableOpacity onPress={() => navigation.navigate('Location')}>
-                    <Text style={styles.nextButtonText}>Next</Text>
-                </TouchableOpacity>
-            </View>
+            <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Home')}>
+                <BackArrow style={{ fill: 'black' }} />
+            </TouchableOpacity>
+
+
+
+            <TouchableOpacity style={styles.nextButton} onPress={() => navigation.navigate('Location')}>
+                <Text style={styles.nextButtonText}>Next</Text>
+            </TouchableOpacity>
+
 
             {/* Title and Subtitle at the top */}
             <View style={styles.titleContainer}>
@@ -108,7 +120,7 @@ function SelectPhoto({ navigation }) {
                     </TouchableOpacity>
                 </View>
             </View>
-            <ScrollView contentContainerStyle={styles.imageRow}>
+            {/* <ScrollView contentContainerStyle={styles.imageRow}>
                 {posts && posts.length > 0 ? (
                     posts.map((post) => (
                         <Snaq
@@ -122,7 +134,7 @@ function SelectPhoto({ navigation }) {
                 ) : (
                     <Text>No posts available</Text>
                 )}
-            </ScrollView>
+            </ScrollView> */}
 
             <StatusBar style="auto" />
         </View>
