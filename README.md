@@ -3,12 +3,14 @@
 ## About the Project
 Can't remember what foods and restaurants you tried before? Try using Snaqies! This app is designed to make logging your food adventures easy, aesthetic, and memorable. Don't forget where you’ve been! Take a picture, write a review, and tag a location. Organize your food thoughts into one convenient app.  
 <br><br>
+
 ## Running the Expo App
 ### Prerequisites
 - Install `Expo Go` on your mobile device. Making changes in your IDE will make live updates to Expo Go
 - Alternatively, you can install `Expo Go` on a desktop emulator
 - Install the necessary *dependencies* under `expo_app\package.json` with `npm install` *`dependency`*
 <br><br>
+
 ### Running via Terminal
 1. `cd` to your local repo and then into `expo_app`
 2. Run `npx expo start` or `npm start`
@@ -17,14 +19,22 @@ Can't remember what foods and restaurants you tried before? Try using Snaqies! T
 4. Shake your phone or press the screen with three-fingers to bring up an additional overlay
 5. Press the keys `Ctrl + c` to stop the server
 <br><br>
+
+### Tips for First Run
+- Use `npx expo go` instead of `npm start`
+- Install Expo using `npm install expo`
+- Fix package dependency and version issues with `npm install -legacy-peer-deps`
+- Run `npm audit fix` and `npm audit fix --force`
+
 ## Bugs
 - WARN  Possible Unhandled Promise Rejection (id: 0): Error: Another photo capture is already being processed. Await the first call.
     - Some input time or optimizing issue not important for right now
 <br><br>
-## File Information
 
+## File Information
 - App.js
     - Creates the Navigation Bar on the bottom of the Page to traverse through the main programs of the App
+<br><br>
 
 ### Screens
 - CameraOpen.js
@@ -63,8 +73,8 @@ Can't remember what foods and restaurants you tried before? Try using Snaqies! T
     - Creates a horizontally sliding list of images that snaps
 - snaq.js
     - Creates the Snaq component on the home screen  that acts like a thumbnail for the Post Screen
-  
 <br><br>
+
 ### Contributors
 # Christopher Tran
 September 13, 2024 - Present
