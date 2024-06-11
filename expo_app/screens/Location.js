@@ -99,9 +99,22 @@ function Location({ route, navigation }) {
   };
 
   // Stores location data asynchronously
-  const storeData = async () => {
+  const storeData = async (publish) => {
     try {
+      // Fetch location data
       const jsonValue = JSON.stringify(place);
+      
+      // Fetch post from async storage
+      const postStr = await AsyncStorage.getItem(key);
+      let postObj = JSON.parse(postStr);
+
+      // Set published flag for postObj
+      postObj.published = publish;
+
+      // Set item at the given key
+      await AsyncStorage.setItem(key, JSON.stringify(postObj));
+
+      // Merge location data with existing post object and clear photo list
       await AsyncStorage.mergeItem(key, jsonValue);
       getData(key);
       clearPhotoSet();
@@ -183,7 +196,7 @@ function Location({ route, navigation }) {
       {/* Post Button */}
       <TouchableOpacity
         style={styles.postButton}
-        onPress={() => storeData() && navigation.navigate("Home")}
+        onPress={() => storeData(true) && navigation.navigate("Home")}
       >
         <Text
           style={{
