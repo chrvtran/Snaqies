@@ -78,7 +78,8 @@ function TagFood({ route, navigation }) {
               paddingRight: 10,
               height: 38,
             }}
-          >
+          > 
+          {/* Top Right Done Button */}
             <Button
               title="Done"
               onPress={() =>
@@ -88,6 +89,7 @@ function TagFood({ route, navigation }) {
               }
             />
           </View>
+          {/* Pressable Image to Place Tags */}
           <View>
             <Pressable onPress={(data) => handleImagePress(data)}>
               <Image
@@ -98,14 +100,15 @@ function TagFood({ route, navigation }) {
               />
             </Pressable>
 
-            {/*TODO*/}
+            {/* TODO
             {tags.map((i) => {
               <View>
                 <Text styles={{ display: "absolute", color: "blue" }}>
                   {i.foodHandle}
                 </Text>
               </View>;
-            })}
+            })} */}
+
             <View
               style={{
                 position: "absolute",
@@ -117,23 +120,34 @@ function TagFood({ route, navigation }) {
               }}
             >
               {/*#TODO area for tag list rendered*/}
+              <Text style={{
+                top: "2.5%",
+                left: 10,
+                textAlign: "center",
+                fontSize: "16",
+                fontWeight: "400",
+              }}>
+              Tags
+              </Text>
               {tags.map((tag, index) => ( 
                 <View key={index}  style={{
-                  //TODO
+                  width: 'auto',
+                  height: '20%',
+                  borderRadius: "10.98",
+                  backgroundColor: "#D9D9D9",
+                  top: "7.5%",
+                  right: 25,
+                  marginRight: 10,
                 }}> 
-                  <Text styles={{ //TODO 
-                  }}>
-                    {tag.foodHandle}
-                  </Text>
-                  <TouchableOpacity  
-                    onPress={() => handleRemoveTag(index)}> 
-                    <Text style={{
-                      //TODO
-                    }}> 
-                    X 
-                    </Text> 
-                  </TouchableOpacity> 
-                </View> 
+                <Text style={{
+                  fontSize: "19.2",
+                  color: "#737373",
+                  fontWeight: "400",
+                  top:"10%",
+                }}>
+                {tag.foodHandle} <Text style={{color: "black"}} onPress={() => handleRemoveTag(index)}>&times;</Text>
+                </Text>
+              </View> 
               ))} 
             </View>
           </View>
