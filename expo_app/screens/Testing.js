@@ -50,6 +50,9 @@ function Testing({ navigation }) {
             <FlatButton text='Clear Async Storage' onPress={clearAsync} />
             <FlatButton text='Ratings Screen' onPress={() => navigation.navigate('Ratings')} />
             <FlatButton text='Price Screen' onPress={() => navigation.navigate('Price')} />
+            <FlatButton text='SelectPhoto' onPress={() => navigation.navigate('SelectPhoto')} />
+
+
             <StatusBar style="auto" />
         </View>
     );
