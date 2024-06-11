@@ -131,12 +131,15 @@ function CameraOpen({ navigation }) {
   const storeData = async () => {
     key = uuid.v1();
     const date = Date.now();
+
+    // Create post JSON to store in async
     const postObj = {
       uuid: key,
       photos: photoSet.map((photo) => {
         return photo.uri;
       }),
       date: date,
+      published: false // Mark this post as being published or if it is a draft
     };
     try {
       const jsonValue = JSON.stringify(postObj);
