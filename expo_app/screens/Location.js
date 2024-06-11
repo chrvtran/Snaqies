@@ -165,7 +165,10 @@ function Location({ route, navigation }) {
       {/* Save Draft Button */}
       <TouchableOpacity
           style={styles.saveDraftButton}
-          onPress={() => console.log("Save draft!")}
+          onPress={function() {
+            console.log("Save Draft!");
+            navigation.navigate("Home");
+          }}
       >
         <Text
             style={{
