@@ -9,8 +9,17 @@ import UploadButton from '../assets/icons/upload.svg';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 import Snaq from '../assets/snaq';
-
+import * as MediaLibrary from "expo-media-library";
+import * as ImagePicker from "expo-image-picker";
 function SelectPhoto({ navigation }) {
+    const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
+    useEffect(() => {
+        (async () => {
+          const mediaLibraryPermission =
+            await MediaLibrary.requestPermissionsAsync();
+          setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
+        })();
+      }, []);
     const isFocused = useIsFocused();
     const [posts, setPosts] = useState([]);
 
@@ -44,37 +53,33 @@ function SelectPhoto({ navigation }) {
         }
     }, [isFocused]);
 
-    const handleUpload = async () => {
-        const options = {
-            mediaType: 'photo',
-            maxWidth: 300,
-            maxHeight: 550,
-            quality: 1,
-        };
-    
-        try {
-            const response = await new Promise((resolve, reject) => {
-                launchImageLibrary(options, (response) => {
-                    if (response.didCancel) {
-                        console.log('User cancelled image picker');
-                        resolve(null);
-                    } else if (response.error) {
-                        console.error('ImagePicker Error: ', response.error);
-                        reject(response.error);
-                    } else {
-                        resolve(response);
-                    }
-                });
-            });
-    
-            if (response) {
-                const source = { uri: response.uri };
-                console.log('Image URI: ', source.uri);
-                // Here you can handle the selected image
-            }
-        } catch (error) {
-            console.error('Error picking image: ', error);
+    const uploadPhoto = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsMultipleSelection: true,
+          aspect: [1, 1],
+          quality: 1,
+        });
+        delete result.cancelled;
+        let i = 0;
+        while (!result.canceled && i < result.assets.length) {
+          setPhoto(result.assets[i]);
+          photoList.current.push(result.assets[i]);
+          const newPhotoList = [...photoList.current];
+          setPhotoSet(newPhotoList);
+          i++;
         }
+      };
+    let deletePhoto = () => {
+    var index = Number(sliderRef.current.getIndex());
+    photoList.current.splice(index, 1);
+    const newPhotoList = [...photoList.current];
+    setPhotoSet(newPhotoList);
+    alert("Successfully deleted photo.");
+    if (photoList.current.length == 0) {
+        setPickedImages(false);
+    }
     };
 
     return (
@@ -101,7 +106,7 @@ function SelectPhoto({ navigation }) {
             {/* Bar */}
             <View style={styles.bar}>
                 <View style={styles.barRight}>
-                    <TouchableOpacity style={styles.iconButton} onPress={handleUpload}>
+                    <TouchableOpacity style={styles.iconButton} onPress={uploadPhoto}>
                         <UploadButton width={24} height={24} />
                     </TouchableOpacity>
                 </View>
@@ -115,7 +120,7 @@ function SelectPhoto({ navigation }) {
                     <TouchableOpacity style={styles.iconButton}>
                         <DownloadButton />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.iconButton}>
+                    <TouchableOpacity style={styles.iconButton} onPress={deletePhoto}>
                         <TrashCanButton />
                     </TouchableOpacity>
                 </View>
