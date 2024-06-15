@@ -129,26 +129,33 @@ function TagFood({ route, navigation }) {
               }}>
               Tags
               </Text>
-              {tags.map((tag, index) => ( 
-                <View key={index}  style={{
-                  width: 'auto',
-                  height: '20%',
-                  borderRadius: "10.98",
-                  backgroundColor: "#D9D9D9",
-                  top: "7.5%",
-                  right: 25,
-                  marginRight: 10,
-                }}> 
-                <Text style={{
-                  fontSize: "19.2",
-                  color: "#737373",
-                  fontWeight: "400",
-                  top:"10%",
-                }}>
-                {tag.foodHandle} <Text style={{color: "black"}} onPress={() => handleRemoveTag(index)}>&times;</Text>
-                </Text>
+              <View style={{
+                top: "18%",
+                flexDirection: "row",
+                flexWrap: "wrap"
+              }}>
+                {tags.map((tag, index) => ( 
+                  <View key={index}  style={{
+                    width: 'auto',
+                    height: '20%',
+                    borderRadius: "10.98",
+                    backgroundColor: "#D9D9D9",
+                    top: "7.5%",
+                    right: 25,
+                    marginRight: 10,
+                    marginBottom: 5
+                  }}> 
+                  <Text style={{
+                    fontSize: "19.2",
+                    color: "#737373",
+                    fontWeight: "400",
+                    top:"10%",
+                  }}>
+                  {tag.foodHandle} <Text style={{color: "black"}} onPress={() => handleRemoveTag(index)}>&times;</Text>
+                  </Text>
+                </View> 
+                ))}
               </View> 
-              ))} 
             </View>
           </View>
         </SafeAreaView>
