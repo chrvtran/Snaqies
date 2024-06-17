@@ -117,6 +117,21 @@ function Location({ route, navigation }) {
       // Merge location data with existing post object and clear photo list
       await AsyncStorage.mergeItem(key, jsonValue);
       getData(key);
+
+      // Test if location is saved when saving a draft
+      if (!publish) {
+        const savedPost = await AsyncStorage.getItem(key);
+        let values = JSON.parse(savedPost);
+
+        if (values.hasOwnProperty("formatted_address")) {
+          console.log("Location data saved successfully.");
+          console.log("Address: " + values.formatted_address + "\nName: " + values.name);
+        } else {
+          console.log("Failed to save location data.");
+          console.log("Saved data: " + savedPost);
+        }
+      }
+
       clearPhotoSet();
     } catch (e) {
       // saving error
@@ -180,6 +195,7 @@ function Location({ route, navigation }) {
           style={styles.saveDraftButton}
           onPress={function() {
             console.log("Save Draft!");
+            storeData(false);
             navigation.navigate("Home");
           }}
       >
