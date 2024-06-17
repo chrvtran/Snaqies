@@ -37,6 +37,63 @@ function Testing({ navigation }) {
         console.log("cleared")
     }
 
+    let getDraftKeys = async () => {
+        let keys = []
+        try {
+            // Get all posts in async
+            keys = await AsyncStorage.getAllKeys();
+            allPostsData = await AsyncStorage.multiGet(keys);
+            allPostsObjs = allPostsData.map((val) => [val[0], JSON.parse(val[1])]);
+
+            // Filter out on drafts
+            drafts = allPostsObjs.filter(([key, postData]) => postData.published === false);
+
+            // Print keys associated with drafts
+            if (drafts.length == 0) {
+                console.log("No drafts to display");
+            } else {
+                for (let i = 0; i < drafts.length; i++) {
+                    console.log("Draft #" + i + " Key: " + drafts[i][0]);
+                    console.log("Is published: " + drafts[i][1].published);
+                    console.log("\n");
+                }
+            }
+        } catch (e) {
+
+        }
+    }
+
+    let publishAllDrafts = async () => {
+        let keys = []
+        try {
+            // Get all posts in async
+            keys = await AsyncStorage.getAllKeys();
+            allPostsData = await AsyncStorage.multiGet(keys);
+            allPostsObjs = allPostsData.map((val) => [val[0], JSON.parse(val[1])]);
+
+            // Filter out on drafts
+            drafts = allPostsObjs.filter(([key, postData]) => postData.published === false);
+
+            // Publish all drafts
+            if (drafts.length == 0) {
+                console.log("No drafts to publish");
+            } else {
+                for (let i = 0; i < drafts.length; i++) {
+                    curKey = drafts[i][0];
+                    curDraft = drafts[i][1];
+                    curDraft.published = true;
+
+                    await AsyncStorage.setItem(curKey, JSON.stringify(curDraft));
+                    
+                    let updatedVal = await AsyncStorage.getItem(curKey);
+                    console.log(updatedVal);
+                }
+            }
+        } catch (e) {
+
+        }
+    }
+
     useEffect(() => {
         if (isFocused) {
             
@@ -48,6 +105,8 @@ function Testing({ navigation }) {
             <Text>Testing Page</Text>
             <FlatButton text='Async getAllKeys' onPress={getAllKeys} />
             <FlatButton text='Clear Async Storage' onPress={clearAsync} />
+            <FlatButton text='Get Draft Keys' onPress={getDraftKeys}/>
+            <FlatButton text='Publish All Drafts' onPress={publishAllDrafts} />
             <FlatButton text='Ratings Screen' onPress={() => navigation.navigate('Ratings')} />
             <FlatButton text='Price Screen' onPress={() => navigation.navigate('Price')} />
             <StatusBar style="auto" />
