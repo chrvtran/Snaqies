@@ -15,6 +15,7 @@ import {
   Dimensions,
   TextInput,
 } from "react-native";
+import CloseIcon from "../assets/icons/close.svg";
 import { useState } from "react";
 
 //#TODO Styling
@@ -151,7 +152,12 @@ function TagFood({ route, navigation }) {
                     fontWeight: "400",
                     top:"10%",
                   }}>
-                  {tag.foodHandle} <Text style={{color: "black"}} onPress={() => handleRemoveTag(index)}>&times;</Text>
+                  {tag.foodHandle}      
+                  <View style={styles.closeIcon}>
+                    <TouchableOpacity onPress={() => handleRemoveTag(index)}>
+                      <CloseIcon/>
+                    </TouchableOpacity>
+                  </View>
                   </Text>
                 </View> 
                 ))}
@@ -191,19 +197,33 @@ function TagFood({ route, navigation }) {
               What did you Snaq on?
             </Text>
           </View>
-          <TextInput
-            style={{
-              fontSize: "20",
-              height: "33",
-              margin: "auto",
-              textAlign: "center",
-              borderColor: "black",
-              backgroundColor: "grey",
-              borderRadius: "20",
-            }}
-            onChangeText={onChangeText}
-            value={text}
-          ></TextInput>
+          <View style={{
+            flexDirection: "row",
+            alignSelf: "center"
+          }}>
+            <TextInput
+              style={{
+                fontSize: "20",
+                height: "33",
+                width: "80%",
+                margin: "auto",
+                textAlign: "center",
+                borderColor: "black",
+                backgroundColor: "lightgrey",
+                borderRadius: "25",
+              }}
+              onChangeText={onChangeText}
+              value={text}>
+            </TextInput>
+            <TouchableOpacity onPress={() => onChangeText('')} style={{
+                  height: 20,
+                  width: 20,
+                  top: 2,
+                  right: 24
+              }}>
+              <CloseIcon/>
+            </TouchableOpacity>
+          </View>
         </SafeAreaView>
       )}
     </>
@@ -218,5 +238,9 @@ const styles = StyleSheet.create({
     resizeMode: "stretch",
     height: "100%",
     width: "100%",
+  },
+  closeIcon: {
+    height: 20,
+    width: 20,
   },
 });
