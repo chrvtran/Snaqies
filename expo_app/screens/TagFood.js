@@ -100,16 +100,6 @@ function TagFood({ route, navigation }) {
                 }}
               />
             </Pressable>
-
-            {/* TODO
-            {tags.map((i) => {
-              <View>
-                <Text styles={{ display: "absolute", color: "blue" }}>
-                  {i.foodHandle}
-                </Text>
-              </View>;
-            })} */}
-
             <View
               style={{
                 position: "absolute",
@@ -120,7 +110,7 @@ function TagFood({ route, navigation }) {
                 width: "100%",
               }}
             >
-              {/*#TODO area for tag list rendered*/}
+              {/*Area for tag list rendered*/}
               <Text style={{
                 top: "2.5%",
                 left: 10,
@@ -215,6 +205,7 @@ function TagFood({ route, navigation }) {
               onChangeText={onChangeText}
               value={text}>
             </TextInput>
+            {/* Added a Clear Button for TextBox */}
             <TouchableOpacity onPress={() => onChangeText('')} style={{
                   height: 20,
                   width: 20,
