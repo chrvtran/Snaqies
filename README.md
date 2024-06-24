@@ -21,6 +21,7 @@ Can't remember what foods and restaurants you tried before? Try using Snaqies! T
 <br><br>
 
 ### Tips for First Run
+- Resolve global SDK issues with `npm install expo-cli --global`
 - Use `npx expo go` instead of `npm start`
 - Install Expo using `npm install expo`
 - Fix package dependency and version issues with `npm install -legacy-peer-deps`
