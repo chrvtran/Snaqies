@@ -265,10 +265,17 @@ function CameraOpen({ navigation }) {
 
           {/* Other buttons */}
           <View style={styles.buttonContainer}>
+            {/* Save Draft */}
+            <TouchableOpacity>
+              <Text>Save Draft</Text>
+            </TouchableOpacity>
+            
+            {/* Save photos to camera roll */}
             <TouchableOpacity style={styles.picButtons} onPress={savePhoto}>
               <Text>Save to Roll</Text>
             </TouchableOpacity>
-
+            
+            {/* Tag Food */}
             <TouchableOpacity
               style={styles.picButtons}
               onPress={() =>
@@ -286,6 +293,8 @@ function CameraOpen({ navigation }) {
             >
               <Text>Upload Pic</Text>
             </TouchableOpacity>
+
+            {/* Delete Picture */}
             <TouchableOpacity style={styles.picButtons} onPress={deletePhoto}>
               <Text>Delete Pic</Text>
             </TouchableOpacity>
