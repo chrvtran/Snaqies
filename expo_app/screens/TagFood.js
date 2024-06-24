@@ -15,6 +15,7 @@ import {
   Dimensions,
   TextInput,
 } from "react-native";
+import CloseIcon from "../assets/icons/close.svg";
 import { useState } from "react";
 
 //#TODO Styling
@@ -62,6 +63,12 @@ function TagFood({ route, navigation }) {
     setTagView(true);
   };
 
+  const handleRemoveTag = (index) => {
+    const tagsCopy = [...tags];
+    tagsCopy.splice(index, 1);
+    setTags(tagsCopy);
+  }
+
   return (
     <>
       {!tagView && (
@@ -72,7 +79,8 @@ function TagFood({ route, navigation }) {
               paddingRight: 10,
               height: 38,
             }}
-          >
+          > 
+          {/* Top Right Done Button */}
             <Button
               title="Done"
               onPress={() =>
@@ -82,6 +90,7 @@ function TagFood({ route, navigation }) {
               }
             />
           </View>
+          {/* Pressable Image to Place Tags */}
           <View>
             <Pressable onPress={(data) => handleImagePress(data)}>
               <Image
@@ -91,15 +100,6 @@ function TagFood({ route, navigation }) {
                 }}
               />
             </Pressable>
-
-            {/*TODO*/}
-            {tags.map((i) => {
-              <View>
-                <Text styles={{ display: "absolute", color: "blue" }}>
-                  {i.foodHandle}
-                </Text>
-              </View>;
-            })}
             <View
               style={{
                 position: "absolute",
@@ -110,7 +110,48 @@ function TagFood({ route, navigation }) {
                 width: "100%",
               }}
             >
-              {/*#TODO area for tag list rendered*/}
+              {/*Area for tag list rendered*/}
+              <Text style={{
+                top: "2.5%",
+                left: 10,
+                textAlign: "center",
+                fontSize: "16",
+                fontWeight: "400",
+              }}>
+              Tags
+              </Text>
+              <View style={{
+                top: "18%",
+                flexDirection: "row",
+                flexWrap: "wrap"
+              }}>
+                {tags.map((tag, index) => ( 
+                  <View key={index}  style={{
+                    width: 'auto',
+                    height: '20%',
+                    borderRadius: "10.98",
+                    backgroundColor: "#D9D9D9",
+                    top: "7.5%",
+                    right: 25,
+                    marginRight: 10,
+                    marginBottom: 5
+                  }}> 
+                  <Text style={{
+                    fontSize: "19.2",
+                    color: "#737373",
+                    fontWeight: "400",
+                    top:"10%",
+                  }}>
+                  {tag.foodHandle}      
+                  <View style={styles.closeIcon}>
+                    <TouchableOpacity onPress={() => handleRemoveTag(index)}>
+                      <CloseIcon/>
+                    </TouchableOpacity>
+                  </View>
+                  </Text>
+                </View> 
+                ))}
+              </View> 
             </View>
           </View>
         </SafeAreaView>
@@ -146,19 +187,34 @@ function TagFood({ route, navigation }) {
               What did you Snaq on?
             </Text>
           </View>
-          <TextInput
-            style={{
-              fontSize: "20",
-              height: "33",
-              margin: "auto",
-              textAlign: "center",
-              borderColor: "black",
-              backgroundColor: "grey",
-              borderRadius: "20",
-            }}
-            onChangeText={onChangeText}
-            value={text}
-          ></TextInput>
+          <View style={{
+            flexDirection: "row",
+            alignSelf: "center"
+          }}>
+            <TextInput
+              style={{
+                fontSize: "20",
+                height: "33",
+                width: "80%",
+                margin: "auto",
+                textAlign: "center",
+                borderColor: "black",
+                backgroundColor: "lightgrey",
+                borderRadius: "25",
+              }}
+              onChangeText={onChangeText}
+              value={text}>
+            </TextInput>
+            {/* Added a Clear Button for TextBox */}
+            <TouchableOpacity onPress={() => onChangeText('')} style={{
+                  height: 20,
+                  width: 20,
+                  top: 2,
+                  right: 24
+              }}>
+              <CloseIcon/>
+            </TouchableOpacity>
+          </View>
         </SafeAreaView>
       )}
     </>
@@ -173,5 +229,9 @@ const styles = StyleSheet.create({
     resizeMode: "stretch",
     height: "100%",
     width: "100%",
+  },
+  closeIcon: {
+    height: 20,
+    width: 20,
   },
 });
