@@ -29,6 +29,9 @@ import UploadButton from "../assets/icons/upload.svg";
 import Slider from "../assets/slider.js";
 import Alert from "../assets/alert.js";
 
+// Imports from Location.js
+import { getUserCurrentLocation } from "./Location.js";
+
 function CameraOpen({ navigation }) {
   const { control, handleSubmit } = useForm();
 
@@ -43,6 +46,16 @@ function CameraOpen({ navigation }) {
   const [pickedImages, setPickedImages] = useState(false);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
+  
+  // Store user location if saving a draft
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
+  const [location, setLocation] = useState({});
+  const [place, setPlace] = useState({
+    formatted_address: "",
+    name: "",
+    geometry: { location: { lat: 0, lng: 0 } },
+  });
 
   const handleAlertState = () => {
     setShowAlert(false);
@@ -128,7 +141,7 @@ function CameraOpen({ navigation }) {
     alert("Sucessfully cleared photos.");
   };
   // Stores uuid and photolist to async location
-  const storeData = async () => {
+  const storeData = async (published) => {
     key = uuid.v1();
     const date = Date.now();
 
@@ -139,11 +152,19 @@ function CameraOpen({ navigation }) {
         return photo.uri;
       }),
       date: date,
-      published: false // Mark this post as being published or if it is a draft
+      published: published // Mark this post as being published or if it is a draft
     };
     try {
+      // Store initial post object
       const jsonValue = JSON.stringify(postObj);
       await AsyncStorage.setItem(key, jsonValue);
+
+      // Check if saving as draft
+      if (!published) {
+        const placeJsonStr = JSON.stringify(place);
+        await AsyncStorage.mergeItem(key, placeJsonStr);
+      }
+
       getData(key);
       setPickedImages(false);
     } catch (e) {
@@ -163,6 +184,21 @@ function CameraOpen({ navigation }) {
       console.log(`No key: ${key}`);
     }
   };
+
+  const saveDraft = async () => {
+    // Get location data
+    const userLocData = await getUserCurrentLocation();
+    
+    // Save the draft
+    if (userLocData !== null) {
+      setLocation(userLocData.location);
+      setPlace(userLocData.place);
+      setLat(userLocData.lat);
+      setLng(userLocData.lng);
+    }
+
+    await storeData(false);
+  }
 
   return (
     <>
@@ -250,7 +286,7 @@ function CameraOpen({ navigation }) {
           <View style={styles.nextButton}>
             <TouchableOpacity
               onPress={() =>
-                storeData() &&
+                storeData(true) &&
                 navigation.navigate("Location", {
                   key: key,
                   photoSet: photoSet,
@@ -266,7 +302,18 @@ function CameraOpen({ navigation }) {
           {/* Other buttons */}
           <View style={styles.buttonContainer}>
             {/* Save Draft */}
-            <TouchableOpacity>
+            <TouchableOpacity
+              style={styles.picButtons}
+              onPress={async () => {
+                navigation.navigate("Home");
+                await saveDraft();
+                
+                // Clear photo set
+                photoList.current = [];
+                setPhotoSet([]);
+                setPickedImages(false);
+              }}
+            >
               <Text>Save Draft</Text>
             </TouchableOpacity>
             
