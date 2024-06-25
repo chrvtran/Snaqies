@@ -203,25 +203,6 @@ function Location({ route, navigation }) {
           listView: { backgroundColor: "white" },
         }}
       />
-
-      {/* Save Draft Button */}
-      <TouchableOpacity
-          style={styles.saveDraftButton}
-          onPress={function() {
-            console.log("Save Draft!");
-            storeData(false);
-            navigation.navigate("Home");
-          }}
-      >
-        <Text
-            style={{
-              fontSize: 20,
-              color: "#00A3FF"
-            }}
-        >
-          Save Draft  
-        </Text>
-      </TouchableOpacity>
       
       {/* Post Button */}
       <TouchableOpacity
