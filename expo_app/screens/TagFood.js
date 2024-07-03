@@ -8,6 +8,7 @@ import {
   PlatformColor,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   Pressable,
   StyleSheet,
@@ -33,13 +34,12 @@ function TagFood({ route, navigation }) {
   const [tagView, setTagView] = useState(false);
 
   //for Tagview searchbar
-  const [text, onChangeText] = React.useState("");
+  const [text, onChangeText] = useState("");
 
   const handleAddTag = () => {
     //check empty tagHandle
     if (text === "") {
       setTagView(false);
-      console.log(tags);
       return;
     } else {
       // Save the tag with coordinates
@@ -51,7 +51,6 @@ function TagFood({ route, navigation }) {
       setTags([...tags, newTag]);
       onChangeText("");
       setTagView(false);
-      console.log(tags);
     }
   };
 
@@ -63,11 +62,41 @@ function TagFood({ route, navigation }) {
     setTagView(true);
   };
 
+  //Removes tags from TagList
   const handleRemoveTag = (index) => {
     const tagsCopy = [...tags];
     tagsCopy.splice(index, 1);
     setTags(tagsCopy);
   }
+
+  //Saves Tags onto Async storage
+  const saveTags = async (uri) => {
+    if(!tags.length) { return; }
+    try {
+      const jsonTags = JSON.stringify(tags);
+      await AsyncStorage.setItem(uri, jsonTags);
+    } catch (e) {
+
+    }
+  }
+  
+  //Retrieves the Saved Tags
+  const getData = async () => {
+    try {
+      const jsonStoredTags = await AsyncStorage.getItem(image.uri);
+      storedTags = jsonStoredTags != null ? JSON.parse(jsonStoredTags) : null;
+      if (storedTags !== null) {
+        // value previously stored
+        setTags(storedTags);
+      }
+    } catch (e) {
+      // error reading value
+    }
+  }
+
+  React.useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <>
@@ -83,7 +112,8 @@ function TagFood({ route, navigation }) {
           {/* Top Right Done Button */}
             <Button
               title="Done"
-              onPress={() =>
+              onPress={() => 
+                saveTags(image.uri) &&
                 navigation.navigate("TabNav", {
                   screen: "Camera",
                 })
@@ -203,6 +233,7 @@ function TagFood({ route, navigation }) {
                 borderRadius: "25",
               }}
               onChangeText={onChangeText}
+              autoFocus={true}
               value={text}>
             </TextInput>
             {/* Added a Clear Button for TextBox */}
