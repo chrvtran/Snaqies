@@ -9,9 +9,80 @@ import NextArrow from "../assets/icons/arrow-foward.svg";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { ScreenStackHeaderConfig } from "react-native-screens";
 
-function Location({ route, navigation }) {
-  const myApiKey = "AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U";
+const myApiKey = "AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U";
+// Gets address based on coordinates
+export const reverseGeolocate = (latitude, longitude) => {
+  return new Promise((resolve, reject) => {
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?fields=name`;
+    url += `&address=${latitude},${longitude}`;
+    url += `&key=${myApiKey}`;
+    fetch(url)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if (responseJson.status === "OK") {
+          resolve(responseJson?.results?.[0]?.formatted_address);
+        } else {
+          reject("not found");
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
 
+// Makes a Place search to find certain information about an input
+export const findPlace = (input) => {
+  return new Promise((resolve, reject) => {
+    let url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?`;
+    url += `fields=formatted_address,name,geometry`;
+    url += `&input=point_of_interest ${input}`;
+    url += `&inputtype=textquery`;
+    url += `&key=${myApiKey}`;
+    fetch(url)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if (responseJson.status === "OK") {
+          resolve(responseJson?.candidates?.[0]);
+        } else {
+          reject("not found");
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export async function getUserCurrentLocation() {
+  // Request access to device location
+  let { status } = await GeoLocation.requestForegroundPermissionsAsync();
+
+  if (status == "granted") {
+    console.log("Permission granted");
+
+    // Get user location data
+    const loc = await GeoLocation.getCurrentPositionAsync();
+    console.log(loc);
+    const lat = loc.coords.latitude;
+    const lng = loc.coords.longitude;
+
+    // Use reverse geolocation to find address
+    const place = await findPlace(await reverseGeolocate(lat, lng));
+
+    return {
+      location: loc,
+      place: place,
+      lat: lat,
+      lng: lng
+    }
+  }
+
+  // Permission not granted, so return null
+  return null;
+}
+
+function Location({ route, navigation }) {
   const { key } = route.params;
   let { photoSet, setPhotoSet, photoList } = route.params; // [photoSet, setPhotoSet] = CO.js photo slider state
   const [lat, setLat] = useState(0);
@@ -26,72 +97,15 @@ function Location({ route, navigation }) {
   // On intial tab open...
   useEffect(() => {
     (async () => {
-      // Request access to device location (if not already)
-      let { status } = await GeoLocation.requestForegroundPermissionsAsync();
-
-      if (status === "granted") {
-        console.log("Permission granted");
-        // Gets current location
-        const loc = await GeoLocation.getCurrentPositionAsync();
-        setLocation(loc);
-        const place = await findPlace(
-          await reverseGeolocate(loc.coords.latitude, loc.coords.longitude),
-        );
-        setPlace(place);
-
-        // Reassign initial lat,lng values for current location
-        setLat(loc.coords.latitude)
-        setLng(loc.coords.longitude)
-
-      } else {
-        console.log("Permission not granted");
+      const userLocData = await getUserCurrentLocation();
+      if (userLocData !== null) {
+        setLocation(userLocData.location);
+        setPlace(userLocData.place);
+        setLat(userLocData.lat);
+        setLng(userLocData.lng);
       }
     })();
   }, []);
-
-  // Gets address based on coordinates
-  const reverseGeolocate = (latitude, longitude) => {
-    return new Promise((resolve, reject) => {
-      let url = `https://maps.googleapis.com/maps/api/geocode/json?fields=name`;
-      url += `&address=${latitude},${longitude}`;
-      url += `&key=${myApiKey}`;
-      fetch(url)
-        .then((response) => response.json())
-        .then((responseJson) => {
-          if (responseJson.status === "OK") {
-            resolve(responseJson?.results?.[0]?.formatted_address);
-          } else {
-            reject("not found");
-          }
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  };
-
-  // Makes a Place search to find certain information about an input
-  const findPlace = (input) => {
-    return new Promise((resolve, reject) => {
-      let url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?`;
-      url += `fields=formatted_address,name,geometry`;
-      url += `&input=point_of_interest ${input}`;
-      url += `&inputtype=textquery`;
-      url += `&key=${myApiKey}`;
-      fetch(url)
-        .then((response) => response.json())
-        .then((responseJson) => {
-          if (responseJson.status === "OK") {
-            resolve(responseJson?.candidates?.[0]);
-          } else {
-            reject("not found");
-          }
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  };
 
   clearPhotoSet = () => {
     setPhotoSet([]);
@@ -99,11 +113,39 @@ function Location({ route, navigation }) {
   };
 
   // Stores location data asynchronously
-  const storeData = async () => {
+  const storeData = async (publish) => {
     try {
+      // Fetch location data
       const jsonValue = JSON.stringify(place);
+      
+      // Fetch post from async storage
+      const postStr = await AsyncStorage.getItem(key);
+      let postObj = JSON.parse(postStr);
+
+      // Set published flag for postObj
+      postObj.published = publish;
+
+      // Set item at the given key
+      await AsyncStorage.setItem(key, JSON.stringify(postObj));
+
+      // Merge location data with existing post object and clear photo list
       await AsyncStorage.mergeItem(key, jsonValue);
       getData(key);
+
+      // Test if location is saved when saving a draft
+      if (!publish) {
+        const savedPost = await AsyncStorage.getItem(key);
+        let values = JSON.parse(savedPost);
+
+        if (values.hasOwnProperty("formatted_address")) {
+          console.log("Location data saved successfully.");
+          console.log("Address: " + values.formatted_address + "\nName: " + values.name);
+        } else {
+          console.log("Failed to save location data.");
+          console.log("Saved data: " + savedPost);
+        }
+      }
+
       clearPhotoSet();
     } catch (e) {
       // saving error
@@ -161,11 +203,11 @@ function Location({ route, navigation }) {
           listView: { backgroundColor: "white" },
         }}
       />
-
+      
       {/* Post Button */}
       <TouchableOpacity
         style={styles.postButton}
-        onPress={() => storeData() && navigation.navigate("Home")}
+        onPress={() => storeData(true) && navigation.navigate("Home")}
       >
         <Text
           style={{
@@ -243,6 +285,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 20,
     top: -40,
+  },
+  saveDraftButton: {
+    position: "absolute",
+    left: 20,
+    top: -40
   },
   recenterButton: {
     position: "absolute",

@@ -33,7 +33,7 @@ function Home({navigation }) {
                 // We retrieved data
                 postObjs = values.map((val) => [val[0], JSON.parse(val[1])]);
 
-                const validPostObjs = postObjs.filter(([key, post]) => post && post.date !== undefined);
+                const validPostObjs = postObjs.filter(([key, post]) => post && post.date !== undefined && post.published);
                     const sortedPostObjs = validPostObjs.sort((a, b) => {
                     const dateA = new Date(a[1].date).getTime();
                     const dateB = new Date(b[1].date).getTime();
