@@ -37,13 +37,13 @@ function CameraOpen({ navigation }) {
 
   let key = useRef();
   let cameraRef = useRef();
-  let photoList = useRef([]);
+  let photoList = useRef([]); // Set of photos taken so far
   let sliderRef = useRef();
-  const [photoSet, setPhotoSet] = useState([]);
+  const [photoSet, setPhotoSet] = useState([]); // Current set of photos for post (pictures taken by camera and from camera roll)
   const [photos, setPhoto] = useState();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
-  const [pickedImages, setPickedImages] = useState(false);
+  const [pickedImages, setPickedImages] = useState(false); // Boolean to determine if user has picked images for post
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   
@@ -200,6 +200,13 @@ function CameraOpen({ navigation }) {
     await storeData(false);
   }
 
+  const discardPost = async () => {
+    // Clear photo set if any photos were taken or chosen
+    if (photoList.current.length > 0 || photoSet.length > 0) {
+      resetPhotoList();
+    }
+  }
+
   return (
     <>
       {/* Initial camera screen */}
@@ -277,7 +284,10 @@ function CameraOpen({ navigation }) {
 
           {/* Back Arrow Button */}
           <View style={styles.backButton}>
-            <TouchableOpacity onPress={() => setPickedImages(false)}>
+            <TouchableOpacity onPress={() => {
+              discardPost();
+              navigation.navigate("Home");
+            }}>
               <BackArrow />
             </TouchableOpacity>
           </View>
