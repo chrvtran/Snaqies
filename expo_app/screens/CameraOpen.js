@@ -47,15 +47,6 @@ function CameraOpen({ navigation }) {
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   
-  // Store user location if saving a draft
-  const [lat, setLat] = useState(0);
-  const [lng, setLng] = useState(0);
-  const [location, setLocation] = useState({});
-  const [place, setPlace] = useState({
-    formatted_address: "",
-    name: "",
-    geometry: { location: { lat: 0, lng: 0 } },
-  });
 
   const handleAlertState = () => {
     setShowAlert(false);
@@ -141,7 +132,7 @@ function CameraOpen({ navigation }) {
     alert("Sucessfully cleared photos.");
   };
   // Stores uuid and photolist to async location
-  const storeData = async (published) => {
+  const storeData = async (published, locData) => {
     key = uuid.v1();
     const date = Date.now();
 
@@ -159,9 +150,9 @@ function CameraOpen({ navigation }) {
       const jsonValue = JSON.stringify(postObj);
       await AsyncStorage.setItem(key, jsonValue);
 
-      // Check if saving as draft
-      if (!published) {
-        const placeJsonStr = JSON.stringify(place);
+      // Check if saving as draft and location data is available
+      if (!published && locData !== null) {
+        const placeJsonStr = JSON.stringify(locData.place);
         await AsyncStorage.mergeItem(key, placeJsonStr);
       }
 
@@ -188,16 +179,9 @@ function CameraOpen({ navigation }) {
   const saveDraft = async () => {
     // Get location data
     const userLocData = await getUserCurrentLocation();
-    
-    // Save the draft
-    if (userLocData !== null) {
-      setLocation(userLocData.location);
-      setPlace(userLocData.place);
-      setLat(userLocData.lat);
-      setLng(userLocData.lng);
-    }
 
-    await storeData(false);
+    // Save post as a draft with location data, if provided
+    await storeData(false, userLocData);
   }
 
   return (
@@ -286,7 +270,7 @@ function CameraOpen({ navigation }) {
           <View style={styles.nextButton}>
             <TouchableOpacity
               onPress={() =>
-                storeData(true) &&
+                storeData(true, null) &&
                 navigation.navigate("Location", {
                   key: key,
                   photoSet: photoSet,
