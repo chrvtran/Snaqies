@@ -205,6 +205,8 @@ function CameraOpen({ navigation }) {
     if (photoList.current.length > 0 || photoSet.length > 0) {
       resetPhotoList();
     }
+
+    navigation.navigate("Home");
   }
 
   return (
@@ -245,7 +247,7 @@ function CameraOpen({ navigation }) {
           <Alert
             showAlert={showAlert}
             onUpdate={handleAlertState}
-            resetPhotoList={resetPhotoList}
+            discardPost={discardPost}
           />
 
           {/* Area towards the bottom */}
