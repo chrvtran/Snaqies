@@ -130,76 +130,50 @@ function TagFood({ route, navigation }) {
                 }}
               />
             </Pressable>
-            <View
-              style={{
+            {tags.map((tag, index) => ( 
+              <View key={index} style={{
                 position: "absolute",
-                bottom: 0,
-                flexDirection: "row",
-                height: "20%",
-                backgroundColor: "white",
-                width: "100%",
-              }}
-            >
-              {/*Area for tag list rendered*/}
-              <Text style={{
-                top: "2.5%",
-                left: 10,
-                textAlign: "center",
-                fontSize: "16",
-                fontWeight: "400",
+                width: "auto",
+                left: tag.x,
+                top: tag.y
               }}>
-              Tags
-              </Text>
-              <View style={{
-                top: "18%",
-                flexDirection: "row",
-                flexWrap: "wrap",
-              }}>
-                {tags.map((tag, index) => ( 
-                  <View key={index}
-                  style={{
-                    width: "auto",
-                    right: 25,
+                <View style={{
+                  width: 0,
+                  height: 0,
+                  backgroundColor: "transparent",
+                  borderStyle: "solid",
+                  borderLeftWidth: 10,
+                  borderRightWidth: 10,
+                  borderBottomWidth: 10,
+                  borderLeftColor: "transparent",
+                  borderRightColor: "transparent",
+                  borderBottomColor: "#D9D9D9",
+                  top: 16,
+                  alignSelf: "center"
+                }}>
+                </View>
+                <View style={{
+                  height: 30,
+                  borderRadius: "10.98",
+                  backgroundColor: "#D9D9D9",
+                  top: "30%",
+                }}> 
+                  <Text style={{
+                    fontSize: "19.2",
+                    color: "#737373",
+                    fontWeight: "400",
+                    top:"10%",
                   }}>
-                    <View style={{
-                      width: 0,
-                      height: 0,
-                      backgroundColor: "transparent",
-                      borderStyle: "solid",
-                      borderLeftWidth: 10,
-                      borderRightWidth: 10,
-                      borderBottomWidth: 10,
-                      borderLeftColor: "transparent",
-                      borderRightColor: "transparent",
-                      borderBottomColor: "#D9D9D9",
-                      top: 16,
-                      alignSelf: "center"
-                    }}>
-                    </View>
-                    <View style={{
-                      height: '20%',
-                      borderRadius: "10.98",
-                      backgroundColor: "#D9D9D9",
-                      top: "7.5%",
-                    }}> 
-                      <Text style={{
-                        fontSize: "19.2",
-                        color: "#737373",
-                        fontWeight: "400",
-                        top:"10%",
-                      }}>
-                      {tag.foodHandle}      
-                      <View style={styles.closeIcon}>
-                        <TouchableOpacity onPress={() => handleRemoveTag(index)}>
-                          <CloseIcon/>
-                        </TouchableOpacity>
-                      </View>
-                      </Text>
-                    </View> 
+                  {tag.foodHandle}      
+                  <View style={styles.closeIcon}>
+                    <TouchableOpacity onPress={() => handleRemoveTag(index)}>
+                      <CloseIcon/>
+                    </TouchableOpacity>
                   </View>
-                ))}
-              </View> 
-            </View>
+                  </Text>
+                </View> 
+              </View>
+            ))}
           </View>
         </SafeAreaView>
       )}
