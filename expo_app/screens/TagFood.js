@@ -153,33 +153,50 @@ function TagFood({ route, navigation }) {
               <View style={{
                 top: "18%",
                 flexDirection: "row",
-                flexWrap: "wrap"
+                flexWrap: "wrap",
               }}>
                 {tags.map((tag, index) => ( 
-                  <View key={index}  style={{
-                    width: 'auto',
-                    height: '20%',
-                    borderRadius: "10.98",
-                    backgroundColor: "#D9D9D9",
-                    top: "7.5%",
+                  <View key={index}
+                  style={{
+                    width: "auto",
                     right: 25,
-                    marginRight: 10,
-                    marginBottom: 5
-                  }}> 
-                  <Text style={{
-                    fontSize: "19.2",
-                    color: "#737373",
-                    fontWeight: "400",
-                    top:"10%",
                   }}>
-                  {tag.foodHandle}      
-                  <View style={styles.closeIcon}>
-                    <TouchableOpacity onPress={() => handleRemoveTag(index)}>
-                      <CloseIcon/>
-                    </TouchableOpacity>
+                    <View style={{
+                      width: 0,
+                      height: 0,
+                      backgroundColor: "transparent",
+                      borderStyle: "solid",
+                      borderLeftWidth: 10,
+                      borderRightWidth: 10,
+                      borderBottomWidth: 10,
+                      borderLeftColor: "transparent",
+                      borderRightColor: "transparent",
+                      borderBottomColor: "#D9D9D9",
+                      top: 16,
+                      alignSelf: "center"
+                    }}>
+                    </View>
+                    <View style={{
+                      height: '20%',
+                      borderRadius: "10.98",
+                      backgroundColor: "#D9D9D9",
+                      top: "7.5%",
+                    }}> 
+                      <Text style={{
+                        fontSize: "19.2",
+                        color: "#737373",
+                        fontWeight: "400",
+                        top:"10%",
+                      }}>
+                      {tag.foodHandle}      
+                      <View style={styles.closeIcon}>
+                        <TouchableOpacity onPress={() => handleRemoveTag(index)}>
+                          <CloseIcon/>
+                        </TouchableOpacity>
+                      </View>
+                      </Text>
+                    </View> 
                   </View>
-                  </Text>
-                </View> 
                 ))}
               </View> 
             </View>
