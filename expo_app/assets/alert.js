@@ -14,7 +14,7 @@ import {
   } from '@expo-google-fonts/lexend';
 import { useState } from 'react';
 
-function Alert({showAlert, onUpdate, resetPhotoList}) {
+function Alert({showAlert, onUpdate, discardPost}) {
 
     let [fontsLoaded] = useFonts({
         Lexend_100Thin,
@@ -44,7 +44,10 @@ function Alert({showAlert, onUpdate, resetPhotoList}) {
                         <View style={styles.innerCont}>
                             <Text style={styles.title}>Discard Snaq?</Text>
                             <Text style={styles.desc}>Going back will lose all the photos you have taken.</Text>
-                            <TouchableOpacity style={styles.upperButtons} onPress={() => resetPhotoList()}>
+                            <TouchableOpacity style={styles.upperButtons} onPress={() => {
+                                discardPost();
+                                onUpdate();
+                            }}>
                                 <Text style={styles.discardText}>Discard</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.upperButtons}>
