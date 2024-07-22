@@ -193,6 +193,16 @@ function CameraOpen({ navigation }) {
     navigation.navigate("Home");
   }
 
+  const handleClosedPress = () => {
+    if (photoList.current.length > 0 || photoSet.length > 0) {
+      // Only show alert if photos were taken or chosen
+      setShowAlert(true);
+    } else {
+      // No photos chosen or taken, so just navigate to home
+      navigation.navigate("Home");
+    }
+  }
+
   return (
     <>
       {/* Initial camera screen */}
@@ -200,7 +210,7 @@ function CameraOpen({ navigation }) {
         <Camera style={styles.container} ref={cameraRef}>
           {/* Close Arrow Button */}
           <View style={styles.closeButton}>
-            <TouchableOpacity onPress={() => setShowAlert(true)}>
+            <TouchableOpacity onPress={() => handleClosedPress()}>
               <CloseButton style={{ fill: "white" }} />
             </TouchableOpacity>
           </View>
