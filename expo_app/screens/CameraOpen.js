@@ -208,7 +208,7 @@ function CameraOpen({ navigation }) {
     photoList.current = [];
     setPhotoSet([]);
     setPickedImages(false);
-    
+
     navigation.navigate("Home");
     await saveDraft();
   }
@@ -321,16 +321,7 @@ function CameraOpen({ navigation }) {
             {/* Save Draft */}
             <TouchableOpacity
               style={styles.picButtons}
-              onPress={async () => {
-                await handleSaveDraft();
-                // navigation.navigate("Home");
-                // await saveDraft();
-                
-                // // Clear photo set
-                // photoList.current = [];
-                // setPhotoSet([]);
-                // setPickedImages(false);
-              }}
+              onPress={async () => {await handleSaveDraft();}}
             >
               <Text>Save Draft</Text>
             </TouchableOpacity>
