@@ -203,6 +203,16 @@ function CameraOpen({ navigation }) {
     }
   }
 
+  const handleSaveDraft = async () => {
+    // Clear photo set
+    photoList.current = [];
+    setPhotoSet([]);
+    setPickedImages(false);
+    
+    navigation.navigate("Home");
+    await saveDraft();
+  }
+
   return (
     <>
       {/* Initial camera screen */}
@@ -242,6 +252,7 @@ function CameraOpen({ navigation }) {
             showAlert={showAlert}
             onUpdate={handleAlertState}
             discardPost={discardPost}
+            saveDraft={handleSaveDraft}
           />
 
           {/* Area towards the bottom */}
@@ -311,13 +322,14 @@ function CameraOpen({ navigation }) {
             <TouchableOpacity
               style={styles.picButtons}
               onPress={async () => {
-                navigation.navigate("Home");
-                await saveDraft();
+                await handleSaveDraft();
+                // navigation.navigate("Home");
+                // await saveDraft();
                 
-                // Clear photo set
-                photoList.current = [];
-                setPhotoSet([]);
-                setPickedImages(false);
+                // // Clear photo set
+                // photoList.current = [];
+                // setPhotoSet([]);
+                // setPickedImages(false);
               }}
             >
               <Text>Save Draft</Text>

@@ -14,7 +14,7 @@ import {
   } from '@expo-google-fonts/lexend';
 import { useState } from 'react';
 
-function Alert({showAlert, onUpdate, discardPost}) {
+function Alert({showAlert, onUpdate, discardPost, saveDraft}) {
 
     let [fontsLoaded] = useFonts({
         Lexend_100Thin,
@@ -50,7 +50,10 @@ function Alert({showAlert, onUpdate, discardPost}) {
                             }}>
                                 <Text style={styles.discardText}>Discard</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.upperButtons}>
+                            <TouchableOpacity style={styles.upperButtons} onPress={async () => {
+                                onUpdate();
+                                await saveDraft();
+                            }}>
                                 <Text style={styles.saveDraftText}>Save Draft</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.cancelButton} onPress={() => onUpdate()}>
