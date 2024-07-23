@@ -12,6 +12,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Modal,
+  Dimensions
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -30,6 +31,9 @@ import CloseButton from "../assets/icons/close.svg";
 import UploadButton from "../assets/icons/upload.svg";
 import Slider from "../assets/slider.js";
 import Alert from "../assets/alert.js";
+
+const { width: screenWidth } = Dimensions.get('window');
+
 function CameraOpen({ navigation }) {
   const { control, handleSubmit } = useForm();
 
@@ -240,15 +244,32 @@ function CameraOpen({ navigation }) {
       {/* Select images screen */}
       {pickedImages && (
         <SafeAreaView style={styles.container}>
+            {/*
             <Slider ref={sliderRef} photos={photoSet} style={styles.sliderContainer} />
+            */}
+          {photoSet[selectedPhotoIndex] && (
+            <Image
+              style={styles.selectedImage}
+              source={{ uri: photoSet[selectedPhotoIndex].uri }}
+            />
+          )}
 
 
           {/* Back Arrow Button */}
           <View style={styles.backButton}>
-            <TouchableOpacity onPress={() => setPickedImages(false)}>
+            <TouchableOpacity 
+              onPress={() => setPickedImages(false)}
+              style={styles.touchableBackButtonArea}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} 
+              activeOpacity={0.7}
+            >
               <BackArrow style={{ fill: 'black' }} />
             </TouchableOpacity>
           </View>
+
+
+
+
 
           {/* Forward Arrow Button */}
           <View style={styles.selectNextButton}>
@@ -349,6 +370,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 },
+selectedImage: {
+  width: screenWidth,
+  height: '75%', 
+  resizeMode: 'contain',
+},
   buttonContainer: {
     // flex: 1,
     margin: 10,
@@ -371,10 +397,17 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
     top: 40,
-    left: 15,
+    left: 25,
     height: 40,
     width: 40,
-},
+  },
+  touchableBackButtonArea: {
+    height: 50, 
+    width: 50,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   nextButton: {
     position: "absolute",
     top: 40,

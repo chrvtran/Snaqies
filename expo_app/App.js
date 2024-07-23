@@ -133,6 +133,8 @@ function MainStack() {
       <Stack.Screen name="Location" component={LocationScreen} />
       <Stack.Screen name="TagFood" component={TagFood} />
       <Stack.Screen name="SelectPhoto" component={SelectPhotoScreen} />
+      <Stack.Screen name="Camera" component={CameraOpen} />
+
 
     </Stack.Navigator>
   );
