@@ -133,8 +133,8 @@ function TagFood({ route, navigation }) {
             {tags.map((tag, index) => ( 
               <View key={index} style={{
                 position: "absolute",
-                left: tag.x >= Dimensions.get("window").width/2 ? tag.x-(8*tag.foodHandle.length)-20 : tag.x,
-                top: tag.y >= Dimensions.get("window").height/2 ? tag.y-45 : tag.y-15,
+                left: tag.x >= 9*Dimensions.get("window").width/10 ? tag.x-(9*tag.foodHandle.length)-15 : tag.x < Dimensions.get("window").width/10 ? tag.x-5 : tag.x-25,
+                top: tag.y >= Dimensions.get("window").height/10 ? tag.y-40 : tag.y-15,
               }}>
                 {/* Triangle */}
                 <View style={{
