@@ -133,10 +133,10 @@ function TagFood({ route, navigation }) {
             {tags.map((tag, index) => ( 
               <View key={index} style={{
                 position: "absolute",
-                width: "auto",
-                left: tag.x,
-                top: tag.y
+                left: tag.x >= Dimensions.get("window").width/2 ? tag.x-(8*tag.foodHandle.length)-20 : tag.x,
+                top: tag.y >= Dimensions.get("window").height/2 ? tag.y-45 : tag.y-15,
               }}>
+                {/* Triangle */}
                 <View style={{
                   width: 0,
                   height: 0,
@@ -151,6 +151,7 @@ function TagFood({ route, navigation }) {
                   top: 16,
                   alignSelf: "center"
                 }}>
+                {/* Tag with Close Icon */}
                 </View>
                 <View style={{
                   height: 30,
@@ -225,6 +226,7 @@ function TagFood({ route, navigation }) {
               }}
               onChangeText={onChangeText}
               autoFocus={true}
+              maxLength={20}
               value={text}>
             </TextInput>
             {/* Added a Clear Button for TextBox */}
