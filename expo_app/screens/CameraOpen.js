@@ -323,7 +323,7 @@ function CameraOpen({ navigation }) {
               style={styles.picButtons}
               onPress={() =>
                 navigation.navigate("TagFood", {
-                  image: photoSet[0],
+                  image: selectedPhotoIndex !== null ? photoSet[selectedPhotoIndex] :  photoSet[0],
                 })
               }
             >
