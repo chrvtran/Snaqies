@@ -193,6 +193,26 @@ function CameraOpen({ navigation }) {
     navigation.navigate("Home");
   }
 
+  const handleClosedPress = () => {
+    if (photoList.current.length > 0 || photoSet.length > 0) {
+      // Only show alert if photos were taken or chosen
+      setShowAlert(true);
+    } else {
+      // No photos chosen or taken, so just navigate to home
+      navigation.navigate("Home");
+    }
+  }
+
+  const handleSaveDraft = async () => {
+    // Clear photo set
+    photoList.current = [];
+    setPhotoSet([]);
+    setPickedImages(false);
+
+    navigation.navigate("Home");
+    await saveDraft();
+  }
+
   return (
     <>
       {/* Initial camera screen */}
@@ -200,7 +220,7 @@ function CameraOpen({ navigation }) {
         <Camera style={styles.container} ref={cameraRef}>
           {/* Close Arrow Button */}
           <View style={styles.closeButton}>
-            <TouchableOpacity onPress={() => setShowAlert(true)}>
+            <TouchableOpacity onPress={() => handleClosedPress()}>
               <CloseButton style={{ fill: "white" }} />
             </TouchableOpacity>
           </View>
@@ -232,6 +252,7 @@ function CameraOpen({ navigation }) {
             showAlert={showAlert}
             onUpdate={handleAlertState}
             discardPost={discardPost}
+            saveDraft={handleSaveDraft}
           />
 
           {/* Area towards the bottom */}
@@ -300,15 +321,7 @@ function CameraOpen({ navigation }) {
             {/* Save Draft */}
             <TouchableOpacity
               style={styles.picButtons}
-              onPress={async () => {
-                navigation.navigate("Home");
-                await saveDraft();
-                
-                // Clear photo set
-                photoList.current = [];
-                setPhotoSet([]);
-                setPickedImages(false);
-              }}
+              onPress={async () => {await handleSaveDraft();}}
             >
               <Text>Save Draft</Text>
             </TouchableOpacity>
