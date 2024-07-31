@@ -94,6 +94,7 @@ function TagFood({ route, navigation }) {
     }
   }
 
+  //Gets Saved Tags on Image Load
   React.useEffect(() => {
     getData();
   }, []);
@@ -130,29 +131,17 @@ function TagFood({ route, navigation }) {
                 }}
               />
             </Pressable>
+            {/* Add Tags onto Pressable Image with Top and Left Shift to make Tags not go Off Screen */}
             {tags.map((tag, index) => ( 
               <View key={index} style={{
                 position: "absolute",
-                left: tag.x >= 9*Dimensions.get("window").width/10 ? tag.x-(9*tag.foodHandle.length)-15 : tag.x < Dimensions.get("window").width/10 ? tag.x-5 : tag.x-25,
+                left: tag.x >= 9*Dimensions.get("window").width/10 ? tag.x-(9*tag.foodHandle.length)-15 : 
+                      tag.x < Dimensions.get("window").width/10 ? tag.x-5 : tag.x-25,
                 top: tag.y >= Dimensions.get("window").height/10 ? tag.y-40 : tag.y-15,
               }}>
                 {/* Triangle */}
-                <View style={{
-                  width: 0,
-                  height: 0,
-                  backgroundColor: "transparent",
-                  borderStyle: "solid",
-                  borderLeftWidth: 10,
-                  borderRightWidth: 10,
-                  borderBottomWidth: 10,
-                  borderLeftColor: "transparent",
-                  borderRightColor: "transparent",
-                  borderBottomColor: "#D9D9D9",
-                  top: 16,
-                  alignSelf: "center"
-                }}>
-                {/* Tag with Close Icon */}
-                </View>
+                <View style={styles.triangle}/>
+                {/* Rect with Tag Text and Close Icon */}
                 <View style={{
                   height: 30,
                   borderRadius: "10.98",
@@ -180,6 +169,7 @@ function TagFood({ route, navigation }) {
       )}
       {tagView && (
         <SafeAreaView>
+        {/* Input Tag View */}
           <View
             style={{
               flexDirection: "row",
@@ -214,28 +204,14 @@ function TagFood({ route, navigation }) {
             alignSelf: "center"
           }}>
             <TextInput
-              style={{
-                fontSize: "20",
-                height: "33",
-                width: "80%",
-                margin: "auto",
-                textAlign: "center",
-                borderColor: "black",
-                backgroundColor: "lightgrey",
-                borderRadius: "25",
-              }}
+              style={styles.input}
               onChangeText={onChangeText}
               autoFocus={true}
               maxLength={20}
               value={text}>
             </TextInput>
             {/* Added a Clear Button for TextBox */}
-            <TouchableOpacity onPress={() => onChangeText('')} style={{
-                  height: 20,
-                  width: 20,
-                  top: 2,
-                  right: 24
-              }}>
+            <TouchableOpacity onPress={() => onChangeText('')} style={styles.inputX}>
               <CloseIcon/>
             </TouchableOpacity>
           </View>
@@ -258,4 +234,34 @@ const styles = StyleSheet.create({
     height: 20,
     width: 20,
   },
+  triangle: {
+    width: 0,
+    height: 0,
+    backgroundColor: "transparent",
+    borderStyle: "solid",
+    borderLeftWidth: 10,
+    borderRightWidth: 10,
+    borderBottomWidth: 10,
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
+    borderBottomColor: "#D9D9D9",
+    top: 16,
+    alignSelf: "center"
+  },
+  input: {
+    fontSize: "20",
+    height: "33",
+    width: "80%",
+    margin: "auto",
+    textAlign: "center",
+    borderColor: "black",
+    backgroundColor: "lightgrey",
+    borderRadius: "25",
+  },
+  inputX: {
+    height: 20,
+    width: 20,
+    top: 2,
+    right: 24
+  }
 });
