@@ -1,27 +1,37 @@
 import React from "react";
-import { StyleSheet, Text, View, Pressable, Image } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import FlatButton from "../assets/button";
-import { useIsFocused } from "@react-navigation/native";
-
+import PostDisplayScreen from "./PostDisplayScreen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function DraftsScreen({ navigation }) {
+    const validPostCallback = ([key, post]) => {
+        return post !== null && post.date !== undefined && !post.published;
+    }
+
+    const getDraftPosts = async () => {
+        try {
+            const postKeys = await AsyncStorage.getAllKeys();
+            const storedPosts = await AsyncStorage.multiGet(postKeys);
+
+            if (storedPosts !== null) {
+                postObjs = storedPosts.map((val) => [val[0], JSON.parse(val[1])]);
+                const drafts = postObjs.filter(validPostCallback);
+                
+                // Sort the drafts in order of most recent
+                const sortedDrafts = drafts.sort((a, b) => {
+                    const dateA = new Date(a[1].date).getTime();
+                    const dateB = new Date(b[1].date).getTime();
+                    return dateB - dateA;
+                });
+
+                return sortedDrafts;
+            }
+        } catch(e) {
+            console.error(e);
+        }
+    }
     return (
-        <View style={styles.container}>
-            <Text>Drafts page under construction...</Text>
-            <FlatButton text='Go back to home' onPress={() => navigation.navigate("Home")}/>
-            <StatusBar style='auto'/>
-        </View>
+        <PostDisplayScreen navigation={navigation} getData={getDraftPosts}/>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});
 
 export default DraftsScreen;
