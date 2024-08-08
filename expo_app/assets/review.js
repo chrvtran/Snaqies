@@ -2,12 +2,14 @@ import React from 'react';
 import { StyleSheet, Image, Text, View } from 'react-native';
 
 function review(props) {
-    const uuid = props.uuid;
-    const foodtags = props.foodtags; // list of food names from snaq component to be referenced in the feedback later
-    const feedback = props.feedback; // review comments
-    const rating = props.rating; // stars
-    const price = props.price;
-    const receipt = props.receipt; // photo of receipt
+    const {
+        uuid, 
+        foodtags, // list of food names from snaq component to be referenced in the feedback later
+        feedback, // review comments
+        rating, // stars
+        price, 
+        receipt // photo of receipt
+    } = { ...defaultProps, ...props};
     return  (
         <View style={styles.container}>
             <Text>{feedback}</Text>
@@ -17,7 +19,7 @@ function review(props) {
 
 export default review;
 
-review.defaultProps = {
+const defaultProps = {
     uuid: null,
     foodtags: [],
     feedback: '',
