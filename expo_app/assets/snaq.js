@@ -3,11 +3,18 @@ import { StyleSheet, TouchableOpacity, Image, Text, View } from 'react-native';
 import review from './review';
 
 function snaq(props) {
-    const uuid = props.uuid;
-    const photos = props.photos; // list of images
-    const name = props.name;
+    const {
+        uuid,
+        date,
+        address,
+        name,
+        photos,
+        foodtags
+    } = { ...defaultProps, ...props};
+    // const uuid = props.uuid;
+    // const photos = props.photos; // list of images
+    // const name = props.name;
     const reviews = [];
-
     return  (
         <View style={styles.container}>
             <TouchableOpacity onPress={props.onPress} style={styles.button}>
@@ -20,10 +27,12 @@ function snaq(props) {
 
 export default snaq;
 
-snaq.defaultProps = {
+const defaultProps = {
+    uuid: null,
+    date: undefined,
     photos: [],
     foodtags: [],
-    restaurantname: '',
+    name: '',
     address: ''
 }
 
