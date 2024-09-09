@@ -100,6 +100,9 @@ function CameraOpen({ navigation }) {
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
+
+    await new Promise(resolve => setTimeout(resolve, 500));
+
     photoList.current.push(newPhoto);
     const newPhotoList = [...photoList.current];
     setPhotoSet(newPhotoList);
