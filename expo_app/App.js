@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { PhotoProvider } from "./assets/PhotoContext";
 import HomeScreen from "./screens/Home";
 import PostScreen from "./screens/Post";
 import CameraOpen from "./screens/CameraOpen";
@@ -116,21 +117,23 @@ function TabNavigator() {
 
 function MainStack() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerTitle: () => <></>,
-        headerTitleAlign: "center",
-        headerBackVisible: false,
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="TabNav" component={TabNavigator} />
-      <Stack.Screen name="Post" component={PostScreen} />
-      <Stack.Screen name="Ratings" component={RatingsScreen} />
-      <Stack.Screen name="Price" component={PriceScreen} />
-      <Stack.Screen name="Location" component={LocationScreen} />
-      <Stack.Screen name="TagFood" component={TagFood} />
-    </Stack.Navigator>
+    <PhotoProvider>
+      <Stack.Navigator
+        screenOptions={{
+          headerTitle: () => <></>,
+          headerTitleAlign: "center",
+          headerBackVisible: false,
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="TabNav" component={TabNavigator} />
+        <Stack.Screen name="Post" component={PostScreen} />
+        <Stack.Screen name="Ratings" component={RatingsScreen} />
+        <Stack.Screen name="Price" component={PriceScreen} />
+        <Stack.Screen name="Location" component={LocationScreen} />
+        <Stack.Screen name="TagFood" component={TagFood} />
+      </Stack.Navigator>
+    </PhotoProvider>
   );
 }
 
