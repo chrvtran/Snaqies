@@ -1,39 +1,31 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet, Text, View, Image, ScrollView, SafeAreaView, Dimensions, TouchableOpacity, Animated} from 'react-native';
-import {RouteProp, useRoute} from '@react-navigation/native';
-import FlatButton from '../assets/button';
-import BackArrow from '../assets/icons/back-arrow.svg'
+import { useRoute, useNavigation } from '@react-navigation/native';
+import BackArrow from '../assets/icons/back-arrow.svg';
 import { useHeaderHeight } from '@react-navigation/elements';
 
-const HEADER_HEIGHT = Platform.OS == 'ios' ? 110 : 70 + StatusBar.currentHeight;
- 
-function Post({ route, navigation }) {
+const HEADER_HEIGHT = Platform.OS === 'ios' ? 110 : 70 + StatusBar.currentHeight;
 
+function Post() {
+  const navigation = useNavigation();
+  const route = useRoute();
+  
   // animation of the header
   const scrollY = new Animated.Value(0);
-  const diffClamp = Animated.diffClamp(scrollY, 0, HEADER_HEIGHT)
+  const diffClamp = Animated.diffClamp(scrollY, 0, HEADER_HEIGHT);
   const headerY = diffClamp.interpolate({
-      inputRange: [0, HEADER_HEIGHT],
-      outputRange: [0, -HEADER_HEIGHT]
-  })
+    inputRange: [0, HEADER_HEIGHT],
+    outputRange: [0, -HEADER_HEIGHT],
+  });
 
-  const { width, height } = Dimensions.get("window"); 
+  const { width, height } = Dimensions.get('window'); 
   const headerHeight = useHeaderHeight();
-  
-  // const uuid = string
-  // const date = integer
-  // const address = string
-  // const restaurantname = string
-  // const photos = [Array] of images
-  
-  // const foodtags = [Array] of food names, component?
-  // const reviews = [Array] of review components
 
-  const {uuid, date, address, name, photos} = route.params
+  const { uuid = '', date = '', address = '', name = '', photos = [] } = route.params || {};
 
   return (  
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       {/* header part itself including styling */}
       <Animated.View style={{
         position: 'absolute',
@@ -44,7 +36,7 @@ function Post({ route, navigation }) {
         backgroundColor: 'white',
         zIndex: 1000,
         elevation: 1000,
-        transform:[{translateY: headerY}],
+        transform: [{ translateY: headerY }],
         alignItems: 'center',
         justifyContent: 'center',
         paddingTop: 30,
@@ -55,90 +47,73 @@ function Post({ route, navigation }) {
         },
         shadowOpacity: 0.5,
         shadowRadius: 2.22,
-        
         elevation: 3,
       }}>
         <View style={{
-            height: 40,
-            width: '100%',
-            flexDirection: 'row',
-            justifyContent: 'space-around',
+          height: 40,
+          width: '100%',
+          flexDirection: 'row',
+          justifyContent: 'space-around',
         }}>
-            <Text style={{
-                fontSize: 30,
-            }}>Snaqies
-            </Text>
-
+          <Text style={{ fontSize: 30 }}>Snaqies</Text>
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>
             <View style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-
+              borderWidth: 2,
+              height: 40,
+              width: 40,
+              marginRight: 10,
             }}>
-                <View style={{
-                    borderWidth: 2,
-                    height: 40,
-                    width: 40,
-                    marginRight: 10,
-                }}>
-                </View>
-
-                <View style={{
-                    borderWidth: 2,
-                    height: 40,
-                    width: 40,
-                    marginLeft: 10,
-                }}>
-                </View>
             </View>
-
+            <View style={{
+              borderWidth: 2,
+              height: 40,
+              width: 40,
+              marginLeft: 10,
+            }}>
+            </View>
+          </View>
         </View>
-        </Animated.View>
-        {/* animates header on scrollEvent (going up or down) */}
-        <Animated.ScrollView 
-          bounces={false}
-          scrollEventThrottle={16}
-          style={styles.container}
-          onScroll={Animated.event([
-            {
-                nativeEvent:{contentOffset:{y: scrollY}},
-            }
-          ],{ useNativeDriver: true,})}
-        >
+      </Animated.View>
 
-      <SafeAreaView style={styles.container}>
-        <View style={styles.scrollViewCont}>
-          <ScrollView style={styles.scrollView}>
-            <SafeAreaView style={styles.horizontalScroll}>
-              <ScrollView horizontal={true}>
-
-              {photos && photos.map((photo) => {
-                {console.log(photo)}
-                return(
-
-                <Image source={{uri: photo}} style={styles.photo}/>
-                )
-              })}
-
-              {/* <Image source={{uri: photo}} style={styles.photo}/>
-              <Image source={{uri: photo}} style={styles.photo}/> */}
-              </ScrollView>
-            </SafeAreaView>
-            <View style={styles.backButton}>
+      {/* animates header on scrollEvent (going up or down) */}
+      <Animated.ScrollView 
+        bounces={false}
+        scrollEventThrottle={16}
+        style={styles.container}
+        onScroll={Animated.event([
+          {
+            nativeEvent: { contentOffset: { y: scrollY } },
+          }
+        ], { useNativeDriver: true })}
+      >
+        <SafeAreaView style={styles.container}>
+          <View style={styles.scrollViewCont}>
+            <ScrollView style={styles.scrollView}>
+              <SafeAreaView style={styles.horizontalScroll}>
+                <ScrollView horizontal={true}>
+                  {photos && photos.map((photo, index) => (
+                    <Image key={index} source={{ uri: photo }} style={styles.photo} />
+                  ))}
+                </ScrollView>
+              </SafeAreaView>
+              <View style={styles.backButton}>
                 <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                   <BackArrow style={styles.icon}/>
                 </TouchableOpacity>
-            </View>
-            <SafeAreaView style={styles.bottomContainer}>
-              <SafeAreaView style={styles.infoContainer}>
-              <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}> {name} </Text>
-              <Text style={{textAlign: 'center'}}> {address} </Text>
-
+              </View>
+              <SafeAreaView style={styles.bottomContainer}>
+                <SafeAreaView style={styles.infoContainer}>
+                  <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}> {name} </Text>
+                  <Text style={{ textAlign: 'center' }}> {address} </Text>
+                </SafeAreaView>
               </SafeAreaView>
-            </SafeAreaView>
-            <StatusBar style="auto" />
-          </ScrollView>
-        </View>
-      </SafeAreaView>
+              <StatusBar style="auto" />
+            </ScrollView>
+          </View>
+        </SafeAreaView>
       </Animated.ScrollView>
     </SafeAreaView>
   );
@@ -169,14 +144,14 @@ const styles = StyleSheet.create({
   photo: {
     position: 'relative',
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height * .75,
+    height: Dimensions.get('window').height * 0.75,
   },
   bottomContainer: {
     margin: 10,
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
     backgroundColor: 'white',
-    height: Dimensions.get('window').height * .35,
+    height: Dimensions.get('window').height * 0.35,
   },
   infoContainer: {
     gap: 5,
@@ -204,7 +179,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   buttonText: {
-    color: '#24a7ff'
+    color: '#24a7ff',
   }
-
 });
