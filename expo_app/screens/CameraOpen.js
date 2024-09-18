@@ -28,6 +28,7 @@ import CloseButton from "../assets/icons/close.svg";
 import UploadButton from "../assets/icons/upload.svg";
 import Slider from "../assets/slider.js";
 import Alert from "../assets/alert.js";
+import { usePhotoContext } from "../assets/PhotoContext.js";
 
 // Imports from Location.js
 import { getUserCurrentLocation } from "./Location.js";
@@ -39,7 +40,7 @@ function CameraOpen({ navigation }) {
   let cameraRef = useRef();
   let photoList = useRef([]); // Set of photos taken so far
   let sliderRef = useRef();
-  const [photoSet, setPhotoSet] = useState([]); // Current set of photos for post (pictures taken by camera and from camera roll)
+  const { photoSet, setPhotoSet} = usePhotoContext(); // Current set of photos for post (pictures taken by camera and from camera roll)
   const [photos, setPhoto] = useState();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
@@ -306,8 +307,6 @@ function CameraOpen({ navigation }) {
                 storeData(true, null) &&
                 navigation.navigate("Location", {
                   key: key,
-                  photoSet: photoSet,
-                  setPhotoSet: setPhotoSet,
                   photoList: photoList,
                 })
               }
