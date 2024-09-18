@@ -11,6 +11,7 @@ import RatingsScreen from "./screens/Ratings";
 import PriceScreen from "./screens/Price";
 import TestingScreen from "./screens/Testing";
 import ReviewScreen from "./screens/Review";
+import DraftsScreen from "./screens/Drafts";
 import HomeIcon from "./assets/icons/home.svg";
 import LocationIcon from "./assets/icons/location.svg";
 import CameraIcon from "./assets/icons/camera.svg";
@@ -71,6 +72,22 @@ function TabNavigator() {
           tabBarIcon: ({ focused }) => (
             <View style={{ alignItems: "center", justifyContent: "center" }}>
               <CameraIcon
+                style={{
+                  fill: focused ? "#e32f45" : "#748c94",
+                }}
+              />
+            </View>
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Drafts"
+        component={DraftsScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={{ alignItems: "center", justifyContent: "center"}}>
+              <SavedIcon
                 style={{
                   fill: focused ? "#e32f45" : "#748c94",
                 }}
