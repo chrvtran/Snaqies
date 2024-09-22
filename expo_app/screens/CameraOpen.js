@@ -46,6 +46,7 @@ function CameraOpen({ navigation }) {
   const [pickedImages, setPickedImages] = useState(false); // Boolean to determine if user has picked images for post
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
+  const [buttonVisible, setButtonVisible] = useState(true);
   
 
   const handleAlertState = () => {
@@ -91,6 +92,7 @@ function CameraOpen({ navigation }) {
 
   // Takes photo
   let takePhoto = async () => {
+    setButtonVisible(false);
     let options = {
       quality: 1,
       base64: true,
@@ -101,11 +103,10 @@ function CameraOpen({ navigation }) {
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
 
-    await new Promise(resolve => setTimeout(resolve, 500));
-
     photoList.current.push(newPhoto);
     const newPhotoList = [...photoList.current];
     setPhotoSet(newPhotoList);
+    setButtonVisible(true);
   };
 
   // Saves current photo to camera roll
@@ -238,12 +239,14 @@ function CameraOpen({ navigation }) {
           )}
 
           {/* Other buttons */}
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.captureButton}
-              onPress={takePhoto}
-            ></TouchableOpacity>
-          </View>
+          {buttonVisible && (
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.captureButton}
+                onPress={takePhoto}
+              ></TouchableOpacity>
+            </View>
+          )}
           <View style={styles.uploadButton}>
             <TouchableOpacity onPress={uploadPhoto}>
               <UploadButton style={{ fill: "white" }} />
