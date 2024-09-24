@@ -41,6 +41,7 @@ function CameraOpen({ navigation }) {
   let cameraRef = useRef();
   let photoList = useRef([]);
   let sliderRef = useRef(null);
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [photoSet, setPhotoSet] = useState([]);
   const [photos, setPhoto] = useState();
   const [hasCameraPermission, setHasCameraPermission] = useState();
@@ -57,7 +58,7 @@ function CameraOpen({ navigation }) {
     if (sliderRef.current) {
         sliderRef.current.setIndex(index);
     }
-};
+  };
   // On intial tab open...
   useEffect(() => {
     (async () => {
@@ -112,24 +113,51 @@ function CameraOpen({ navigation }) {
   };
 
   // Saves current photo to camera roll
-  let savePhoto = async () => {
-    var index = Number(sliderRef.current.getIndex());
-    await MediaLibrary.saveToLibraryAsync(photoSet[index].uri);
-    alert("Successfully saved to camera roll.");
-  };
-
-  // Removes current photo from photolist
-  let deletePhoto = () => {
-    var index = Number(sliderRef.current.getIndex());
-    photoList.current.splice(index, 1);
-    const newPhotoList = [...photoList.current];
-    setPhotoSet(newPhotoList);
-    alert("Successfully deleted photo.");
-    if (photoList.current.length == 0) {
-      setPickedImages(false);
+  const savePhoto = async () => {
+    if (selectedPhotoIndex !== null && selectedPhotoIndex >= 0) {
+      try {
+        await MediaLibrary.saveToLibraryAsync(photoSet[selectedPhotoIndex].uri);
+        alert("Successfully saved to camera roll.");
+      } catch (error) {
+        alert("Failed to save photo: " + error.message);
+      }
+    } else {
+      alert("No photo selected to save.");
     }
   };
+  
 
+  // Removes current photo from photolist
+  // let deletePhoto = () => {
+  //   var index = Number(sliderRef.current.getIndex());
+  //   photoList.current.splice(index, 1);
+  //   const newPhotoList = [...photoList.current];
+  //   setPhotoSet(newPhotoList);
+  //   alert("Successfully deleted photo.");
+  //   if (photoList.current.length == 0) {
+  //     setPickedImages(false);
+  //   }
+  // };
+  const deletePhoto = () => {
+    if (selectedPhotoIndex !== null && selectedPhotoIndex >= 0) {
+      const newPhotoList = photoSet.filter((_, index) => index !== selectedPhotoIndex);
+      
+      setPhotoSet(newPhotoList); 
+  
+      setSelectedPhoto(null);
+      setSelectedPhotoIndex(null);
+  
+      alert("Successfully deleted the photo.");
+  
+      if (newPhotoList.length === 0) {
+        console.log("No more photos available.");
+      }
+    } else {
+      alert("No photo selected for deletion.");
+    }
+  };
+  
+  
   // Clears current photolist
   let resetPhotoList = () => {
     photoList.current = [];
@@ -219,11 +247,13 @@ function CameraOpen({ navigation }) {
                 photoSet.map((photo, index) => (
                   <Pressable
                     key={index}
-                    onPress={() => setSelectedPhotoIndex(index)}
+                    onPress={() => {
+                      setSelectedPhotoIndex(index);
+                      setSelectedPhoto(photo);
+                    }}
                     style={[
                       styles.imageContainer,
-                      selectedPhotoIndex === index &&
-                        styles.selectedPhotoContainer,
+                      selectedPhotoIndex === index && styles.selectedPhotoContainer,
                     ]}
                   >
                     <Image
@@ -237,6 +267,7 @@ function CameraOpen({ navigation }) {
                 ))}
             </ScrollView>
           </SafeAreaView>
+
           <StatusBar style="auto" />
         </Camera>
       )}
@@ -256,21 +287,16 @@ function CameraOpen({ navigation }) {
 
 
           {/* Back Arrow Button */}
-          <View style={styles.backButton}>
+          <View style={styles.touchableBackButtonArea}>
             <TouchableOpacity 
               onPress={() => setPickedImages(false)}
               style={styles.touchableBackButtonArea}
-              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} 
+              hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }} 
               activeOpacity={0.7}
             >
               <BackArrow style={{ fill: 'black' }} />
             </TouchableOpacity>
           </View>
-
-
-
-
-
           {/* Forward Arrow Button */}
           <View style={styles.selectNextButton}>
           <TouchableOpacity
@@ -283,6 +309,7 @@ function CameraOpen({ navigation }) {
                 setPhotoSet: setPhotoSet,
                 photoList: photoList,
               });
+              alert("Bruh")
             }}
           >
             <Text style={styles.selectNextButtonText}>Next</Text>
@@ -396,17 +423,23 @@ selectedImage: {
   },
   backButton: {
     position: 'absolute',
-    top: 40,
-    left: 25,
+    top: 20,
+    left: 0,
     height: 40,
     width: 40,
   },
   touchableBackButtonArea: {
-    height: 50, 
-    width: 50,
+    position: 'absolute',
+    top: 15,
+    left: 0,
+    height: 40,
+    width: 40,
+    height: 50,
+    width: 100,
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 10,
   },
   nextButton: {
     position: "absolute",
@@ -417,12 +450,14 @@ selectedImage: {
   },
   selectNextButton: {
     position: 'absolute',
-    top: 20,
+    top: 10,
     right: 5,
-    height: 40,
-    width: 60,
+    height: 70,
+    width: 70,
+    backgroundColor: "transparent",
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 10
   },
   selectNextButtonText: {
       color: '#00aaff',
