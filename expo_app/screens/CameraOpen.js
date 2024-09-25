@@ -33,6 +33,8 @@ import Slider from "../assets/slider.js";
 import Alert from "../assets/alert.js";
 import { usePhotoContext } from "../assets/PhotoContext.js";
 
+import { getUserCurrentLocation } from "./Location.js";
+
 const { width: screenWidth } = Dimensions.get('window');
 
 function CameraOpen({ navigation }) {
@@ -385,9 +387,9 @@ function CameraOpen({ navigation }) {
                 <UploadButton width={24} height={24} />
               </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.barButton} onPress={() => async () => {
+            <TouchableOpacity style={styles.barButton} onPress={async () => {
                 navigation.navigate("Home");
-                await saveDraft();
+                await handleSaveDraft();
                 
                 // Clear photo set
                 photoList.current = [];

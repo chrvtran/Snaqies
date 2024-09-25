@@ -272,7 +272,7 @@ function Location({ route, navigation }) {
   );
 }
 
-export default Location;
+export default Location
 
 const styles = StyleSheet.create({
   container: {
