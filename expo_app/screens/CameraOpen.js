@@ -47,6 +47,7 @@ function CameraOpen({ navigation }) {
   const [pickedImages, setPickedImages] = useState(false); // Boolean to determine if user has picked images for post
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
+  const [disableButton, setDisableButton] = useState(false);
   
 
   const handleAlertState = () => {
@@ -92,6 +93,7 @@ function CameraOpen({ navigation }) {
 
   // Takes photo
   let takePhoto = async () => {
+    setDisableButton(true);
     let options = {
       quality: 1,
       base64: true,
@@ -101,9 +103,11 @@ function CameraOpen({ navigation }) {
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
+
     photoList.current.push(newPhoto);
     const newPhotoList = [...photoList.current];
     setPhotoSet(newPhotoList);
+    setDisableButton(false);
   };
 
   // Saves current photo to camera roll
@@ -240,6 +244,7 @@ function CameraOpen({ navigation }) {
             <TouchableOpacity
               style={styles.captureButton}
               onPress={takePhoto}
+              disabled={disableButton}
             ></TouchableOpacity>
           </View>
           <View style={styles.uploadButton}>
