@@ -31,6 +31,7 @@ import CloseButton from "../assets/icons/close.svg";
 import UploadButton from "../assets/icons/upload.svg";
 import Slider from "../assets/slider.js";
 import Alert from "../assets/alert.js";
+import { usePhotoContext } from "../assets/PhotoContext.js";
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -39,16 +40,16 @@ function CameraOpen({ navigation }) {
 
   let key = useRef();
   let cameraRef = useRef();
-  let photoList = useRef([]);
-  let sliderRef = useRef(null);
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [photoSet, setPhotoSet] = useState([]);
+  let photoList = useRef([]); // Set of photos taken so far
+  let sliderRef = useRef();
+  const { photoSet, setPhotoSet} = usePhotoContext(); // Current set of photos for post (pictures taken by camera and from camera roll)
   const [photos, setPhoto] = useState();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [pickedImages, setPickedImages] = useState(false); // Boolean to determine if user has picked images for post
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
+  const [disableButton, setDisableButton] = useState(false);
   
 
   const handleAlertState = () => {
@@ -99,6 +100,7 @@ function CameraOpen({ navigation }) {
 
   // Takes photo
   let takePhoto = async () => {
+    setDisableButton(true);
     let options = {
       quality: 1,
       base64: true,
@@ -108,9 +110,11 @@ function CameraOpen({ navigation }) {
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
+
     photoList.current.push(newPhoto);
     const newPhotoList = [...photoList.current];
     setPhotoSet(newPhotoList);
+    setDisableButton(false);
   };
 
   // Saves current photo to camera roll
@@ -228,6 +232,26 @@ function CameraOpen({ navigation }) {
     navigation.navigate("Home");
   }
 
+  const handleClosedPress = () => {
+    if (photoList.current.length > 0 || photoSet.length > 0) {
+      // Only show alert if photos were taken or chosen
+      setShowAlert(true);
+    } else {
+      // No photos chosen or taken, so just navigate to home
+      navigation.navigate("Home");
+    }
+  }
+
+  const handleSaveDraft = async () => {
+    // Clear photo set
+    photoList.current = [];
+    setPhotoSet([]);
+    setPickedImages(false);
+
+    navigation.navigate("Home");
+    await saveDraft();
+  }
+
   return (
     <>
       {/* Initial camera screen */}
@@ -235,7 +259,7 @@ function CameraOpen({ navigation }) {
         <Camera style={styles.container} ref={cameraRef}>
           {/* Close Arrow Button */}
           <View style={styles.closeButton}>
-            <TouchableOpacity onPress={() => setShowAlert(true)}>
+            <TouchableOpacity onPress={() => handleClosedPress()}>
               <CloseButton style={{ fill: "white" }} />
             </TouchableOpacity>
           </View>
@@ -254,6 +278,7 @@ function CameraOpen({ navigation }) {
             <TouchableOpacity
               style={styles.captureButton}
               onPress={takePhoto}
+              disabled={disableButton}
             ></TouchableOpacity>
           </View>
           <View style={styles.uploadButton}>
@@ -267,6 +292,7 @@ function CameraOpen({ navigation }) {
             showAlert={showAlert}
             onUpdate={handleAlertState}
             discardPost={discardPost}
+            saveDraft={handleSaveDraft}
           />
 
           {/* Area towards the bottom */}
