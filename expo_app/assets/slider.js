@@ -1,18 +1,23 @@
 import React from 'react';
 import {FlatList, StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import SlideItem from './slideItem.js';
-import { useEffect, useState, useImperativeHandle, forwardRef } from 'react';
+import { useEffect, useState, useRef, useImperativeHandle, forwardRef } from 'react';
 
-function Slider(props, ref) {
+const Slider = React.forwardRef((props, ref) => {
 
     const photos = props.photos;
-    
+    const flatListRef = useRef(null);
     const [index, setIndex] = useState();
 
     useImperativeHandle(ref, () => ({
         // each key is connected to `ref` as a method name
         // they can execute code directly, or call a local method
         getIndex: () => { return index },
+        setIndex(index) {
+          if (flatListRef.current) {
+            flatListRef.current.scrollToIndex({ index, animated: true });
+          }
+        }
         // can list more methods
     }))
 
@@ -31,22 +36,28 @@ function Slider(props, ref) {
       }
 
     return (
-        <View>
-            <FlatList 
-            data={photos} 
-            renderItem= {({item}) => <SlideItem item={item}/>}
-            horizontal={true}
-            pagingEnabled
-            snapToAlignment='center'
-            showsHorizontalScrollIndicator={false}
-            onViewableItemsChanged={_onViewableItemsChanged}
-            viewabilityConfig={_viewabilityConfig}
-            />
-        </View>
+      <View style={styles.sliderContainer}>
+          <FlatList 
+          data={photos} 
+          renderItem= {({item}) => <SlideItem item={item}/>}
+          horizontal={true}
+          pagingEnabled
+          snapToAlignment='center'
+          showsHorizontalScrollIndicator={false}
+          onViewableItemsChanged={_onViewableItemsChanged}
+          viewabilityConfig={_viewabilityConfig}
+          />
+      </View>
     );
-}
+});
 
-export default forwardRef(Slider);
+export default Slider;
 
 const styles = StyleSheet.create({
+  sliderContainer: {
+    backgroundColor: 'transparent', 
+  },
+  flatList: {
+    backgroundColor: 'transparent', 
+  },
 });
