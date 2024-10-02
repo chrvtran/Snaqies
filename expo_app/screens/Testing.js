@@ -109,6 +109,9 @@ function Testing({ navigation }) {
             <FlatButton text='Publish All Drafts' onPress={publishAllDrafts} />
             <FlatButton text='Ratings Screen' onPress={() => navigation.navigate('Ratings')} />
             <FlatButton text='Price Screen' onPress={() => navigation.navigate('Price')} />
+            <FlatButton text='SelectPhoto' onPress={() => navigation.navigate('SelectPhoto')} />
+
+
             <StatusBar style="auto" />
         </View>
     );

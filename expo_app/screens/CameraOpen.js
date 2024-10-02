@@ -12,6 +12,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Modal,
+  Dimensions
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -24,13 +25,17 @@ import * as ImagePicker from "expo-image-picker";
 import uuid from "react-native-uuid";
 import NextArrow from "../assets/icons/arrow-foward.svg";
 import BackArrow from "../assets/icons/back-arrow.svg";
+import DownloadButton from '../assets/icons/download.svg';
+import TrashCanButton from '../assets/icons/trashcan.svg';
 import CloseButton from "../assets/icons/close.svg";
 import UploadButton from "../assets/icons/upload.svg";
 import Slider from "../assets/slider.js";
 import Alert from "../assets/alert.js";
+import { usePhotoContext } from "../assets/PhotoContext.js";
 
-// Imports from Location.js
 import { getUserCurrentLocation } from "./Location.js";
+
+const { width: screenWidth } = Dimensions.get('window');
 
 function CameraOpen({ navigation }) {
   const { control, handleSubmit } = useForm();
@@ -39,19 +44,25 @@ function CameraOpen({ navigation }) {
   let cameraRef = useRef();
   let photoList = useRef([]); // Set of photos taken so far
   let sliderRef = useRef();
-  const [photoSet, setPhotoSet] = useState([]); // Current set of photos for post (pictures taken by camera and from camera roll)
+  const { photoSet, setPhotoSet} = usePhotoContext(); // Current set of photos for post (pictures taken by camera and from camera roll)
   const [photos, setPhoto] = useState();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [pickedImages, setPickedImages] = useState(false); // Boolean to determine if user has picked images for post
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
+  const [disableButton, setDisableButton] = useState(false);
   
 
   const handleAlertState = () => {
     setShowAlert(false);
   };
-
+  const handlePhotoSelect = (index) => {
+    setSelectedPhotoIndex(index); 
+    if (sliderRef.current) {
+        sliderRef.current.setIndex(index);
+    }
+  };
   // On intial tab open...
   useEffect(() => {
     (async () => {
@@ -91,6 +102,7 @@ function CameraOpen({ navigation }) {
 
   // Takes photo
   let takePhoto = async () => {
+    setDisableButton(true);
     let options = {
       quality: 1,
       base64: true,
@@ -100,30 +112,59 @@ function CameraOpen({ navigation }) {
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
+
     photoList.current.push(newPhoto);
     const newPhotoList = [...photoList.current];
     setPhotoSet(newPhotoList);
+    setDisableButton(false);
   };
 
   // Saves current photo to camera roll
-  let savePhoto = async () => {
-    var index = Number(sliderRef.current.getIndex());
-    await MediaLibrary.saveToLibraryAsync(photoSet[index].uri);
-    alert("Successfully saved to camera roll.");
-  };
-
-  // Removes current photo from photolist
-  let deletePhoto = () => {
-    var index = Number(sliderRef.current.getIndex());
-    photoList.current.splice(index, 1);
-    const newPhotoList = [...photoList.current];
-    setPhotoSet(newPhotoList);
-    alert("Successfully deleted photo.");
-    if (photoList.current.length == 0) {
-      setPickedImages(false);
+  const savePhoto = async () => {
+    if (selectedPhotoIndex !== null && selectedPhotoIndex >= 0) {
+      try {
+        await MediaLibrary.saveToLibraryAsync(photoSet[selectedPhotoIndex].uri);
+        alert("Successfully saved to camera roll.");
+      } catch (error) {
+        alert("Failed to save photo: " + error.message);
+      }
+    } else {
+      alert("No photo selected to save.");
     }
   };
+  
 
+  // Removes current photo from photolist
+  // let deletePhoto = () => {
+  //   var index = Number(sliderRef.current.getIndex());
+  //   photoList.current.splice(index, 1);
+  //   const newPhotoList = [...photoList.current];
+  //   setPhotoSet(newPhotoList);
+  //   alert("Successfully deleted photo.");
+  //   if (photoList.current.length == 0) {
+  //     setPickedImages(false);
+  //   }
+  // };
+  const deletePhoto = () => {
+    if (selectedPhotoIndex !== null && selectedPhotoIndex >= 0) {
+      const newPhotoList = photoSet.filter((_, index) => index !== selectedPhotoIndex);
+      
+      setPhotoSet(newPhotoList); 
+  
+      setSelectedPhoto(null);
+      setSelectedPhotoIndex(null);
+  
+      alert("Successfully deleted the photo.");
+  
+      if (newPhotoList.length === 0) {
+        console.log("No more photos available.");
+      }
+    } else {
+      alert("No photo selected for deletion.");
+    }
+  };
+  
+  
   // Clears current photolist
   let resetPhotoList = () => {
     photoList.current = [];
@@ -193,6 +234,26 @@ function CameraOpen({ navigation }) {
     navigation.navigate("Home");
   }
 
+  const handleClosedPress = () => {
+    if (photoList.current.length > 0 || photoSet.length > 0) {
+      // Only show alert if photos were taken or chosen
+      setShowAlert(true);
+    } else {
+      // No photos chosen or taken, so just navigate to home
+      navigation.navigate("Home");
+    }
+  }
+
+  const handleSaveDraft = async () => {
+    // Clear photo set
+    photoList.current = [];
+    setPhotoSet([]);
+    setPickedImages(false);
+
+    navigation.navigate("Home");
+    await saveDraft();
+  }
+
   return (
     <>
       {/* Initial camera screen */}
@@ -200,7 +261,7 @@ function CameraOpen({ navigation }) {
         <Camera style={styles.container} ref={cameraRef}>
           {/* Close Arrow Button */}
           <View style={styles.closeButton}>
-            <TouchableOpacity onPress={() => setShowAlert(true)}>
+            <TouchableOpacity onPress={() => handleClosedPress()}>
               <CloseButton style={{ fill: "white" }} />
             </TouchableOpacity>
           </View>
@@ -219,6 +280,7 @@ function CameraOpen({ navigation }) {
             <TouchableOpacity
               style={styles.captureButton}
               onPress={takePhoto}
+              disabled={disableButton}
             ></TouchableOpacity>
           </View>
           <View style={styles.uploadButton}>
@@ -232,6 +294,7 @@ function CameraOpen({ navigation }) {
             showAlert={showAlert}
             onUpdate={handleAlertState}
             discardPost={discardPost}
+            saveDraft={handleSaveDraft}
           />
 
           {/* Area towards the bottom */}
@@ -241,11 +304,13 @@ function CameraOpen({ navigation }) {
                 photoSet.map((photo, index) => (
                   <Pressable
                     key={index}
-                    onPress={() => setSelectedPhotoIndex(index)}
+                    onPress={() => {
+                      setSelectedPhotoIndex(index);
+                      setSelectedPhoto(photo);
+                    }}
                     style={[
                       styles.imageContainer,
-                      selectedPhotoIndex === index &&
-                        styles.selectedPhotoContainer,
+                      selectedPhotoIndex === index && styles.selectedPhotoContainer,
                     ]}
                   >
                     <Image
@@ -259,6 +324,7 @@ function CameraOpen({ navigation }) {
                 ))}
             </ScrollView>
           </SafeAreaView>
+
           <StatusBar style="auto" />
         </Camera>
       )}
@@ -266,106 +332,112 @@ function CameraOpen({ navigation }) {
       {/* Select images screen */}
       {pickedImages && (
         <SafeAreaView style={styles.container}>
-          <Slider ref={sliderRef} photos={photoSet} />
+            {/*
+            <Slider ref={sliderRef} photos={photoSet} style={styles.sliderContainer} />
+            */}
+          {photoSet[selectedPhotoIndex] && (
+            <Image
+              style={styles.selectedImage}
+              source={{ uri: photoSet[selectedPhotoIndex].uri }}
+            />
+          )}
+
 
           {/* Back Arrow Button */}
-          <View style={styles.backButton}>
-            <TouchableOpacity onPress={() => {
-              discardPost();
-              navigation.navigate("Home");
-            }}>
-              <BackArrow />
+          <View style={styles.touchableBackButtonArea}>
+            <TouchableOpacity 
+              onPress={() => () => {
+                discardPost();
+                navigation.navigate("Home");
+              }}
+              style={styles.touchableBackButtonArea}
+              hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }} 
+              activeOpacity={0.7}
+            >
+              <BackArrow style={{ fill: 'black' }} />
             </TouchableOpacity>
           </View>
-
           {/* Forward Arrow Button */}
           <View style={styles.nextButton}>
-            <TouchableOpacity
-              onPress={() =>
-                storeData(true, null) &&
-                navigation.navigate("Location", {
-                  key: key,
-                  photoSet: photoSet,
-                  setPhotoSet: setPhotoSet,
-                  photoList: photoList,
-                })
-              }
+          <TouchableOpacity
+            style={styles.selectNextButton}
+            onPress={() => {
+              storeData(true, null);
+              navigation.navigate("Location", {
+                key: key,
+                photoSet: photoSet,
+                setPhotoSet: setPhotoSet,
+                photoList: photoList,
+              });
+            }}
             >
               <NextArrow />
             </TouchableOpacity>
           </View>
 
-          {/* Other buttons */}
-          <View style={styles.buttonContainer}>
-            {/* Save Draft */}
-            <TouchableOpacity
-              style={styles.picButtons}
-              onPress={async () => {
+          <View style={styles.titleContainer}>
+                <Text style={styles.title}>New Post</Text>
+                <Text style={[styles.subtitle, { marginTop: 10 }]}>Which photos do you want to Snaq?</Text>
+            </View>
+
+          {/* Bar */}
+          <View style={styles.bar}>
+            <View style={styles.barRight}>
+              <TouchableOpacity style={styles.iconButton} onPress={uploadPhoto}>
+                <UploadButton width={24} height={24} />
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity style={styles.barButton} onPress={async () => {
                 navigation.navigate("Home");
-                await saveDraft();
+                await handleSaveDraft();
                 
                 // Clear photo set
                 photoList.current = [];
                 setPhotoSet([]);
                 setPickedImages(false);
-              }}
-            >
+              }}>
               <Text>Save Draft</Text>
             </TouchableOpacity>
-            
-            {/* Save photos to camera roll */}
-            <TouchableOpacity style={styles.picButtons} onPress={savePhoto}>
-              <Text>Save to Roll</Text>
-            </TouchableOpacity>
-            
-            {/* Tag Food */}
-            <TouchableOpacity
-              style={styles.picButtons}
-              onPress={() =>
-                navigation.navigate("TagFood", {
-                  image: selectedPhotoIndex !== null ? photoSet[selectedPhotoIndex] :  photoSet[0],
-                })
-              }
-            >
+
+            <TouchableOpacity style={styles.barButton} onPress={() =>
+              navigation.navigate("TagFood", {
+                image: selectedPhotoIndex !== null ? photoSet[selectedPhotoIndex] :  photoSet[0],
+              })
+            }>
+              
               <Text>Tag Food</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.picButtons}
-              title="Select photos to upload into your Snaq"
-              onPress={uploadPhoto}
-            >
-              <Text>Upload Pic</Text>
-            </TouchableOpacity>
-
-            {/* Delete Picture */}
-            <TouchableOpacity style={styles.picButtons} onPress={deletePhoto}>
-              <Text>Delete Pic</Text>
-            </TouchableOpacity>
+            <View style={styles.barRight}>
+              <TouchableOpacity style={styles.iconButton}  onPress={savePhoto}>
+                <DownloadButton />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.iconButton} onPress={deletePhoto}>
+                <TrashCanButton />
+              </TouchableOpacity>
+            </View>
           </View>
 
           {/* Area towards the bottom */}
           <SafeAreaView style={styles.photoList}>
             <ScrollView horizontal={true}>
-              {photoSet &&
-                photoSet.map((photo, index) => (
-                  <Pressable
-                    key={index}
-                    onPress={() => setSelectedPhotoIndex(index)}
+              {photoSet && photoSet.map((photo, index) => (
+                <Pressable
+                  key={index}
+                  onPress={() => handlePhotoSelect(index)} 
+                  style={[
+                    styles.imageContainer,
+                    selectedPhotoIndex === index && styles.selectedPhotoContainer,
+                  ]}
+                >
+                  <Image
                     style={[
-                      styles.imageContainer,
-                      selectedPhotoIndex === index &&
-                        styles.selectedPhotoContainer,
+                      styles.imageRoll,
+                      selectedPhotoIndex === index && styles.selectedPhoto,
                     ]}
-                  >
-                    <Image
-                      style={[
-                        styles.imageRoll,
-                        selectedPhotoIndex === index && styles.selectedPhoto,
-                      ]}
-                      source={{ uri: photo.uri }}
-                    />
-                  </Pressable>
-                ))}
+                    source={{ uri: photo.uri }}
+                  />
+                </Pressable>
+              ))}
             </ScrollView>
           </SafeAreaView>
           <StatusBar style="auto" />
@@ -388,6 +460,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  sliderContainer: {
+    height: '33%', 
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+},
+selectedImage: {
+  width: screenWidth,
+  height: '75%', 
+  resizeMode: 'contain',
+},
   buttonContainer: {
     // flex: 1,
     margin: 10,
@@ -407,12 +490,47 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
   },
+  backButton: {
+    position: 'absolute',
+    top: 20,
+    left: 0,
+    height: 40,
+    width: 40,
+  },
+  touchableBackButtonArea: {
+    position: 'absolute',
+    top: 15,
+    left: 0,
+    height: 40,
+    width: 40,
+    height: 50,
+    width: 100,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+  },
   nextButton: {
     position: "absolute",
     top: 40,
     right: 0,
     height: 30,
     width: 40,
+  },
+  selectNextButton: {
+    position: 'absolute',
+    top: 10,
+    right: 5,
+    height: 70,
+    width: 70,
+    backgroundColor: "transparent",
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10
+  },
+  selectNextButtonText: {
+      color: '#00aaff',
+      fontSize: 20,
   },
   uploadButton: {
     position: "absolute",
@@ -455,6 +573,20 @@ const styles = StyleSheet.create({
     // backgroundColor: '#008000',
     width: 60,
     // height: 40,
+  },
+  titleContainer: {
+    position: 'absolute',
+    top: 25,
+    alignItems: 'center',
+    width: '100%',
+  },
+  title: {
+      fontWeight: 'bold',
+      fontSize: 20,
+  },
+  subtitle: {
+      fontSize: 16,
+      color: '#555',
   },
   headerContainer: {
     flex: 1,
@@ -522,4 +654,31 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#339BFF",
   },
+  bar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    padding: 10,
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: '15%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  barButton: {
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#ccc',
+  },
+  barRight: {
+    flexDirection: 'row',
+  },
+  iconButton: {
+    marginLeft: 10,
+  },
+
 });

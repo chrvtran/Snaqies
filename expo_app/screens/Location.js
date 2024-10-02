@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import NextArrow from "../assets/icons/arrow-foward.svg";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { ScreenStackHeaderConfig } from "react-native-screens";
+import { usePhotoContext } from "../assets/PhotoContext";
 
 const myApiKey = "AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U";
 // Gets address based on coordinates
@@ -84,7 +85,8 @@ export async function getUserCurrentLocation() {
 
 function Location({ route, navigation }) {
   const { key } = route.params;
-  let { photoSet, setPhotoSet, photoList } = route.params; // [photoSet, setPhotoSet] = CO.js photo slider state
+  let { photoList } = route.params; 
+  const { photoSet, setPhotoSet } = usePhotoContext(); // [photoSet, setPhotoSet] = CO.js photo slider state
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
   const [location, setLocation] = useState({});
@@ -270,7 +272,7 @@ function Location({ route, navigation }) {
   );
 }
 
-export default Location;
+export default Location
 
 const styles = StyleSheet.create({
   container: {
