@@ -36,12 +36,22 @@ function TagFood({ route, navigation }) {
   //for Tagview searchbar
   const [text, onChangeText] = useState("");
 
+  //for edit specific tag
+  const [editTextIndex, setTextIndex] = useState(null);
+
   const handleAddTag = () => {
     //check empty tagHandle
     if (text === "") {
       setTagView(false);
       return;
-    } else {
+    } 
+    else if(editTextIndex !== null) {
+      const tagsCopy = [...tags];
+      tagsCopy[editTextIndex].foodHandle = text;
+      setTags(tagsCopy);
+      setTextIndex(null);
+    }
+    else {
       // Save the tag with coordinates
       const newTag = {
         foodHandle: text,
@@ -49,10 +59,17 @@ function TagFood({ route, navigation }) {
         y: y,
       };
       setTags([...tags, newTag]);
-      onChangeText("");
-      setTagView(false);
     }
+    onChangeText("");
+    setTagView(false);
   };
+
+  const handleEditTag = (index) => {
+    const editTag = tags[index];
+    onChangeText(editTag.foodHandle);
+    setTextIndex(index);
+    setTagView(true);
+  }
 
   //Grab coords && open tagview
   const handleImagePress = (data) => {
@@ -148,7 +165,8 @@ function TagFood({ route, navigation }) {
                   backgroundColor: "#D9D9D9",
                   top: "30%",
                 }}> 
-                  <Text style={{
+                  <Text onPress={() => handleEditTag(index)}
+                  style={{
                     fontSize: "19.2",
                     color: "#737373",
                     fontWeight: "400",
@@ -178,7 +196,11 @@ function TagFood({ route, navigation }) {
               marginHorizontal: 20,
             }}
           >
-            <Button title="Cancel" onPress={() => setTagView(false)}></Button>
+            <Button title="Cancel" onPress={() => {
+              setTagView(false);
+              setTextIndex(null);
+              onChangeText("");
+            }}></Button>
             <Text
               style={{
                 fontWeight: "bold",
