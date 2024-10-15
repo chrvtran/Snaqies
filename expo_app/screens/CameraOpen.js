@@ -398,11 +398,13 @@ function CameraOpen({ navigation }) {
               }}>
               <Text>Save Draft</Text>
             </TouchableOpacity>
+
             <TouchableOpacity style={styles.barButton} onPress={() =>
               navigation.navigate("TagFood", {
-                image: photoSet[0],
+                image: selectedPhotoIndex !== null ? photoSet[selectedPhotoIndex] :  photoSet[0],
               })
             }>
+              
               <Text>Tag Food</Text>
             </TouchableOpacity>
             <View style={styles.barRight}>
