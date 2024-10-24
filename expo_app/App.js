@@ -20,6 +20,7 @@ import SavedIcon from "./assets/icons/saved.svg";
 import ReviewIcon from "./assets/icons/review.svg";
 import TagFood from "./screens/TagFood";
 import SelectPhotoScreen from './screens/SelectPhoto';
+import SelectImages from "./screens/SelectImages";
 
 
 const Stack = createNativeStackNavigator();
@@ -147,6 +148,7 @@ function MainStack() {
       >
         <Stack.Screen name="TabNav" component={TabNavigator} />
         <Stack.Screen name="Post" component={PostScreen} />
+        <Stack.Screen name="SelectImages" component={SelectImages}/>
         <Stack.Screen name="Ratings" component={RatingsScreen} />
         <Stack.Screen name="Price" component={PriceScreen} />
         <Stack.Screen name="Location" component={LocationScreen} />
