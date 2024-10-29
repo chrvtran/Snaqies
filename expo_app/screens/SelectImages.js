@@ -77,7 +77,11 @@ function SelectImages({route, navigation}) {
           <View style={styles.nextButton}>
           <TouchableOpacity
             style={styles.selectNextButton}
-            onPress={() => console.log("Go to location screen")}
+            onPress={() => navigation.navigate("Location", {
+              key: key,
+              photoList: photos,
+              locationData: locationData
+            })}
             >
               <NextArrow />
             </TouchableOpacity>

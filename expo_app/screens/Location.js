@@ -85,7 +85,8 @@ export async function getUserCurrentLocation() {
 
 function Location({ route, navigation }) {
   const { key } = route.params;
-  let { photoList } = route.params; 
+  let { photoList } = route.params;
+  let { locationData } = route.params; 
   const { photoSet, setPhotoSet } = usePhotoContext(); // [photoSet, setPhotoSet] = CO.js photo slider state
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
@@ -99,20 +100,36 @@ function Location({ route, navigation }) {
   // On intial tab open...
   useEffect(() => {
     (async () => {
-      const userLocData = await getUserCurrentLocation();
-      if (userLocData !== null) {
-        setLocation(userLocData.location);
-        setPlace(userLocData.place);
-        setLat(userLocData.lat);
-        setLng(userLocData.lng);
+      let userLocData = locationData;
+      if (userLocData === null) {
+        userLocData = await getUserCurrentLocation();
       }
+
+      // With userLocData initialized, set the stateful values appropriately
+      setLocation(userLocData.location);
+      setPlace(userLocData.place);
+      setLat(userLocData.lat);
+      setLng(userLocData.lng);
     })();
   }, []);
 
-  clearPhotoSet = () => {
-    setPhotoSet([]);
-    photoList.current = [];
-  };
+  // clearPhotoSet = () => {
+  //   setPhotoSet([]);
+  //   photoList.current = [];
+  // };
+
+  const createPost = async (isPublished, locData) => {
+    let date = Date.now();
+    let postObj = {
+      uuid: key,
+      photos: photoList,
+      date: date,
+      published: isPublished,
+    }
+
+    await AsyncStorage.setItem(key, JSON.stringify(postObj));
+    await AsyncStorage.mergeItem(key, JSON.stringify(locData));
+  }
 
   // Stores location data asynchronously
   const storeData = async (publish) => {
@@ -148,7 +165,7 @@ function Location({ route, navigation }) {
         }
       }
 
-      clearPhotoSet();
+      // clearPhotoSet();
     } catch (e) {
       // saving error
     }
@@ -209,7 +226,7 @@ function Location({ route, navigation }) {
       {/* Post Button */}
       <TouchableOpacity
         style={styles.postButton}
-        onPress={() => storeData(true) && navigation.navigate("Home")}
+        onPress={() => (async () => await createPost(true, place))() && navigation.navigate("Home")}
       >
         <Text
           style={{
