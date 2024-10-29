@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
     StyleSheet,
@@ -24,12 +24,33 @@ import UploadButton from "../assets/icons/upload.svg";
 import DownloadButton from '../assets/icons/download.svg';
 import TrashCanButton from '../assets/icons/trashcan.svg';
 
+import * as ImagePicker from "expo-image-picker";
+
 const { width: screenWidth } = Dimensions.get('window');
 
 function SelectImages({route, navigation}) {
-    let {photos} = route.params;
-    let {locationData} = route.params;
+    const [photos, setPhotos] = useState(route.params.photos);
+    const [locationData, setLocationData] = useState(route.params.locationData);
     const [selectedIndex, setIndex] = useState(null);
+    
+    const uploadPhotos = async () => {
+      // No permissions request is necessary for launching the image library
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsMultipleSelection: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+
+      let i = 0;
+      let tmp = [...photos]
+      while (!result.canceled && i < result.assets.length) {
+        tmp.push(result.assets[i].uri);
+        i++;
+      }
+
+      setPhotos(tmp);
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -71,7 +92,7 @@ function SelectImages({route, navigation}) {
             <View style={styles.bar}>
               {/* Upload Button */}
               <View style={styles.barRight}>
-                <TouchableOpacity style={styles.iconButton} onPress={() => console.log("Upload Photo")}>
+                <TouchableOpacity style={styles.iconButton} onPress={uploadPhotos}>
                   <UploadButton width={24} height={24} />
                 </TouchableOpacity>
               </View>
