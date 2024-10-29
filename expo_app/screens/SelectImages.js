@@ -29,10 +29,11 @@ import * as ImagePicker from "expo-image-picker";
 const { width: screenWidth } = Dimensions.get('window');
 
 function SelectImages({route, navigation}) {
+    const key = route.params.key;
     const [photos, setPhotos] = useState(route.params.photos);
     const [locationData, setLocationData] = useState(route.params.locationData);
     const [selectedIndex, setIndex] = useState(null);
-    
+
     const uploadPhotos = async () => {
       // No permissions request is necessary for launching the image library
       let result = await ImagePicker.launchImageLibraryAsync({

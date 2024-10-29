@@ -271,7 +271,9 @@ function CameraOpen({ navigation }) {
             <View style={styles.nextButton}>
               <TouchableOpacity onPress={() => {
                 // setPickedImages(true)
+                key = uuid.v1();
                 navigation.navigate("SelectImages", {
+                  key: key,
                   photos: photoSet.map((photo) => photo.uri),
                   locationData: null
                 });
