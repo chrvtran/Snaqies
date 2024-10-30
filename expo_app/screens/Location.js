@@ -10,7 +10,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { ScreenStackHeaderConfig } from "react-native-screens";
 import { usePhotoContext } from "../assets/PhotoContext";
 
-const myApiKey = "AIzaSyCgk68Pqz4Jqfks8NqrR2kRXXeObK_z86U";
+const myApiKey = "AIzaSyBBJEHS8cM4ywDTEdx_l2Ewm64vfLZR8BM";
 // Gets address based on coordinates
 export const reverseGeolocate = (latitude, longitude) => {
   return new Promise((resolve, reject) => {
