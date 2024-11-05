@@ -6,6 +6,7 @@ import {
   Image,
   Text,
   PlatformColor,
+  PanResponder
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -17,7 +18,7 @@ import {
   TextInput,
 } from "react-native";
 import CloseIcon from "../assets/icons/close.svg";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 //#TODO Styling
 function TagFood({ route, navigation }) {
@@ -26,6 +27,8 @@ function TagFood({ route, navigation }) {
 
   //tag object list
   const [tags, setTags] = useState([]);
+  const tagsRef = useRef(tags);
+  tagsRef.current = tags;
 
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
@@ -39,13 +42,15 @@ function TagFood({ route, navigation }) {
   //for edit specific tag
   const [editTextIndex, setTextIndex] = useState(null);
 
+  const dragIndex = useRef(null);
+
   const handleAddTag = () => {
     //check empty tagHandle
     if (text === "") {
       setTagView(false);
       return;
-    } 
-    else if(editTextIndex !== null) {
+    }
+    else if(editTextIndex !== null) { //edit the current tag text with the the new text
       const tagsCopy = [...tags];
       tagsCopy[editTextIndex].foodHandle = text;
       setTags(tagsCopy);
@@ -64,12 +69,13 @@ function TagFood({ route, navigation }) {
     setTagView(false);
   };
 
+  //Grab the text on the Tag onto the Input Tag View
   const handleEditTag = (index) => {
     const editTag = tags[index];
     onChangeText(editTag.foodHandle);
     setTextIndex(index);
     setTagView(true);
-  }
+  };
 
   //Grab coords && open tagview
   const handleImagePress = (data) => {
@@ -78,6 +84,23 @@ function TagFood({ route, navigation }) {
     setY(locationY);
     setTagView(true);
   };
+
+const setDragIndex = (index) => { dragIndex.current = index; };
+
+const dragAndMove = useRef(
+  PanResponder.create({
+    onPanResponderMove: (e, gestureState) => {
+      if (dragIndex.current !== null) {
+        const tagsCopy = [...tagsRef.current];
+        tagsCopy[dragIndex.current].x = Math.min(Math.max(2, gestureState.moveX), 388);
+        tagsCopy[dragIndex.current].y = Math.max(0, gestureState.moveY-100);
+        setTags(tagsCopy);
+      }
+    },
+    onPanResponderRelease: () => { dragIndex.current = null; }
+  })
+).current;
+
 
   //Removes tags from TagList
   const handleRemoveTag = (index) => {
@@ -140,7 +163,10 @@ function TagFood({ route, navigation }) {
           </View>
           {/* Pressable Image to Place Tags */}
           <View>
-            <Pressable onPress={(data) => handleImagePress(data)}>
+            <Pressable onPress={(data) => {
+              if(dragIndex.current === null) {
+                handleImagePress(data)
+            }}}>
               <Image
                 style={styles.image}
                 source={{
@@ -155,7 +181,13 @@ function TagFood({ route, navigation }) {
                 left: tag.x >= 9*Dimensions.get("window").width/10 ? tag.x-(9*tag.foodHandle.length)-15 : 
                       tag.x < Dimensions.get("window").width/10 ? tag.x-5 : tag.x-25,
                 top: tag.y >= Dimensions.get("window").height/10 ? tag.y-40 : tag.y-15,
-              }}>
+              }}
+              {...dragAndMove.panHandlers}
+              onMoveShouldSetResponderCapture={() => {
+                setDragIndex(index)
+                return true;
+              }}
+              >
                 {/* Triangle */}
                 <View style={styles.triangle}/>
                 {/* Rect with Tag Text and Close Icon */}
