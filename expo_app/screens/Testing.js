@@ -110,6 +110,8 @@ function Testing({ navigation }) {
             <FlatButton text='Ratings Screen' onPress={() => navigation.navigate('Ratings')} />
             <FlatButton text='Price Screen' onPress={() => navigation.navigate('Price')} />
             <FlatButton text='SelectPhoto' onPress={() => navigation.navigate('SelectPhoto')} />
+            <FlatButton text='ViewPost' onPress={() => navigation.navigate('ViewPost')} />
+            {/* <FlatButton text='PostDisplay' onPress={() => navigation.navigate('PostDisplay')} /> */}
 
 
             <StatusBar style="auto" />
