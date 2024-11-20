@@ -1,7 +1,9 @@
 # Snaqies
 
 ## About the Project
-Can't remember what foods and restaurants you tried before? Try using Snaqies! This app is designed to make logging your food adventures easy, aesthetic, and memorable. Don't forget where you’ve been! Take a picture, write a review, and tag a location. Organize your food thoughts into one convenient app.  
+Can’t remember which foods or restaurants you’ve tried? Try Snaqies! This app makes capturing your food adventures easy and unfiltered. Snap a photo, tag the location, add a review—and keep all your dining memories in one place!
+<br><br>
+**Duration:** September 13, 2024 - November 19, 2024
 <br><br>
 
 ## Running the Expo App
@@ -78,7 +80,7 @@ Can't remember what foods and restaurants you tried before? Try using Snaqies! T
 
 ### Contributors
 # Christopher Tran
-September 13, 2024 - Present
+September 13, 2024 - November 19, 2024
 
 Role: Project Manager, Product Designer, & Developer
 
@@ -88,7 +90,7 @@ September 13, 2024 - April 24, 2024
 Role: Product Designer & Developer
 
 # Eric Wu
-September 13, 2024 - Present
+September 13, 2024 - November 19, 2024
 
 Role: Developer
 
@@ -103,16 +105,16 @@ October 9, 2024 - January 17, 2024
 Role: UI/UX Researcher
 
 # Andrew Chun
-November 27, 2024 - Present
+November 27, 2024 - May 15, 2024
 
 Role: Developer
 
 # Ben Rao
-January 3, 2024 - Present
+January 3, 2024 - November 19, 2024
 
 Role: Developer
 
 # Ivan Liu
-May 3, 2024 - Present
+May 3, 2024 - November 19, 2024
 
 Role: Developer
