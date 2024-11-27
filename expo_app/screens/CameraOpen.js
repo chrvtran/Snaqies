@@ -402,7 +402,7 @@ function CameraOpen({ navigation }) {
 
             <TouchableOpacity style={styles.barButton} onPress={() =>
               navigation.navigate("TagFood", {
-                image: selectedPhotoIndex !== null ? photoSet[selectedPhotoIndex] :  photoSet[0],
+                image: selectedPhotoIndex !== null ? photoSet[selectedPhotoIndex].uri :  photoSet[0].uri,
               })
             }>
               

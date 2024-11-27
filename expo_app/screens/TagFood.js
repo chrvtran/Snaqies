@@ -22,8 +22,8 @@ import { useState, useRef } from "react";
 
 //#TODO Styling
 function TagFood({ route, navigation }) {
-  //Recieve selected image
-  const { image } = route.params;
+  //Recieve selected image URI
+  const { imageURI } = route.params;
 
   //tag object list
   const [tags, setTags] = useState([]);
@@ -123,7 +123,7 @@ const dragAndMove = useRef(
   //Retrieves the Saved Tags
   const getData = async () => {
     try {
-      const jsonStoredTags = await AsyncStorage.getItem(image.uri);
+      const jsonStoredTags = await AsyncStorage.getItem(imageURI);
       storedTags = jsonStoredTags != null ? JSON.parse(jsonStoredTags) : null;
       if (storedTags !== null) {
         // value previously stored
@@ -154,7 +154,7 @@ const dragAndMove = useRef(
             <Button
               title="Done"
               onPress={() => 
-                saveTags(image.uri) &&
+                saveTags(imageURI) &&
                 navigation.navigate("TabNav", {
                   screen: "Camera",
                 })
@@ -170,7 +170,7 @@ const dragAndMove = useRef(
               <Image
                 style={styles.image}
                 source={{
-                  uri: image.uri,
+                  uri: imageURI,
                 }}
               />
             </Pressable>
